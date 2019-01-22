@@ -193,7 +193,7 @@
                              })
                              .done(( data, textStatus, jqXHR)=> {
 
-                                 console.log(data);
+                                // console.log(data);
 
                                  if(data.yeah==0){
                                     PlantillaCrearCita.toast_notification("error",'Tenemos un problema en el sistema',2);
