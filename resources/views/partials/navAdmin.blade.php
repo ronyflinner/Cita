@@ -46,7 +46,11 @@
                                                 <ul class="d-flex flex-row align-items-center justify-content-start">
                                                     <li class="active"><a href="{{ route('programarcita.index') }}">Programar Cita</a></li>
                                                     <li><a href="{{ route('historialCitaP.index') }}">Historial de Cita Programada</a></li>
+
+
                                                     <li><a href="{{route('contraseñaP.index')}}">Cambiar contraseña</a></li>
+
+                                                    <li><a href="#">Usuarios</a></li>
 
                                                 </ul>
                                             </nav>

@@ -24,16 +24,16 @@
                                         </a>
                                     </div>
                                     <div class="header_top_extra d-flex flex-row align-items-center justify-content-start ml-auto">
-                                        <div class="header_top_nav">
+                                            <div class="header_top_nav">
                                             <ul class="d-flex flex-row align-items-center justify-content-start">
-                                                <li><a href="#">Help Desk</a></li>
-                                                <li><a href="#">Emergency Services</a></li>
-                                                <li><a href="#">Appointment</a></li>
+                                                <li><a href="https://www.ligacancer.org.pe/quienesomos.html" target="_blank">¿Quienes Somos?</a></li>
+                                                <li><a href="https://www.ligacancer.org.pe/quehacemos.html" target="_blank">¿Qué hacemos?</a></li>
+                                                <li><a href="https://www.ligacancer.org.pe/staffmedico.html" target="_blank">¿Staff Médico?</a></li>
                                             </ul>
                                         </div>
                                         <div class="header_top_phone">
                                             <i class="fa fa-phone" aria-hidden="true"></i>
-                                            <span>+34 586 778 8892</span>
+                                            <span>Central telefónica: *5442 </span>
                                         </div>
                                     </div>
                                     <div class="hamburger ml-auto"><i class="fa fa-bars" aria-hidden="true"></i></div>
@@ -45,12 +45,3 @@
             </div>
         </header>
 
-         <li class="menu_item"><a href="{{ route('logout') }}"
-                                onclick="event.preventDefault();
-                                         document.getElementById('logout-form').submit();">
-                                Logout
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                {{ csrf_field() }}
-                            </form>
-                        </li>

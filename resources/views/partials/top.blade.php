@@ -11,9 +11,9 @@
                     <div class="header_top_extra d-flex flex-row align-items-center justify-content-start ml-auto">
                         <div class="header_top_nav">
                             <ul class="d-flex flex-row align-items-center justify-content-start">
-                                <li><a href="#">¿Quienes Somos?</a></li>
-                                <li><a href="#">¿Qué hacemos?</a></li>
-                                <li><a href="#">¿Staff Médico?</a></li>
+                                <li><a href="https://www.ligacancer.org.pe/quienesomos.html" target="_blank">¿Quienes Somos?</a></li>
+                                <li><a href="https://www.ligacancer.org.pe/quehacemos.html" target="_blank">¿Qué hacemos?</a></li>
+                                <li><a href="https://www.ligacancer.org.pe/staffmedico.html" target="_blank">¿Staff Médico?</a></li>
                             </ul>
                         </div>
                         <div class="header_top_phone">
