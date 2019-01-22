@@ -108,5 +108,9 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            .footer{
+                padding-top: 0px;
+            }
         </style>
     </head>
