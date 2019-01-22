@@ -20,6 +20,18 @@
                             <i class="fa fa-phone" aria-hidden="true"></i>
                             <span>Central telefónica: *5442 </span>
                         </div>
+                        <div class="header_top_phone">
+                            <span class="btn btn-danger text-white" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                         document.getElementById('logout-form').submit();">
+                               Cerrar Sessión
+                            </span>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+
+
+                        </div>
                     </div>
                     <div class="hamburger ml-auto"><i class="fa fa-bars" aria-hidden="true"></i></div>
                 </div>

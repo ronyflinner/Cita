@@ -27,7 +27,15 @@
                         <li class="menu_item"><a href="{{ route('historialcita.index') }}">Historial de Citas</a></li>
                         <li class="menu_item"><a href="{{ route('contacto.index') }}">Contacto</a></li>
                         <li class="menu_item"><a href="{{route('cambiar.index') }}">Cambiar contraseña</a></li>
-
+                        <li class="menu_item"><a href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                         document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                        </li>
                     </ul>
                 </div>
 
@@ -47,17 +55,9 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="header_nav_content d-flex flex-row align-items-center justify-content-start">
-                                            <nav class="main_nav">
-                                                <ul class="d-flex flex-row align-items-center justify-content-start">
-                                                    <li class="active"><a href="{{ route('crearcita.index') }}">Crear Cita</a></li>
-                                                    <li><a href="{{ route('citaprogramada.index') }}">Cita Programada</a></li>
-                                                    <li><a href="{{ route('historialcita.index') }}">Tus Resultados</a></li>
-                                                    <li><a href="{{ route('contacto.index') }}">Contacto</a></li>
-                                                    <li><a href="{{route('cambiar.index') }}">Cambiar contraseña</a></li>
-
-                                                </ul>
-                                            </nav>
-
+                                          <marquee behavior="" direction="">
+                                                    <h3 class="text-white tex-center">Bienenido al Sistema de Cita de la Liga Contra el Cáncer - Versión 0.1 Testing </h3>
+                                                </marquee>
                                         </div>
                                     </div>
                                 </div>

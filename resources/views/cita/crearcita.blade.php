@@ -46,6 +46,7 @@
             <div class="row">
               <div class="col text-center">
                 <button type="submit" disabled="" id="buttonCargar" class=" btn btn-success"><span>Generar Cita</span></button>
+
               </div>
             </div>
           </div>

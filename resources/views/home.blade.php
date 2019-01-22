@@ -2,7 +2,7 @@
 
 @section('navT')
 
-        @include('partials.nav2')
+        @include('partials.navO')
 @endsection
 @section('seccion_c')
 
@@ -21,7 +21,7 @@
 						<div class="info_content">
 							<div class="info_title">Usuario</div>
 							<div class="info_text">Arcu neque, scelerisque eget ligula ac, congue tempor felis. Integer tempor, eros a egestas finibus, dolor risus mollis.</div>
-							<div class="button info_button"><a href="#"><span>Has clic</span><span>Ingresar</span></a></div>
+							<div class="button info_button"><a href="{{ route('crearcita.index') }}"><span>Has clic</span><span>Ingresar</span></a></div>
 						</div>
 					</div>
 				</div>
@@ -33,7 +33,7 @@
 						<div class="info_content">
 							<div class="info_title">Administrador</div>
 							<div class="info_text">Morbi arcu neque, scelerisque eget ligula ac, congue tempor felis. Integer tempor, eros a egestas finibus, dolor risus.</div>
-							<div class="button info_button"><a href="#"><span>Has clic</span><span>Ingresar</span></a></div>
+							<div class="button info_button"><a href="{{ route('programarcita.index') }}"><span>Has clic</span><span>Ingresar</span></a></div>
 						</div>
 					</div>
 				</div>

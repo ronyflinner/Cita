@@ -24,17 +24,7 @@
                         <li class="menu_item"><a href="{{ route('programarcita.index') }}">Programar Cita</a></li>
                         <li class="menu_item"><a href="{{ route('historialCitaP.index') }}">Historial de Cita Programada</a></li>
                         <li class="menu_item"><a href="{{route('contraseñaP.index')}}">Cambiar contraseña</a></li>
-                        <li class="menu_item"><a href="{{ route('logout') }}"
-                                                            onclick="event.preventDefault();
-                                                                     document.getElementById('logout-form').submit();">
-                                                            Logout
-                                                        </a>
-                                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
 
-
-                                                    </li>
                         </li>
                     </ul>
                 </div>
@@ -57,17 +47,7 @@
                                                     <li class="active"><a href="{{ route('programarcita.index') }}">Programar Cita</a></li>
                                                     <li><a href="{{ route('historialCitaP.index') }}">Historial de Cita Programada</a></li>
                                                     <li><a href="{{route('contraseñaP.index')}}">Cambiar contraseña</a></li>
-                                                    <li><a href="{{ route('logout') }}"
-                                                            onclick="event.preventDefault();
-                                                                     document.getElementById('logout-form').submit();">
-                                                            Logout
-                                                        </a>
-                                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
 
-
-                                                    </li>
                                                 </ul>
                                             </nav>
 
