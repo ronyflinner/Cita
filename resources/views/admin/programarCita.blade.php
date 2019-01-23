@@ -345,7 +345,7 @@
                                //(Location).load(vurl, { id: url1 });
                                var parametros = {
                                        "fecha" : $('#fec1').val(),
-                                       "lugar" : $('#lugar').val()
+                                       "lugar" : $('#lugar').val(),
                                     };
 
                                 console.log(vurl);

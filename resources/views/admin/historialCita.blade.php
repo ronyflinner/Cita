@@ -54,7 +54,9 @@
             <table class='table table-bordered' id='Na'>
                <thead>
                   <tr>
-                     <th>id</th>
+                     <th>N°</th>
+                     <th>Id Cita</th>
+                     <th>Id Paciente</th>
                      <th>Hora</th>
                      <th>Nombre de Paciente</th>
                      <th>Asitencia</th>
@@ -119,6 +121,8 @@
                                          },
                                         columns: [
                                             {data: 'id', name:'id','orderable': false},
+                                            {data: 'idcita', name:'idcita'},
+                                            {data: 'idU', name:'idU'},
                                             {data: 'hora', name:'hora'},
                                             {data: 'nombre', name:'nombre'},
                                             {data: 'asistencia', name:'asistencia'},
@@ -177,7 +181,7 @@
         var obtener_habilitar = function(tbody,table,bt){
               $(tbody).on("click",bt,function(){
                 var data = table.row($(this).parents("tr")).data();
-                console.log(data.nombre);
+                console.log(data.asistencia);
                 console.log($('#datepicker').val());
                 console.log($('#lugar').val());
 
@@ -189,7 +193,10 @@
                                //(Location).load(vurl, { id: url1 });
                                var parametros = {
                                        "fecha" : $('#datepicker').val(),
-                                       "lugar" : $('#lugar').val()
+                                       "lugar" : $('#lugar').val(),
+                                       "id" : data.idU,
+                                       "asistencia" :data.asistencia,
+                                       "cita" :data.idcita,
                                     };
 
                                 console.log(vurl);
@@ -221,7 +228,7 @@
     $('#bun').on('click',function(){
               $('#Na_wrapper').remove();
               $('#Na').remove();
-              $('#No').append("<table class='table table-bordered' id='Na'><thead><tr><th>id</th><th>Hora</th><th>Nombre de Paciente</th><th>Asitencia</th><th>Reprogramar</th></tr></thead></table>");
+              $('#No').append("<table class='table table-bordered' id='Na'><thead><tr><th>N°</th><th>Id Cita</th><th>Id Paciente</th><th>Hora</th><th>Nombre de Paciente</th><th>Asitencia</th><th>Reprogramar</th></tr></thead></table>");
               var promise = promesa3();
               obtener_habilitar("#Na tbody",itable,"button.editar");
     });

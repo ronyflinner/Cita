@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ProgramarCita;
 
 use App\Http\Controllers\Controller;
+use App\Model\Cita;
 use App\Model\Fecha;
 use App\Model\Locacion\Lugar;
 use Carbon\Carbon;
@@ -41,26 +42,37 @@ class HistorialCitaController extends Controller {
 			->join('horas', 'disponibilidads.hora_id', '=', 'horas.id')
 			->where('disponibilidads.lugar_id', $lugar)
 			->where('disponibilidads.fecha_id', $id)
-			->where('citas.status', 1)
-			->select('horas.r_hora', 'users.name', 'citas.status_asistio')->get();
+			->select('citas.id AS idc', 'users.id', 'horas.r_hora', 'users.name', 'citas.status_asistio')->get();
 
 		$con = 1;
 		return datatables($enviar)
 			->addColumn('id', function ($val) use (&$con) {
 				return $con++;
-			})
-			->addColumn('hora', function ($val) {
-				return $val->r_hora;
-			})->addColumn('nombre', function ($val) {
+			})->addColumn('idcita', function ($val) {
+			return $val->idc;
+		})->addColumn('idU', function ($val) {
+			return $val->id;
+		})->addColumn('hora', function ($val) {
+			return $val->r_hora;
+		})->addColumn('nombre', function ($val) {
 			return $val->name;
 		})->addColumn('asistencia', function ($val) {
-			if ($val->status_asistio == 1) {
+			if ($val->status_asistio == 2) {
 				return "Asistio";
-			} else {
+			} else if ($val->status_asistio == 0) {
 				return "Falto";
+			} else if ($val->status_asistio == 1) {
+				return "En proceso";
+			} else if ($val->status_asistio == 3) {
+				return "Reprogramado";
 			}
 		})->addColumn('reprogramar', function ($val) {
-			return "<button type='button'  class='editar btn btn-primary'><i class='fa fa-pencil-square-o'></i></button> ";
+			if ($val->status_asistio == 0 || $val->status_asistio == 1) {
+				return "<button type='button'  class='editar btn btn-primary'><i class='fa fa-pencil-square-o'></i></button> ";
+			}
+
+			return " ";
+
 		})->rawColumns(['reprogramar'])->make(true);
 
 		//	return response()->json($enviar);
@@ -71,6 +83,14 @@ class HistorialCitaController extends Controller {
 
 		$lugar = $request->lugar;
 
+		$idpaciente = $request->id;
+
+		$asistencia = $request->asistencia;
+
+		if ($asistencia == "En proceso") {
+			$pres = Cita::where('id', $request->cita)->update(['status' => 0, 'status_asistio' => 3]);
+		}
+
 		$fecha = new Carbon($fecha);
 
 		$fecha = $fecha->addMonth(1);
@@ -80,15 +100,10 @@ class HistorialCitaController extends Controller {
 
 		$fe = Fecha::whereMonth('f_fecha', $f1)->get();
 		//$id = $fe[0]->id;
-		$enviar = DB::table('disponibilidads')
-			->join('horas', 'disponibilidads.hora_id', '=', 'horas.id')
-			->join('fechas', 'disponibilidads.fecha_id', '=', 'fechas.id')
-			->join('lugars', 'disponibilidads.lugar_id', '=', 'lugars.id')
-			->where('lugars.id', $lugar)
-			->where('fechas.id', $fe[0]->id)
-			->select('disponibilidads.cantPaciente', 'disponibilidads.status')->get();
 
-		return response()->json($enviar);
+		return response()->json($fe[0]->id);
+
+		//return response()->json($enviar);
 
 		$b = true;
 		$cont = 0;
@@ -99,27 +114,45 @@ class HistorialCitaController extends Controller {
 				->join('lugars', 'disponibilidads.lugar_id', '=', 'lugars.id')
 				->where('lugars.id', $lugar)
 				->where('fechas.id', $fe[$cont]->id)
-				->select('disponibilidads.cantPaciente', 'disponibilidads.status')->get();
-
+				->select('disponibilidads.cantPaciente', 'disponibilidads.status', 'disponibilidads.id')->get();
+			//return response()->json($enviar[0]->cantPaciente);
 			if (count($enviar) == 0) {
 				# inserta disponibilidad y inserta en cita
 
-				$insertid = \DB::table('disponibilidads')->insertGetId(['fecha_id' => $fe[$cont]->id, 'lugar_id' => $lugar, 'hora_id' => $hora, 'cantPaciente' => 8, 'slug' => $slug, 'status' => 1]);
+				$slug = str_random(180);
+				$insertid = \DB::table('disponibilidads')->insertGetId(['fecha_id' => $fe[$cont]->id, 'lugar_id' => $lugar, 'hora_id' => 1, 'cantPaciente' => 8, 'slug' => $slug, 'status' => 1]);
+				$slug = str_random(180);
+				$cit = \DB::table('citas')->insertGetId(['disponibilidad_id' => $insertid, 'paciente_id' => $idpaciente, 'slug' => $slug, 'status' => 1, 'status_asistio' => 1]);
 
 				$b = false;
 
 			} else {
+				#return response()->json('hola perro');
 				$cont2 = 0;
 				while ($b) {
-					if ($enviar[$cont2]->cantPaciente != 0 && $enviar->status != 1) {
+					if ($enviar[$cont2]->cantPaciente != 0 && $enviar[$cont2]->status != 0) {
+
 						#crea cita en esa disponibilidad
+						$slug = str_random(180);
+						$insertid = \DB::table('citas')->insertGetId(['disponibilidad_id' => $enviar[$cont2]->id, 'paciente_id' => $idpaciente, 'slug' => $slug, 'status' => 1, 'status_asistio' => 1]);
+
+						$disp = $enviar[$cont2]->id;
+						$can = $enviar[$cont2]->id - 1;
+						$pres = Disponibilidad::where('id', $disp)->update(['cantPaciente' => $can]);
 						$b = false;
 					}
 					$cont2++;
 				}
 
-				if ($cont2 < 10 && $b) {
+				if ($cont2 <= 10 && $b) {
 					## insertar disponibilidad y insertar cita
+					$slug = str_random(180);
+					$insertid = \DB::table('disponibilidads')->insertGetId(['fecha_id' => $fe[$cont]->id, 'lugar_id' => $lugar, 'hora_id' => $cont2++, 'cantPaciente' => 8, 'slug' => $slug, 'status' => 1]);
+					$slug = str_random(180);
+					$cit = \DB::table('citas')->insertGetId(['disponibilidad_id' => $insertid, 'paciente_id' => $idpaciente, 'slug' => $slug, 'status' => 1, 'status_asistio' => 1]);
+
+					$b = false;
+
 				}
 
 			}
@@ -128,7 +161,7 @@ class HistorialCitaController extends Controller {
 
 		}
 		//$id = Cita::all();
-		return response()->json($fe[0]->id);
+		return response()->json('reprogramado');
 		$b = true;
 		$con = 0;
 
