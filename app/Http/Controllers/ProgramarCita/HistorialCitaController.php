@@ -80,14 +80,57 @@ class HistorialCitaController extends Controller {
 
 		$fe = Fecha::whereMonth('f_fecha', $f1)->get();
 		//$id = $fe[0]->id;
+		$enviar = DB::table('disponibilidads')
+			->join('horas', 'disponibilidads.hora_id', '=', 'horas.id')
+			->join('fechas', 'disponibilidads.fecha_id', '=', 'fechas.id')
+			->join('lugars', 'disponibilidads.lugar_id', '=', 'lugars.id')
+			->where('lugars.id', $lugar)
+			->where('fechas.id', $fe[0]->id)
+			->select('disponibilidads.cantPaciente', 'disponibilidads.status')->get();
 
+		return response()->json($enviar);
+
+		$b = true;
+		$cont = 0;
+		while ($b) {
+			$enviar = DB::table('disponibilidads')
+				->join('horas', 'disponibilidads.hora_id', '=', 'horas.id')
+				->join('fechas', 'disponibilidads.fecha_id', '=', 'fechas.id')
+				->join('lugars', 'disponibilidads.lugar_id', '=', 'lugars.id')
+				->where('lugars.id', $lugar)
+				->where('fechas.id', $fe[$cont]->id)
+				->select('disponibilidads.cantPaciente', 'disponibilidads.status')->get();
+
+			if (count($enviar) == 0) {
+				# inserta disponibilidad y inserta en cita
+
+				$insertid = \DB::table('disponibilidads')->insertGetId(['fecha_id' => $fe[$cont]->id, 'lugar_id' => $lugar, 'hora_id' => $hora, 'cantPaciente' => 8, 'slug' => $slug, 'status' => 1]);
+
+				$b = false;
+
+			} else {
+				$cont2 = 0;
+				while ($b) {
+					if ($enviar[$cont2]->cantPaciente != 0 && $enviar->status != 1) {
+						#crea cita en esa disponibilidad
+						$b = false;
+					}
+					$cont2++;
+				}
+
+				if ($cont2 < 10 && $b) {
+					## insertar disponibilidad y insertar cita
+				}
+
+			}
+
+			$cont++;
+
+		}
 		//$id = Cita::all();
 		return response()->json($fe[0]->id);
 		$b = true;
 		$con = 0;
-
-		$insertid = \DB::table('disponibilidads')->insertGetId(
-			['fecha_id' => $fecha, 'lugar_id' => $lugar, 'hora_id' => $hora, 'cantPaciente' => 8, 'slug' => $slug, 'status' => 1]);
 
 		return response()->json($fe);
 	}
