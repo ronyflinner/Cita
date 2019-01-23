@@ -69,10 +69,16 @@ class CitaProgramadaController extends Controller {
 
 				->addColumn('action', function ($val) {
 					$path = url('admin/usuario/citaprogramada/showPdf/');
+					if ($val->status_asistio != 3) {
+						$this->btnView = "<a href='" . $path . "/" . $val->slug . "/1' data-id='" . $val->id . "' target='_blank' class='btn btn-info btnView'><i class='fa fa-eye' aria-hidden='true' ></i></a>";
 
-					$this->btnView = "<a href='" . $path . "/" . $val->slug . "/1' data-id='" . $val->id . "' target='_blank' class='btn btn-info btnView'><i class='fa fa-eye' aria-hidden='true' ></i></a>";
+						$this->btnPdf = "<a href='" . $path . "/" . $val->slug . "/0' download data-id='" . $val->id . "' class='btn btn-danger btnPdf'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></a>";
 
-					$this->btnPdf = "<a href='" . $path . "/" . $val->slug . "/0' download data-id='" . $val->id . "' class='btn btn-danger btnPdf'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></a>";
+					} else {
+						$this->btnView = "";
+
+						$this->btnPdf = "";
+					}
 
 					return $this->btnView . $this->btnPdf;
 				})
