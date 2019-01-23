@@ -31,6 +31,8 @@ Route::prefix('admin')->group(function () {
 
 		Route::get('getCitaProgramadaTable', 'CrearCita\CitaProgramadaController@getCitaProgramadaTable')->name('admin.ajax.CitaProgramdas');
 
+		Route::get('cargard/{id?}', 'CrearCita\ContactoController@cargar')->name('cargard.index');
+
 		Route::resource('contacto', 'CrearCita\ContactoController');
 
 		Route::resource('cambiar', 'CrearCita\CambiarContraController');

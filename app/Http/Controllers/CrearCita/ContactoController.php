@@ -4,6 +4,8 @@ namespace App\Http\Controllers\CrearCita;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ContactoController extends Controller {
 	/**
@@ -20,6 +22,19 @@ class ContactoController extends Controller {
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
+
+	public function cargar(Request $request) {
+
+		$tipo = 3;
+		if ($request->tipo == 'service') {
+			$tipo = 1;
+		} else if ($request->tipo == 'suggestions') {
+			$tipo = 2;
+		}
+		$slug = str_random(180);
+		$insertid = \DB::table('contactos')->insertGetId(['paciente_id' => Auth::id(), 'mensaje' => $request->mensaje, 'slug' => $slug, 'status' => 0, 'tipo' => $tipo]);
+		return response()->json('listo');
+	}
 	public function create() {
 		//
 	}
