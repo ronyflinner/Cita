@@ -147,9 +147,9 @@
                                    setTimeout(
                                       function()
                                       {
-                                        //do something special
-                                      }, 9000);
-                                   location.reload();
+                                        location.reload();
+                                      }, 3000);
+
                                 },
                                 error: function (data2) {
                                    console.log('Error:', data2);
