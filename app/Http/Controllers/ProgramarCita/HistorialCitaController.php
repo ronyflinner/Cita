@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ProgramarCita;
 
 use App\Http\Controllers\Controller;
 use App\Model\Cita;
+use App\Model\Disponibilidad;
 use App\Model\Fecha;
 use App\Model\Locacion\Lugar;
 use Carbon\Carbon;
@@ -101,7 +102,7 @@ class HistorialCitaController extends Controller {
 		$fe = Fecha::whereMonth('f_fecha', $f1)->get();
 		//$id = $fe[0]->id;
 
-		return response()->json($fe[0]->id);
+		//	return response()->json($fe[0]->id);
 
 		//return response()->json($enviar);
 
@@ -120,16 +121,16 @@ class HistorialCitaController extends Controller {
 				# inserta disponibilidad y inserta en cita
 
 				$slug = str_random(180);
-				$insertid = \DB::table('disponibilidads')->insertGetId(['fecha_id' => $fe[$cont]->id, 'lugar_id' => $lugar, 'hora_id' => 1, 'cantPaciente' => 8, 'slug' => $slug, 'status' => 1]);
+				$insertid = \DB::table('disponibilidads')->insertGetId(['fecha_id' => $fe[$cont]->id, 'lugar_id' => $lugar, 'hora_id' => 0, 'cantPaciente' => 8, 'slug' => $slug, 'status' => 1]);
 				$slug = str_random(180);
 				$cit = \DB::table('citas')->insertGetId(['disponibilidad_id' => $insertid, 'paciente_id' => $idpaciente, 'slug' => $slug, 'status' => 1, 'status_asistio' => 1]);
 
 				$b = false;
 
 			} else {
-				#return response()->json('hola perro');
+
 				$cont2 = 0;
-				while ($b) {
+				while ($b && $cont2 != count($enviar)) {
 					if ($enviar[$cont2]->cantPaciente != 0 && $enviar[$cont2]->status != 0) {
 
 						#crea cita en esa disponibilidad
@@ -137,18 +138,25 @@ class HistorialCitaController extends Controller {
 						$insertid = \DB::table('citas')->insertGetId(['disponibilidad_id' => $enviar[$cont2]->id, 'paciente_id' => $idpaciente, 'slug' => $slug, 'status' => 1, 'status_asistio' => 1]);
 
 						$disp = $enviar[$cont2]->id;
-						$can = $enviar[$cont2]->id - 1;
+						$can = $enviar[$cont2]->cantPaciente - 1;
+
+						//return response()->json($);
 						$pres = Disponibilidad::where('id', $disp)->update(['cantPaciente' => $can]);
+
 						$b = false;
 					}
 					$cont2++;
 				}
 
-				if ($cont2 <= 10 && $b) {
+				if ($cont2 < 9 && $b) {
 					## insertar disponibilidad y insertar cita
+					return response()->json('reprogramado');
 					$slug = str_random(180);
-					$insertid = \DB::table('disponibilidads')->insertGetId(['fecha_id' => $fe[$cont]->id, 'lugar_id' => $lugar, 'hora_id' => $cont2++, 'cantPaciente' => 8, 'slug' => $slug, 'status' => 1]);
+
+					$insertid = \DB::table('disponibilidads')->insertGetId(['fecha_id' => $fe[$cont]->id, 'lugar_id' => $lugar, 'hora_id' => $cont2, 'cantPaciente' => 8, 'slug' => $slug, 'status' => 1]);
+
 					$slug = str_random(180);
+
 					$cit = \DB::table('citas')->insertGetId(['disponibilidad_id' => $insertid, 'paciente_id' => $idpaciente, 'slug' => $slug, 'status' => 1, 'status_asistio' => 1]);
 
 					$b = false;
