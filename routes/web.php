@@ -37,6 +37,17 @@ Route::prefix('admin')->group(function () {
 
 		Route::resource('citaprogramada', 'CrearCita\CitaProgramadaController');
 	});
+	/*DATATABlE - usuario*/
+	Route::get('getUsuarioTable', 'Administrador\UsuarioController@getListadoUsuario')->name('admin.ajax.getUsuarioTable');
+
+	Route::resource('usuario', 'Administrador\UsuarioController');
+	/*DATATABlE - usuario*/
+
+	/*Datatable - Role */
+	Route::get('getRoleTable', 'Administrador\RoleController@getListadoRoles')->name('admin.ajax.getRoleTable');
+
+	Route::resource('role', 'Administrador\RoleController');
+	/*Datatable - Role */
 
 	Route::resource('historialcita', 'CrearCita\HistorialCitaController');
 

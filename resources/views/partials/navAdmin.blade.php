@@ -50,7 +50,7 @@
 
                                                     <li><a href="{{route('contraseñaP.index')}}">Cambiar contraseña</a></li>
 
-                                                    <li><a href="#">Usuarios</a></li>
+                                                    <li><a href="{{ route('usuario.index') }}">Usuarios</a></li>
 
                                                 </ul>
                                             </nav>

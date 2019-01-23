@@ -3,24 +3,17 @@
 namespace App\Http\Controllers\Administrador;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\traitsGeneral\principal;
-use App\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
-class UsuarioController extends Controller {
-	use principal;
-	private $btnStatus;
-	private $btnEdit;
-	private $btnAsign;
-
+class RoleController extends Controller {
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index() {
-
-		return view('admin.usuario.index');
+		return view('admin.role.index');
 	}
 
 	/**
@@ -29,7 +22,7 @@ class UsuarioController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create() {
-		return view('admin.usuario.create');
+		return Role::all();
 	}
 
 	/**
@@ -45,20 +38,20 @@ class UsuarioController extends Controller {
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  \App\User  $user
+	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show(User $user) {
+	public function show($id) {
 		//
 	}
 
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param  \App\User  $user
+	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit(User $user) {
+	public function edit($id) {
 		//
 	}
 
@@ -66,55 +59,40 @@ class UsuarioController extends Controller {
 	 * Update the specified resource in storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
-	 * @param  \App\User  $user
+	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, User $user) {
+	public function update(Request $request, $id) {
 		//
 	}
 
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  \App\User  $user
+	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy(User $user) {
+	public function destroy($id) {
 		//
 	}
-
 	/*AJAX*/
 
-	public function getListadoUsuario(request $request) {
+	public function getListadoRoles(request $request) {
 
-		$user = User::all();
+		$user = Role::all();
 
 		$r = 0;
 		return Datatables($user)
 			->addColumn('n', function ($val) use (&$r) {
 				return ++$r;
 			})
-			->addColumn('dni', function ($val) {
+			->addColumn('nombre', function ($val) {
 				return "0000000000";
 			})
-			->addColumn('nombre', function ($val) {
+			->addColumn('guardanombre', function ($val) {
 				return $val->name;
 			})
-			->addColumn('usuario', function ($val) {
-				return $val->email;
-			})
-			->addColumn('role', function ($val) {
-				return "Sin Rol";
-			})
-			->addColumn('status', function ($val) {
-				if (1 == 1) {
-					$this->btnStatus = "<span class='badge badge-success'>Activo</span>";
-				} else {
-					$this->btnStatus = "<span class='badge badge-danger'>Desactivado</span>";
-				}
 
-				return $this->btnStatus;
-			})
 			->addColumn('creado', function ($val) {
 				return $val->created_at;
 			})

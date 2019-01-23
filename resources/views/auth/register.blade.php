@@ -1,4 +1,4 @@
-@extends('layouts.principaweb')
+@extends('layouts.principal')
 @section('navT')
         @include('partials.nav1')
         <div class="home_container">
