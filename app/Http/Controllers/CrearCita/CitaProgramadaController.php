@@ -64,7 +64,7 @@ class CitaProgramadaController extends Controller {
 				})
 
 				->addColumn('action', function ($val) {
-					$path = url('admin/cita/citaprogramada/showPdf/');
+					$path = url('admin/usuario/citaprogramada/showPdf/');
 
 					$this->buttonView = "<a href='" . $path . "/" . $val->slug . "/1' data-id='" . $val->id . "' target='_blank' class='btn btn-info btnView'><i class='fa fa-eye' aria-hidden='true' ></i></a>";
 
@@ -79,7 +79,8 @@ class CitaProgramadaController extends Controller {
 
 	}
 
-	public function showpdf(request $request, $slug, $condition = 0) {
+	public function showpdf(request $request, $slug, $condition = null) {
+
 		//	return view('reports.reciboPdf');
 		$cita = Cita::where('slug', $slug)->get();
 

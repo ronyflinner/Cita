@@ -39,7 +39,7 @@ Route::prefix('admin')->group(function () {
 	});
 
 	Route::resource('historialcita', 'CrearCita\HistorialCitaController');
-	Route::resource('citaprogramada', 'CrearCita\CitaProgramadaController');
+
 	Route::get('statusEdit/{id?}', 'ProgramarCita\ProgramarCitaController@statusEdit')->name('status.index');
 	Route::get('buscarFecha/{id?}', 'ProgramarCita\ProgramarCitaController@buscarFecha')->name('buscarfecha.index');
 	Route::get('editarDispon/{id?}', 'ProgramarCita\ProgramarCitaController@editarDispon')->name('editarDispon.index');
