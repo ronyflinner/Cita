@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\traitsGeneral\principal;
 use App\Model\Cita;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Jenssegers\Date\Date;
 use PDF;
 
@@ -22,15 +23,15 @@ class CitaProgramadaController extends Controller {
 	 */
 	public function index() {
 
-		/*$reniecDni = new DNI('BKyXxbpgIeUxtM9eXWMueUyGfytduSxOjIs219mW');
-		$reniecDni->get('', true);*/
+		//$reniecDni = new DNI('');
+		//return $reniecDni->get('76188250', true);
 		return view('cita.citaprogramada');
 	}
 
 	public function getCitaProgramadaTable(request $request) {
 
 		if ($request->ajax()) {
-			$cita = Cita::all();
+			$cita = Cita::where('paciente_id', Auth::id())->get();
 			$r = 0;
 			return Datatables($cita)
 				->addColumn('n', function ($val) use (&$r) {
@@ -48,12 +49,15 @@ class CitaProgramadaController extends Controller {
 				})
 				->addColumn('status', function ($val) {
 
-					switch ($val->status) {
+					switch ($val->status_asistio) {
 					case 1:
 						$buttonBaged = "<h5><span class='badge badge-secondary'>En proceso</span></h5>";
 						break;
 					case 2:
 						$buttonBaged = "<h5><span class='badge badge-secondary'>Asistió</span></h5>";
+						break;
+					case 3:
+						$buttonBaged = "<h5><span class='badge badge-secondary'>Reprogramado</span></h5>";
 						break;
 					default:
 						$buttonBaged = "<h5><span class='badge badge-secondary'>No asistió</span></h5>";
@@ -66,11 +70,11 @@ class CitaProgramadaController extends Controller {
 				->addColumn('action', function ($val) {
 					$path = url('admin/usuario/citaprogramada/showPdf/');
 
-					$this->buttonView = "<a href='" . $path . "/" . $val->slug . "/1' data-id='" . $val->id . "' target='_blank' class='btn btn-info btnView'><i class='fa fa-eye' aria-hidden='true' ></i></a>";
+					$this->btnView = "<a href='" . $path . "/" . $val->slug . "/1' data-id='" . $val->id . "' target='_blank' class='btn btn-info btnView'><i class='fa fa-eye' aria-hidden='true' ></i></a>";
 
-					$this->buttonPdf = "<a href='" . $path . "/" . $val->slug . "/0' download data-id='" . $val->id . "' class='btn btn-danger btnPdf'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></a>";
+					$this->btnPdf = "<a href='" . $path . "/" . $val->slug . "/0' download data-id='" . $val->id . "' class='btn btn-danger btnPdf'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></a>";
 
-					return $this->buttonView . $this->buttonPdf;
+					return $this->btnView . $this->btnPdf;
 				})
 				->rawColumns(['status', 'action'])
 

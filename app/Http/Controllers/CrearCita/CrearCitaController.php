@@ -40,7 +40,7 @@ class CrearCitaController extends Controller {
 			$fecha_buscar = $request->data;
 			$lugar = $request->lugar;
 
-			$Disponibilidad = Disponibilidad::orderBy('id', 'DESC')->where('lugar_id', $lugar)->where('status', 1)
+			$Disponibilidad = Disponibilidad::orderBy('hora_id', 'DESC')->where('lugar_id', $lugar)->where('status', 1)
 				->whereHas('fecha_link', function ($query) use ($fecha_buscar) {
 					$query->where('f_fecha', $fecha_buscar);
 				})->with('hora_link')
@@ -153,7 +153,7 @@ class CrearCitaController extends Controller {
 				Cita::create([
 					'disponibilidad_id' => $request->hora,
 					'paciente_id' => Auth::id(),
-					'status_asistio' => 0,
+					'status_asistio' => 1,
 					'status' => 1, //cita activa
 					'slug' => str_random(120)]);
 

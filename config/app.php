@@ -189,6 +189,8 @@ return [
 
 		Yajra\DataTables\DataTablesServiceProvider::class,
 
+		Spatie\Permission\PermissionServiceProvider::class,
+
 	],
 
 	/*
