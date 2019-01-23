@@ -44,6 +44,7 @@ Route::prefix('admin')->group(function () {
 	/*DATATABlE - usuario*/
 
 	/*Datatable - Role */
+
 	Route::get('getRoleTable', 'Administrador\RoleController@getListadoRoles')->name('admin.ajax.getRoleTable');
 
 	Route::resource('role', 'Administrador\RoleController');

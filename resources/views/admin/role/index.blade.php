@@ -52,20 +52,29 @@
 
 
 </div>
+<!-- Token -->
+<input type="hidden" name="_token" id="_token" value="{{csrf_token()}}">
 
+<!-- Url-->
+<input type="hidden" name="_path" id="_path" value="{{route('role.store')}}">
+
+
+<!-- Url-->
+<input type="hidden" name="_delete" id="_delete" value="{{route('role.destroy',':id')}}">
 
 @endsection
 @section('javascript')
 	<script>
 
-		var PlantillaUsuarios = {
+		var PlantillaRoles = {
               //Variables
                 MesajeSaludo:'HelloWord',
                 init : ()=> {
 
-                    PlantillaUsuarios.General();
-                    PlantillaUsuarios.datatable();
-                    PlantillaUsuarios.btnAdd();
+                    PlantillaRoles.General();
+                    PlantillaRoles.datatable();
+                    PlantillaRoles.btnAdd();
+                    PlantillaRoles.btnDel();
 
                 },
                 // Metodos
@@ -147,17 +156,41 @@
                           $(destiny).prepend('<option value="" selected>Selecionar</option>');
                       },
                       btnAdd:()=>{
+
+
                       	 $(document).on("click", "#buttonAdd", event=> {
-                      	 	alert($("#role").val());
+                      	 	let vurl=$("#_path").val();
+                      	 	let role=$("#role").val();
+                      	 	let token=$("#_token").val();
 
+                      	 	if(role!=""){
 
+                      	 		data={'data':$("#role").val()};
+                      	 		PlantillaRoles.ajaxSave(data,vurl,token)
+
+                      	 	}else{
+								PlantillaRoles.toast_notification("error",'No puede quedar vacio',2);
+                      	 	}
+
+                      	 	//PlantillaRoles.ajaxSearch();
                       	 });
+                      },
+                      btnDel:()=>{
+                      	$(document).on("click", ".btnDel", function (event) {
+	         				event.preventDefault();
+	 						let token=$("#_token").val();
+	 						let dDrop=$("#_delete").val();
+
+	 						completrDrop=dDrop.replace(":id", $(this).attr('data-id'));
+
+	 						data={'data':$(this).attr('data-id')};
+
+							PlantillaRoles.ajaxDelete(data,completrDrop,token);
+       					});
                       },
                        datatable:()=>{
 
-                       otable = new Promise(function() {
-
-                       	       $('#Mytable').DataTable({
+                       otable = $('#Mytable').DataTable({
 	                                  responsive: true,
 	                                  processing: true,
 	                                  serverSide: true,
@@ -171,7 +204,6 @@
 	                                      columns: [
 	                                          {data: 'n', name:'n','orderable': false},
 	                                          {data: 'nombre', name:'nombre'},
-	                                          {data: 'guardanombre', name:'guardanombre'},
 
 	                                          {data: 'creado', name:'creado'},
 	                                          {data: 'action', name:'action'},
@@ -183,18 +215,85 @@
 
                                     });
 
-                       		});
 
-                       return otable;
+
+
 
                       },
+                     ajaxSave:(data,vurl,token)=>{
+
+
+                      		$.ajax({
+                                  type: 'POST',
+                                  url: vurl,
+                                  data: data,
+                                  dataType: 'JSON',
+                                  async : true,
+                                  headers:{'X-CSRF-TOKEN': token},
+                             })
+                             .done(( data, textStatus, jqXHR)=> {
+                               // console.log(data);
+
+                                if(data.data==1){
+                                	PlantillaRoles.toast_notification("success",'Guardado Correctaente!!!',2);
+
+                              	   otable.ajax.reload();
+                                //	$('#Mytable').dataTable().fnClearTable();
+    							//	$('#Mytable').dataTable().fnDestroy();
+
+    							//	PlantillaRoles.datatable();
+    								$("#role").val("");
+
+
+                            	}else{
+                            		PlantillaRoles.toast_notification("error",'No fue posible guardar los datos',2);
+                            	}
+
+                             })
+                             .fail(( data, textStatus, jqXHR)=> {
+                               //console.log(data);
+                             });
+                      },
+                      ajaxDelete:(data,vurl,token)=>{
+
+                     // 	console.log(`${data}  ${vurl}  ${token}`);
+                      		$.ajax({
+                                  type: 'DELETE',
+                                  url: vurl,
+                                  data: data,
+                                  dataType: 'JSON',
+                                  async : true,
+                                  headers:{'X-CSRF-TOKEN': token},
+                             })
+                             .done(( data, textStatus, jqXHR)=> {
+                         //      console.log(data);
+
+                                if(data.data==1){
+                                	PlantillaRoles.toast_notification("success",'Eliminado Correctamente!!!',2);
+
+                              	    otable.ajax.reload();
+
+    								$("#role").val("");
+
+
+                            	}else{
+                            		PlantillaRoles.toast_notification("error",'No fue posible guardar los datos',2);
+                            	}
+
+                             })
+                             .fail(( data, textStatus, jqXHR)=> {
+                               //console.log(data);
+                             });
+                      },
+
+
 
               };
 
 
               $(function() {
                 //arranque de funciones y procesos que estan en el init
-                  PlantillaUsuarios.init();
+                  PlantillaRoles.init();
               });
 
 	</script>

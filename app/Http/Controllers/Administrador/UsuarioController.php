@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\traitsGeneral\principal;
 use App\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class UsuarioController extends Controller {
 	use principal;
@@ -29,7 +30,9 @@ class UsuarioController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create() {
-		return view('admin.usuario.create');
+		$role = array_add(Role::all()->pluck('name', 'id'), "Selecionar", "");
+
+		return view('admin.usuario.create', compact('role'));
 	}
 
 	/**

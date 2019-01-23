@@ -32,7 +32,19 @@ class RoleController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request) {
-		//
+		if ($request->ajax()) {
+
+			$role = Role::create(['name' => $request->data,
+				'guard_name' => $request->data,
+			]);
+
+			if ($role->count() > 0) {
+				$bandera = 1;
+			}
+
+		}
+
+		return response()->json(['data' => $bandera]);
 	}
 
 	/**
@@ -72,8 +84,13 @@ class RoleController extends Controller {
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy($id) {
-		//
+	public function destroy(Request $request, $id) {
+		if ($request->ajax()) {
+			Role::find($id)->delete();
+
+			return response()->json(['data' => 1]);
+		}
+
 	}
 	/*AJAX*/
 
@@ -87,9 +104,6 @@ class RoleController extends Controller {
 				return ++$r;
 			})
 			->addColumn('nombre', function ($val) {
-				return "0000000000";
-			})
-			->addColumn('guardanombre', function ($val) {
 				return $val->name;
 			})
 
@@ -98,11 +112,9 @@ class RoleController extends Controller {
 			})
 			->addColumn('action', function ($val) {
 
-				$this->btnEdit = "<a href='' data-id='" . $val->id . "' target='_blank' class='btn btn-info btnView'><i class='fa fa-pencil' aria-hidden='true' ></i></a>";
+				$this->btnAsign = "<a href='#'  data-id='" . $val->id . "' class='btn btn-danger btnDel'><i class='fa fa-trash' aria-hidden='true'></i></a>";
 
-				$this->btnAsign = "<a href=''  data-id='" . $val->id . "' class='btn btn-warning btnPdf'><i class='fa fa-users' aria-hidden='true'></i></a>";
-
-				return $this->btnEdit . $this->btnAsign;
+				return $this->btnAsign;
 			})
 			->rawColumns(['status', 'action'])
 

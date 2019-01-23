@@ -44,6 +44,11 @@
 <link rel="stylesheet" type="text/css" href="{{url('health/styles/toastr.min.css')}}">
 <script src="{{ url('health/js/toastr.min.js') }}"></script>
 
+<script src="{{ url('health/js/jquery.mask.min.js') }}"></script>
+
+
+
+
 <!-- custom-->
 <script src="{{ url('health/js/custom.js') }}"></script>
 
