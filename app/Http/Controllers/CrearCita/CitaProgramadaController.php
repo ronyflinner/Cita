@@ -89,6 +89,7 @@ class CitaProgramadaController extends Controller {
 		$cita = Cita::where('slug', $slug)->get();
 
 		$pdf = PDF::loadView('reports.reciboPdf', compact('cita'));
+
 		$pdf->setPaper('a4', 'portrait')
 			->setWarnings(false)
 			->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
@@ -97,7 +98,6 @@ class CitaProgramadaController extends Controller {
 		$date_structs = Date::now()->format('Ymdhis');
 		$recibo = "Recibo" . $date_structs . $cita[0]->paciente_link->name;
 		if ($condition == 1) {
-
 			return $pdf->stream($recibo);
 		} else {
 			return $pdf->download($recibo);

@@ -35,6 +35,7 @@ class ContactoController extends Controller {
 		$insertid = \DB::table('contactos')->insertGetId(['paciente_id' => Auth::id(), 'mensaje' => $request->mensaje, 'slug' => $slug, 'status' => 0, 'tipo' => $tipo]);
 		return response()->json('listo');
 	}
+
 	public function create() {
 		//
 	}

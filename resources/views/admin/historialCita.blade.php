@@ -8,6 +8,7 @@
 
       <div class="container">
           <div class="row">
+            <form action="{{ route('descargarPDF.index') }}" method="get" id="form1">
            <div class="col-md-4">
                <div class="form-group">
                   <label for="sel1">Seleccionar Lugar:</label>
@@ -17,7 +18,7 @@
                 </div>
            </div>
 
-           <div class="col-md-6">
+           <div class="col-md-4">
               <div class="form-group">
                 <label>Date:</label>
 
@@ -25,7 +26,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </div>
-                  <input type="text" class="form-control pull-right" id="datepicker">
+                  <input type="text" name ='fecha' class="form-control pull-right" id="datepicker">
                 </div>
                 <!-- /.input group -->
               </div>
@@ -43,7 +44,19 @@
               </div>
            </div>
 
+           <div class="col-md-2" id="pdf" style="display: none;">
+               <div class="form-group">
+                <label></label>
 
+                <div class="input-group">
+                  <button type="submit" form="form1" value="Submit" id='bpdf' class="btn btn-primary">Descargar PDF</button>
+
+                </div>
+                <!-- /.input group -->
+              </div>
+           </div>
+
+        </form>
        </div>
 
 
@@ -115,6 +128,17 @@
                                             headers: {
                                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                                       } ,
+                                           dataSrc: function(json){
+
+                                                     if(Object.keys(json.data).length != 0){
+                                                             $('#pdf').css('display', 'block');
+
+
+                                                     }else{
+                                                             $('#pdf').css('display', 'none');
+                                                     }
+                                                     return json.data;
+                                           }
                                         } ,
                                          language: {
                                             url: '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json'
@@ -141,28 +165,6 @@
 
                                     });
 
-                               /*
-                                $.ajax({
-                                url:   vurl,
-                                data: parametros,
-                                type:  'GET', //método de envio
-                                dataType : 'json',
-                                headers: {
-                                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                          } ,
-                                success:  function (data3) {
-                                   console.log('data 6');
-                                   console.log(data3);
-
-
-
-
-                                },
-                                error: function (data2) {
-                                   console.log('Error:', data2);
-                                  },
-                                  async: false
-                                });*/
                       });
 
                }
@@ -185,41 +187,39 @@
                 console.log($('#datepicker').val());
                 console.log($('#lugar').val());
 
+                      vurl='{{ url('admin/reprogramar')}}';
+                      //vurl = `${vurl}/${url1}`;
 
+                     //(Location).load(vurl, { id: url1 });
+                     var parametros = {
+                             "fecha" : $('#datepicker').val(),
+                             "lugar" : $('#lugar').val(),
+                             "id" : data.idU,
+                             "asistencia" :data.asistencia,
+                             "cita" :data.idcita,
+                          };
 
-                                vurl='{{ url('admin/reprogramar')}}';
-                                //vurl = `${vurl}/${url1}`;
+                      console.log(vurl);
+                      //$(location).attr('href',vurl);
 
-                               //(Location).load(vurl, { id: url1 });
-                               var parametros = {
-                                       "fecha" : $('#datepicker').val(),
-                                       "lugar" : $('#lugar').val(),
-                                       "id" : data.idU,
-                                       "asistencia" :data.asistencia,
-                                       "cita" :data.idcita,
-                                    };
-
-                                console.log(vurl);
-                                //$(location).attr('href',vurl);
-
-                               // var doc = 'statusEdit';
-                                $.ajax({
-                                url:   vurl,
-                                data: parametros,
-                                type:  'GET', //método de envio
-                                dataType : 'json',
-                                headers: {
-                                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                          } ,
-                                success:  function (data) {
-                                  console.log('dataaaa hola');
-                                       console.log(data);
-                                },
-                                error: function (data) {
-                                   console.log('Error:', data);
-                                  },
-                                  async: false
-                                });
+                     // var doc = 'statusEdit';
+                      $.ajax({
+                      url:   vurl,
+                      data: parametros,
+                      type:  'GET', //método de envio
+                      dataType : 'json',
+                      headers: {
+                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                } ,
+                      success:  function (data) {
+                        console.log('dataaaa hola');
+                             console.log(data);
+                      },
+                      error: function (data) {
+                         console.log('Error:', data);
+                        },
+                        async: false
+                      });
 
 
               })

@@ -10,6 +10,8 @@ use App\Model\Locacion\Lugar;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Jenssegers\Date\Date;
+use PDF;
 
 class HistorialCitaController extends Controller {
 	/**
@@ -174,6 +176,48 @@ class HistorialCitaController extends Controller {
 		$con = 0;
 
 		return response()->json($fe);
+	}
+
+	public function showpdf(Request $request) {
+
+		//	return view('reports.reciboPdf');
+		//$cita = Cita::where('slug', $slug)->get();
+
+		$lugar = $request->lugar;
+
+		$fecha = new Carbon($request->fecha);
+
+		$f1 = $fecha->format('Y-m-d');
+
+		$fe = Fecha::where('f_fecha', $fecha)->get();
+		$id = $fe[0]->id;
+
+		$enviar = DB::table('citas')
+			->join('disponibilidads', 'citas.disponibilidad_id', '=', 'disponibilidads.id')
+			->join('users', 'citas.paciente_id', '=', 'users.id')
+			->join('horas', 'disponibilidads.hora_id', '=', 'horas.id')
+			->where('disponibilidads.lugar_id', $lugar)
+			->where('disponibilidads.fecha_id', $id)
+			->select('citas.id AS idc', 'users.id', 'horas.r_hora', 'users.name', 'citas.status_asistio')->get();
+
+		$pdf = PDF::loadView('reports.historialcitas', ["enviar" => $enviar, "lugar" => $lugar, "fecha" => $request->fecha]);
+
+		$pdf->setPaper('a4', 'portrait')
+			->setWarnings(false)
+			->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
+		//$pdf->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+
+		//$date_structs = Date::now()->format('Ymdhis');
+		$recibo = "Recibo";
+
+		return $pdf->stream($recibo);
+		if ($condition == 1) {
+
+			return $pdf->stream($recibo);
+		} else {
+			return $pdf->download($recibo);
+		}
+
 	}
 
 	/**
