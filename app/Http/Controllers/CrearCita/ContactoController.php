@@ -32,7 +32,7 @@ class ContactoController extends Controller {
 			$tipo = 2;
 		}
 		$slug = str_random(180);
-		$insertid = \DB::table('contactos')->insertGetId(['paciente_id' => Auth::id(), 'mensaje' => $request->mensaje, 'slug' => $slug, 'status' => 0, 'tipo' => $tipo]);
+		$insertid = \DB::table('contactos')->insertGetId(['paciente_id' => Auth::id(), 'mensaje' => $request->mensaje, 'slug' => $slug, 'status' => 0, 'tipo' => 0]);
 		return response()->json('listo');
 	}
 

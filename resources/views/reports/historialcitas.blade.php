@@ -40,11 +40,11 @@
           if($value->status_asistio == 0){
                $asistio = 'No asistio';
           }else if($value->status_asistio == 1){
-               $asistio = 'En proceso';
+               $asistio = 'Programada';
           }else if($value->status_asistio == 2){
                $asistio = 'Asistio';
           }else if($value->status_asistio == 3){
-               $asistio = 'Reprogramado';
+               $asistio = 'Reprogramada';
           }
        @endphp
           <tr>

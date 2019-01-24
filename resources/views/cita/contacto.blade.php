@@ -113,7 +113,6 @@
                                //(Location).load(vurl, { id: url1 });
                                var parametros = {
                                        "mensaje" : $('#message').val(),
-                                       "tipo" : $('#subject').val()
                                     };
 
                                 console.log(vurl);

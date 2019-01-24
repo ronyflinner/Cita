@@ -65,9 +65,9 @@ class HistorialCitaController extends Controller {
 			} else if ($val->status_asistio == 0) {
 				return "Falto";
 			} else if ($val->status_asistio == 1) {
-				return "En proceso";
+				return "Programada";
 			} else if ($val->status_asistio == 3) {
-				return "Reprogramado";
+				return "Reprogramada";
 			}
 		})->addColumn('reprogramar', function ($val) {
 			if ($val->status_asistio == 0 || $val->status_asistio == 1) {
@@ -90,7 +90,7 @@ class HistorialCitaController extends Controller {
 
 		$asistencia = $request->asistencia;
 
-		if ($asistencia == "En proceso") {
+		if ($asistencia == "Programada") {
 			$pres = Cita::where('id', $request->cita)->update(['status' => 0, 'status_asistio' => 3]);
 		}
 
@@ -107,10 +107,11 @@ class HistorialCitaController extends Controller {
 		//	return response()->json($fe[0]->id);
 
 		//return response()->json($enviar);
-
+		$obtenerF = ' ';
 		$b = true;
 		$cont = 0;
 		while ($b) {
+			$obtenerF = $fe[$cont]->f_fecha;
 			$enviar = DB::table('disponibilidads')
 				->join('horas', 'disponibilidads.hora_id', '=', 'horas.id')
 				->join('fechas', 'disponibilidads.fecha_id', '=', 'fechas.id')
@@ -171,7 +172,7 @@ class HistorialCitaController extends Controller {
 
 		}
 		//$id = Cita::all();
-		return response()->json('reprogramado');
+		return response()->json($obtenerF);
 		$b = true;
 		$con = 0;
 

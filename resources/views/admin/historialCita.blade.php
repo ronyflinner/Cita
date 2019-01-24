@@ -212,8 +212,9 @@
                                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                 } ,
                       success:  function (data) {
-                        console.log('dataaaa hola');
-                             console.log(data);
+                             console.log('dataaaa hola');
+                             location.reload();
+
                       },
                       error: function (data) {
                          console.log('Error:', data);
@@ -232,43 +233,6 @@
               var promise = promesa3();
               obtener_habilitar("#Na tbody",itable,"button.editar");
     });
-
-
-
-
-
-
-   /* itable = $('#Na').DataTable({
-                        processing: true,
-                        serverSide: true,
-                        ajax:{
-                            url:'{ { route('') }}' ,
-                            type:'get',
-                        } ,
-                         language: {
-                            url: '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json'
-                         },
-                        columns: [
-                            {data: 'id', name:'id','orderable': false},
-                            {data: 'title', name:'title'},
-                            {data: 'publish', name:'publish'},
-                            {data: 'estado', name:'estado'},
-                            {'defaultContent':"<button type='button' class='editar2 btn btn-danger'><i class='glyphicon glyphicon-off'></i></button> "},
-                            {'defaultContent':"<button type='button' class='editar btn btn-primary'><i class='fa fa-pencil-square-o'></i></button> "},
-                        ],
-                        bAutoWidth: false,
-                        order: [[0, 'asc']],
-                        'aaSorting': [],
-                        paging: true,
-                        searching: false,
-                        columnDefs: [
-                    { width: 20, height: 100,  targets: 0 }
-                ],
-                fixedColumns: true,
-                    }); */
-
-
-
 
 
 
