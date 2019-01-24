@@ -92,4 +92,14 @@ trait principal {
 			unset($value);
 		}
 	}
+
+	public function conversionAmPM($hora) {
+		$horas = explode(':', $hora);
+		$hour = $horas[0];
+		$minute = $horas[1];
+		$second = 00;
+		$tz = 'America/Lima';
+		$carbon = Carbon::createFromTime($hour, $minute, $second, $tz);
+		return $carbon->format('g:i A');
+	}
 }

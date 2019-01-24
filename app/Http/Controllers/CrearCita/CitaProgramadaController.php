@@ -41,6 +41,9 @@ class CitaProgramadaController extends Controller {
 					return $val->disponibilidad_link->fecha_link->f_fecha;
 				})
 				->addColumn('hora', function ($val) {
+
+					$disponibilidad = explode('-', $val->disponibilidad_link->hora_link->r_hora);
+					return $disponibilidad[0];
 					return $val->disponibilidad_link->hora_link->r_hora;
 				})
 				->addColumn('lugar', function ($val) {

@@ -15,31 +15,38 @@
     </div>
     <br><br>
 
-  <table id="Mytable"  class="table table-bordered table-hover" style="width:100%">
-      <thead>
-          <tr>
-              <th>N°</th>
-              <th>Fecha Cita</th>
-              <th>Hora Cita</th>
-              <th>Centro de Prevención</th>
-              <th>Estado de Cita</th>
-              <th>Ticket de Atención</th>
-          </tr>
-      </thead>
-      <tbody>
+    <div class="row">
+      <div class="container">
+          <table id="Mytable"  class="table table-bordered table-hover " style="width:100%">
+              <thead>
+                  <tr>
+                      <th>N°</th>
+                      <th>Fecha Cita</th>
+                      <th>Hora Cita</th>
+                      <th>Centro de Prevención</th>
+                      <th>Estado de Cita</th>
+                      <th>Ticket de Atención</th>
+                  </tr>
+              </thead>
+              <tbody>
 
-      </tbody>
-      <tfoot>
-           <tr>
-              <th>N°</th>
-              <th>Fecha Cita</th>
-              <th>Hora Cita</th>
-              <th>Centro de Prevención</th>
-              <th>Estado de Cita</th>
-              <th>Ticket de Atención</th>
-          </tr>
-      </tfoot>
-  </table>
+              </tbody>
+              <tfoot>
+                   <tr>
+                      <th>N°</th>
+                      <th>Fecha Cita</th>
+                      <th>Hora Cita</th>
+                      <th>Centro de Prevención</th>
+                      <th>Estado de Cita</th>
+                      <th>Ticket de Atención</th>
+                  </tr>
+              </tfoot>
+          </table>
+
+      </div>
+    </div>
+
+
 
 
 </div>
@@ -158,7 +165,7 @@
                          $('#Mytable').DataTable({
                                       responsive: true,
                                       processing: true,
-                                        serverSide: true,
+                                      serverSide: true,
                                         ajax:{
                                             url: '{{route("admin.ajax.CitaProgramdas")}}',
                                             type:'get',
