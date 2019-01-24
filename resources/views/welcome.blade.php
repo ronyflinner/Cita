@@ -6,9 +6,12 @@
                 <div class="row">
                     <div class="col">
                         <div class="home_content">
-                            <div class="home_title">Separa tu Cita</div>
+                            <div class="home_title">Agenda tu Cita</div>
 
-                             <div class="home_text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo officiis iusto necessitatibus laboriosam earum officia perspiciatis velit, mollitia ab, repellendus deserunt unde eum ullam nobis. Quos pariatur illo id nihil!</div>
+                             <div class="home_text text-justify">Bienvenido al Portal de la Citas de Liga Contra el Cáncer,
+
+                                institución con más de 70 años realizando despitajes preventivos de cáncer para salvar vidas.
+                             </div>
                             <div class="row">
 
                                 <div class="col-md-2">

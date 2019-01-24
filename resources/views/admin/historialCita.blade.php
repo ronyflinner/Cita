@@ -59,7 +59,7 @@
                      <th>Id Paciente</th>
                      <th>Hora</th>
                      <th>Nombre de Paciente</th>
-                     <th>Asitencia</th>
+                     <th>Asistencia</th>
                      <th>Reprogramar</th>
                   </tr>
                </thead>
@@ -228,7 +228,7 @@
     $('#bun').on('click',function(){
               $('#Na_wrapper').remove();
               $('#Na').remove();
-              $('#No').append("<table class='table table-bordered' id='Na'><thead><tr><th>N°</th><th>Id Cita</th><th>Id Paciente</th><th>Hora</th><th>Nombre de Paciente</th><th>Asitencia</th><th>Reprogramar</th></tr></thead></table>");
+              $('#No').append("<table class='table table-bordered' id='Na'><thead><tr><th>N°</th><th>Id Cita</th><th>Id Paciente</th><th>Hora</th><th>Nombre de Paciente</th><th>Asistencia</th><th>Reprogramar</th></tr></thead></table>");
               var promise = promesa3();
               obtener_habilitar("#Na tbody",itable,"button.editar");
     });

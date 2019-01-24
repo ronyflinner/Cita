@@ -51,13 +51,13 @@ class CitaProgramadaController extends Controller {
 
 					switch ($val->status_asistio) {
 					case 1:
-						$buttonBaged = "<h5><span class='badge badge-secondary'>En proceso</span></h5>";
+						$buttonBaged = "<h5><span class='badge badge-secondary'>Programada</span></h5>";
 						break;
 					case 2:
 						$buttonBaged = "<h5><span class='badge badge-secondary'>Asistió</span></h5>";
 						break;
 					case 3:
-						$buttonBaged = "<h5><span class='badge badge-secondary'>Reprogramado</span></h5>";
+						$buttonBaged = "<h5><span class='badge badge-secondary'>Reprogramada</span></h5>";
 						break;
 					default:
 						$buttonBaged = "<h5><span class='badge badge-secondary'>No asistió</span></h5>";
@@ -101,9 +101,8 @@ class CitaProgramadaController extends Controller {
 		//$pdf->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
 
 		$date_structs = Date::now()->format('Ymdhis');
-		$recibo = "Recibo" . $date_structs . $cita[0]->paciente_link->name;
+		$recibo = "Recibo" . $date_structs . $cita[0]->paciente_link->name . ".pdf";
 		if ($condition == 1) {
-
 			return $pdf->stream($recibo);
 		} else {
 			return $pdf->download($recibo);

@@ -25,7 +25,7 @@
                         <li class="menu_item"><a href="{{ route('crearcita.index') }}">Crear Cita</a></li>
                         <li class="menu_item"><a href="{{ route('citaprogramada.index') }}">Cita Programada</a></li>
                         <li class="menu_item"><a href="{{ route('historialcita.index') }}">Historial de Citas</a></li>
-                        <li class="menu_item"><a href="{{ route('contacto.index') }}">Contacto</a></li>
+                        <li class="menu_item"><a href="{{ route('contacto.index') }}">Contáctanos</a></li>
                         <li class="menu_item"><a href="{{route('cambiar.index') }}">Cambiar contraseña</a></li>
 
                     </ul>

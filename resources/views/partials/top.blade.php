@@ -1,3 +1,10 @@
+<style>
+    .alta{
+        font-size: 130px;
+        font-weight: 300;
+    }
+</style>
+
 <div class="header_top">
     <div class="container">
         <div class="row">
@@ -11,20 +18,21 @@
                     <div class="header_top_extra d-flex flex-row align-items-center justify-content-start ml-auto">
                         <div class="header_top_nav">
                             <ul class="d-flex flex-row align-items-center justify-content-start">
-                                <li><a href="https://www.ligacancer.org.pe/quienesomos.html" target="_blank">¿Quienes Somos?</a></li>
-                                <li><a href="https://www.ligacancer.org.pe/quehacemos.html" target="_blank">¿Qué hacemos?</a></li>
-                                <li><a href="https://www.ligacancer.org.pe/staffmedico.html" target="_blank">¿Staff Médico?</a></li>
+                                <li><a href="https://www.ligacancer.org.pe/quienesomos.html" target="_blank">Quiénes Somos</a></li>
+                                <li><a href="https://www.ligacancer.org.pe/quehacemos.html" target="_blank">Qué Hacemos</a></li>
+                                <li><a href="https://www.ligacancer.org.pe/staffmedico.html" target="_blank">Staff Médico</a></li>
                             </ul>
                         </div>
+
                         <div class="header_top_phone">
                             <i class="fa fa-phone" aria-hidden="true"></i>
-                            <span>Central telefónica: *5442 </span>
+                            <span>Central Telefónica: (511) 204-0404  </span>
                         </div>
                         <div class="header_top_phone">
                             <span class="btn btn-danger text-white" href="{{ route('logout') }}"
                                 onclick="event.preventDefault();
                                          document.getElementById('logout-form').submit();">
-                               Cerrar Sessión
+                               Cerrar Sesión
                             </span>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 {{ csrf_field() }}

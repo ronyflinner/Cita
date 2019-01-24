@@ -1,4 +1,4 @@
-   <link rel="stylesheet" type="text/css" href="{{url('health/styles/bootstrap4/bootstrap.min.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url('health/styles/bootstrap4/bootstrap.min.css')}}">
 
 
  <style type="text/css">
@@ -103,16 +103,16 @@
 
 	          <div class="col-xs-12 col-sm-12 col-md-12 ">
 					<div class="text-center" style="margin-left: 40px">
-	      				<h4>Comprobante de Cita</h4>
+	      				<h4>Ticket de Atención</h4>
 	      			</div>
 	      			<br><br>
 		            <div class="receipt-right">
 
-			              <h5>Paciente: {{ $cita[0]->paciente_link->name }}<small>  |   Hora de Atención : {{ $cita[0]->disponibilidad_link->hora_link->r_hora }}</small></h5>
-			              <p><b>DNI :</b> 76188250</p>
-			              <p><b>Celular :</b> +91 12345-6789</p>
-			              <p><b>Email :</b> {{ $cita[0]->paciente_link->email }}</p>
-			              <p><b>Direccion :</b> {{ $cita[0]->disponibilidad_link->lugar_link->nombre .", ". $cita[0]->disponibilidad_link->lugar_link->direccion }}</p>
+			              <h5>Paciente: {{ $cita[0]->paciente_link->name }}<small>  |   Hora de Cita: {{ $cita[0]->disponibilidad_link->hora_link->r_hora }}</small></h5>
+			              <p><b>DNI:</b> 76188250</p>
+			              <p><b>Celular:</b> +91 12345-6789</p>
+			              <p><b>Email:</b> {{ $cita[0]->paciente_link->email }}</p>
+			              <p><b>Centro de Prevención:</b> {{ $cita[0]->disponibilidad_link->lugar_link->nombre .", ". $cita[0]->disponibilidad_link->lugar_link->direccion }}</p>
 		            </div>
 	          </div>
         </div>
@@ -123,24 +123,24 @@
                     <thead>
                         <tr>
                             <th>Descripción</th>
-                            <th>Pago</th>
+                            <th>Donación</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="col-md-9">Liga contra el cancer</td>
-                            <td class="col-md-3"><i class="fa fa-inr"></i>s/. 25,000</td>
+                            <td class="col-md-9">Despistaje de Cuello Uterino</td>
+                            <td class="col-md-3"><i class="fa fa-inr"></i>S/. 25.00</td>
                         </tr>
                         <tr>
                             <td class="text-right"><h2><strong>Total: </strong></h2></td>
-                            <td class="text-left text-danger"><h2><strong><i class="fa fa-inr"></i>s/. 25,000 </strong></h2></td>
+                            <td class="text-left text-danger"><h2><strong><i class="fa fa-inr"></i>S/. 25.00 </strong></h2></td>
                         </tr>
                     </tbody>
                 </table>
         </div>
      	<div class="row">
 		          <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-		             <p><b>Fecha :</b> 15 de Agosto de 2019</p>
+		             <p><b>Fecha:</b> {{ Carbon\Carbon::now()->format('Y') }}15 de Agosto de 2019</p>
 		          </div>
         </div>
        </div>

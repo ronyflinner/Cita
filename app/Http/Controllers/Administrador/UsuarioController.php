@@ -42,7 +42,16 @@ class UsuarioController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request) {
-		//
+
+		/*$user = User::create([''=>,
+							  ''=>,
+							  ''=>,
+							  ''=>,
+							  ''=>,]);
+		*/
+		//$user->assignRole('writer');
+
+		return response()->json($request->all());
 	}
 
 	/**

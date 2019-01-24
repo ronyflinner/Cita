@@ -23,7 +23,7 @@
                       <div class="row">
                              <div class="col-md-6 offset-md-3">
                                    <div class="form-group">
-                                  <label for="sel1">Seleccionar Lugar:</label>
+                                  <label for="sel1">Seleccionar Centro de Prevención:</label>
                                   {!! Form::select('lugar',$lugar, '', ['class'=>'form-control form-control-lg single1 select', 'required', 'id'=>'lugar'
                                   ]) !!}
                                 </div>
@@ -32,7 +32,7 @@
                                   {!! Form::text('date', Carbon\Carbon::now()->format('Y-m-d'), ['id'=>'datepicker','class'=>'form-control datepicker clicl', 'readonly', 'placeholder'=>'','required' ]) !!}
                                 </div>
                                  <div class="form-group" id="display_horario" style="display: none;">
-                                  <label for="sel1">Seleccionar horario:</label>
+                                  <label for="sel1">Seleccionar Horario:</label>
                                   {!! Form::select('hora',[], '', ['class'=>'form-control form-control-lg single1', 'id'=>'hora' ,'required']) !!}
                                 </div>
 
