@@ -162,7 +162,7 @@
     <br>
 
     <div class="row">
-       <div class="col-md-4" id="fecha_s">
+       <div class="offset-2 col-md-4" id="fecha_s">
          <select id ='fec1' class='form-control form-control-lg single'>
             <option value="volvo">Fecha</option>
          </select>
