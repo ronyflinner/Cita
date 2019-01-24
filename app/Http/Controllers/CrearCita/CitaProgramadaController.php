@@ -51,13 +51,13 @@ class CitaProgramadaController extends Controller {
 
 					switch ($val->status_asistio) {
 					case 1:
-						$buttonBaged = "<h5><span class='badge badge-secondary'>En proceso</span></h5>";
+						$buttonBaged = "<h5><span class='badge badge-secondary'>Programada</span></h5>";
 						break;
 					case 2:
 						$buttonBaged = "<h5><span class='badge badge-secondary'>Asistió</span></h5>";
 						break;
 					case 3:
-						$buttonBaged = "<h5><span class='badge badge-secondary'>Reprogramado</span></h5>";
+						$buttonBaged = "<h5><span class='badge badge-secondary'>Reprogramada</span></h5>";
 						break;
 					default:
 						$buttonBaged = "<h5><span class='badge badge-secondary'>No asistió</span></h5>";
@@ -69,10 +69,16 @@ class CitaProgramadaController extends Controller {
 
 				->addColumn('action', function ($val) {
 					$path = url('admin/usuario/citaprogramada/showPdf/');
+					if ($val->status_asistio != 3) {
+						$this->btnView = "<a href='" . $path . "/" . $val->slug . "/1' data-id='" . $val->id . "' target='_blank' class='btn btn-info btnView'><i class='fa fa-eye' aria-hidden='true' ></i></a>";
 
-					$this->btnView = "<a href='" . $path . "/" . $val->slug . "/1' data-id='" . $val->id . "' target='_blank' class='btn btn-info btnView'><i class='fa fa-eye' aria-hidden='true' ></i></a>";
+						$this->btnPdf = "<a href='" . $path . "/" . $val->slug . "/0' download data-id='" . $val->id . "' class='btn btn-danger btnPdf'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></a>";
 
-					$this->btnPdf = "<a href='" . $path . "/" . $val->slug . "/0' download data-id='" . $val->id . "' class='btn btn-danger btnPdf'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></a>";
+					} else {
+						$this->btnView = "";
+
+						$this->btnPdf = "";
+					}
 
 					return $this->btnView . $this->btnPdf;
 				})
@@ -96,7 +102,7 @@ class CitaProgramadaController extends Controller {
 		//$pdf->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
 
 		$date_structs = Date::now()->format('Ymdhis');
-		$recibo = "Recibo" . $date_structs . $cita[0]->paciente_link->name;
+		$recibo = "Recibo" . $date_structs . $cita[0]->paciente_link->name . ".pdf";
 		if ($condition == 1) {
 			return $pdf->stream($recibo);
 		} else {

@@ -27,7 +27,7 @@
         <div class="row">
             <div class="col-sm-12 col-lg-12">
                 <h1 class="h1">
-                    Contactanos </h1>
+                    Mensaje </h1>
             </div>
         </div>
     </div>
@@ -41,24 +41,13 @@
               {!! Form::open(['route'=>'contacto.store','name'=>'form', 'method'=>'POST',"class"=>"form ",'files' => false, 'id'=>'form']) !!}
               {!! Form::token() !!}
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group" height="40">
-                            <label for="subject">
-                                Tipo de mensaje</label>
-                            <select id="subject" name="subject" class="form-control form-control-lg" required="required">
-                                <option value="na" selected="">Escoje uno:</option>
-                                <option value="service">Ayuda</option>
-                                <option value="suggestions">Pregunta</option>
-                                <option value="product">Reclamación</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
+
                         <div class="form-group">
                             <label for="name">
-                                Mensaje</label>
+                                Ingresar mensaje</label>
                             <textarea name="message" id="message" class="form-control" rows="9" cols="25" required="required"
-                                placeholder="Message"></textarea>
+                               ></textarea>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -74,13 +63,11 @@
         </div>
         <div class="col-md-4">
             <form>
-            <legend><span class="fa fa-inbox"></span> Nuestras Clinicas </legend>
+            <legend><span class="fa fa-inbox"></span> Centros de Prevención </legend>
             <address>
                 <strong></strong><br>
-               Av. Brasil 2746, Pueblo Libre | Av. Nicolás de Piérola 727, Lima | Av. Angamos Este 2514, Surquillo<br>
-                <abbr title="Phone">
-                   Central telefónica *5442
-                </abbr>
+               Av. Brasil 2746 - Pueblo Libre <br> Av. Nicolás de Piérola 727 - Lima <br> Av. Angamos Este 2514 - Surquillo<br>
+
             </address>
 
             </form>

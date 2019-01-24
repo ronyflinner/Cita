@@ -15,55 +15,56 @@
 
 		<div class="container">
 			<div class="col-md-10 offset-1">
-					<form>
+				{!! Form::open(['route'=>'usuario.store','name'=>'form', 'method'=>'POST',"class"=>"form ",'files' => false, 'id'=>'form']) !!}
+
 						{{ Form::token() }}
 						<div class="form-group">
 					    {{ Form::label('dni', 'DNI') }}
-					    {{ Form::text('dni', null,['class'=>'form-control','id'=>'dni']) }}
+					    {{ Form::text('dni', null,['class'=>'form-control dni','data-parsley-required  ','id'=>'dni']) }}
 					  </div>
 					  <div class="form-group">
 						{{ Form::label('email', 'Correo') }}
-					    {{ Form::email('email', null,  ['class'=>'form-control', 'id'=>'correo']) }}
+					    {{ Form::email('email', null,  ['class'=>'form-control', 'data-parsley-type="email" data-parsley-required','id'=>'correo']) }}
 					  </div>
 					  <div class="form-group">
 						{{ Form::label('nombre', 'Nombre') }}
-					    {{ Form::text('nombre', null,['class'=>'form-control','id'=>'nombre']) }}
+					    {{ Form::text('nombre', null,['class'=>'form-control','data-parsley-required','id'=>'nombre']) }}
 					  </div>
 					   <div class="form-group">
 					   	{{ Form::label('apellido', 'Apellido') }}
-					    {{ Form::text('apellido', null,['class'=>'form-control','id'=>'apellido']) }}
+					    {{ Form::text('apellido', null,['class'=>'form-control','data-parsley-required','id'=>'apellido']) }}
 					  </div>
 					  <div class="form-group">
 					    {{ Form::label('clave', 'Clave') }}
-					    {{ Form::password('clave', ['class' => 'form-control','id'=>'clave']) }}
+					    {{ Form::password('clave', ['class' => 'form-control','data-parsley-required data-parsley-equalto="#repetir-clave"','id'=>'clave']) }}
 					  </div>
 					    <div class="form-group">
 					    {{ Form::label('repetir-clave', 'Clave') }}
-					    {{ Form::password('repetir-clave', ['class' => 'form-control','id'=>'repetir-clave']) }}
+					    {{ Form::password('repetir-clave', ['class' => 'form-control','data-parsley-required data-parsley-equalto="#clave"','id'=>'repetir-clave']) }}
 					  </div>
 					   <div class="form-group">
 					    <label for="apellido">Role</label>
 					     {{ Form::label('repetir-clave', 'Clave') }}
-					   	{!! Form::select('role',$role, '', ['class'=>'form-control form-control-lg single1 select', 'required', 'id'=>'role'
+					   	{!! Form::select('role',$role, '', ['class'=>'form-control form-control-lg single1 select', 'data-parsley-required', 'id'=>'role'
                                   ]) !!}
-
 					  </div>
 					  <br>
 
 					  <button type="submit" class="btn btn-primary">Enviar</button>
 					  <a href="{{ route('usuario.index') }}" class="btn btn-warning">Regresar</a>
-					</form>
+				{!! Form::close() !!}
 
 			</div>
 
 
 		</div>
 
-
-
-
-
 </div>
+
+<!-- Token -->
+<input type="hidden" name="_token" id="_token" value="{{csrf_token()}}">
+
+
 
 @endsection
 
@@ -74,11 +75,7 @@
               //Variables
                 MesajeSaludo:'HelloWord',
                 init : ()=> {
-
                     PlantillaRoles.General();
-                    PlantillaRoles.datatable();
-                    PlantillaRoles.btnAdd();
-                    PlantillaRoles.btnDel();
 
                 },
                 // Metodos
@@ -90,16 +87,23 @@
                       /*Funcionnes Genericas*/
                       $('.single').select2();
 
+                      $('.dni').mask('00000000');
+
                       $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
 
                       var now = moment();
                       /*Limpieza*/
-
                       $('#form').on('submit', function(event){
                           event.preventDefault();
+                          form_to=$(this);
+
                           if($('#form').parsley().isValid())
                           {
+                            formSerialize=form_to.attr('action');
+                            dataSerialize=form_to.serialize();
+                            tokenUser=$("#_token").val();
 
+                            PlantillaRoles.ajaxSave(dataSerialize,formSerialize,tokenUser);
                           }
                       });
 
@@ -159,31 +163,9 @@
                       form_select_default:destiny=>{
                           $(destiny).prepend('<option value="" selected>Selecionar</option>');
                       },
-                      btnAdd:()=>{
-
-
-                      	 $(document).on("click", "#buttonAdd", event=> {
-                      	 	let vurl=$("#_path").val();
-                      	 	let role=$("#role").val();
-                      	 	let token=$("#_token").val();
-
-                      	 	if(role!=""){
-
-                      	 		data={'data':$("#role").val()};
-                      	 		PlantillaRoles.ajaxSave(data,vurl,token)
-
-                      	 	}else{
-								PlantillaRoles.toast_notification("error",'No puede quedar vacio',2);
-                      	 	}
-
-                      	 	//PlantillaRoles.ajaxSearch();
-                      	 });
-                      },
-
                      ajaxSave:(data,vurl,token)=>{
 
-
-                      		$.ajax({
+                             $.ajax({
                                   type: 'POST',
                                   url: vurl,
                                   data: data,
@@ -192,27 +174,22 @@
                                   headers:{'X-CSRF-TOKEN': token},
                              })
                              .done(( data, textStatus, jqXHR)=> {
-                               // console.log(data);
+                                console.log(data);
 
-                                if(data.data==1){
+                              /*  if(data.data==1){
                                 	PlantillaRoles.toast_notification("success",'Guardado Correctaente!!!',2);
 
-                              	   otable.ajax.reload();
-                                //	$('#Mytable').dataTable().fnClearTable();
-    							//	$('#Mytable').dataTable().fnDestroy();
-
-    							//	PlantillaRoles.datatable();
-    								$("#role").val("");
-
-
-                            	}else{
-                            		PlantillaRoles.toast_notification("error",'No fue posible guardar los datos',2);
-                            	}
+                              	}else{
+                              		PlantillaRoles.toast_notification("error",'No fue posible guardar los datos',2);
+                              	} */
 
                              })
                              .fail(( data, textStatus, jqXHR)=> {
                                //console.log(data);
                              });
+
+
+
                       },
 
 

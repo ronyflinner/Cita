@@ -30,7 +30,7 @@ class UsuarioController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create() {
-		$role = array_add(Role::all()->pluck('name', 'id'), "Selecionar", "");
+		$role = array_add(Role::all()->pluck('name', 'id'), "", "Selecionar");
 
 		return view('admin.usuario.create', compact('role'));
 	}
@@ -42,7 +42,16 @@ class UsuarioController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request) {
-		//
+
+		/*$user = User::create([''=>,
+							  ''=>,
+							  ''=>,
+							  ''=>,
+							  ''=>,]);
+		*/
+		//$user->assignRole('writer');
+
+		return response()->json($request->all());
 	}
 
 	/**

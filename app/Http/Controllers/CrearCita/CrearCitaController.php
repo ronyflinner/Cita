@@ -106,9 +106,9 @@ class CrearCitaController extends Controller {
 			} else {
 				$direccion_query = Lugar::find($lugar_id);
 
-				$direccion = "<label for='sel1'>Dirección del Lugar:</label>";
-				$direccion .= "<h3>" . $direccion_query->nombre . "</h3>";
-				$direccion .= "<p>" . $direccion_query->direccion . "<p>";
+				$direccion = "<label for='sel1'>Dirección:</label><br>";
+				//$direccion .= "<label>" . $direccion_query->nombre . $direccion_query->direccion . "</label>";
+				$direccion .= "<p>" . $direccion_query->nombre . " - " . $direccion_query->direccion . "<p>";
 				$bandera = 1;
 			}
 

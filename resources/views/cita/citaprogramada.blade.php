@@ -21,9 +21,9 @@
               <th>N°</th>
               <th>Fecha Cita</th>
               <th>Hora Cita</th>
-              <th>Lugar</th>
-              <th>Status</th>
-              <th>Acción</th>
+              <th>Centro de Prevención</th>
+              <th>Estado de Cita</th>
+              <th>Ticket de Atención</th>
           </tr>
       </thead>
       <tbody>
@@ -34,9 +34,9 @@
               <th>N°</th>
               <th>Fecha Cita</th>
               <th>Hora Cita</th>
-              <th>Lugar</th>
-              <th>Status</th>
-              <th>Acción</th>
+              <th>Centro de Prevención</th>
+              <th>Estado de Cita</th>
+              <th>Ticket de Atención</th>
           </tr>
       </tfoot>
   </table>
