@@ -15,31 +15,6 @@
 
 </style>
 
-            <!-- Menu -->
-
-            <div class="menu trans_500">
-                <div class="menu_content d-flex flex-column align-items-center justify-content-center text-center">
-                    <div class="menu_close_container"><div class="menu_close"></div></div>
-
-                    <ul>
-                        <li class="menu_item"><a href="{{ route('crearcita.index') }}">Crear Cita</a></li>
-                        <li class="menu_item"><a href="{{ route('citaprogramada.index') }}">Cita Programada</a></li>
-                        <li class="menu_item"><a href="{{ route('historialcita.index') }}">Historial de Citas</a></li>
-                        <li class="menu_item"><a href="{{ route('contacto.index') }}">Contáctanos</a></li>
-                        <li class="menu_item"><a href="{{route('cambiar.index') }}">Cambiar contraseña</a></li>
-                        <li class="menu_item"><a href="{{ route('logout') }}"
-                                onclick="event.preventDefault();
-                                         document.getElementById('logout-form').submit();">
-                                Logout
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                {{ csrf_field() }}
-                            </form>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
 
         <!-- Header -->
 
@@ -56,7 +31,7 @@
                                     <div class="col">
                                         <div class="header_nav_content d-flex flex-row align-items-center justify-content-start">
                                           <marquee behavior="" direction="">
-                                                    <h3 class="text-white tex-center">Bienvenido al Sistema de Citas de la Liga Contra el Cáncer - Versión 0.2 Testing </h3>
+                                                    <h3 class="text-white tex-center">Bienvenido al Sistema de Citas de la Liga Contra el Cáncer - Versión alfa 0.2 Testeo </h3>
                                                 </marquee>
                                         </div>
                                     </div>
