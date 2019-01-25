@@ -108,7 +108,8 @@
 	      			<br><br>
 		            <div class="receipt-right">
 
-			              <h5>Paciente: {{ $cita[0]->paciente_link->name }}<small>  |   Hora de Cita: {{ $cita[0]->disponibilidad_link->hora_link->r_hora }}</small></h5>
+
+			              <h5>Paciente: {{ $cita[0]->paciente_link->name }}<small>  |   Hora de Cita: {{ exploid_blade($cita[0]->disponibilidad_link->hora_link->r_hora) }}</small></h5>
 			              <p><b>DNI:</b> 76188250</p>
 			              <p><b>Celular:</b> +91 12345-6789</p>
 			              <p><b>Email:</b> {{ $cita[0]->paciente_link->email }}</p>

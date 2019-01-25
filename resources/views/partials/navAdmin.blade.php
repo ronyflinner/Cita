@@ -21,14 +21,17 @@
                     <div class="menu_close_container"><div class="menu_close"></div></div>
 
                     <ul>
+
                         <li class="menu_item"><a href="{{ route('programarcita.index') }}">Programar Cita</a></li>
                         <li class="menu_item"><a href="{{ route('historialCitaP.index') }}">Historial de Cita Programada</a></li>
                         <li class="menu_item"><a href="{{route('contraseñaP.index')}}">Cambiar contraseña</a></li>
                         <li class="menu_item"></li>
                         <li class="menu_item"><a href="{{ route('usuario.index') }}">Usuarios</a></li>
+                        <li class="menu_item"><a href="#">Doctores</a></li>
+                        <li class="menu_item"><a href="#">Servicios</a></li>
                         <li class="menu_item"><a href="#">Lista de Mensajes</a></li>
 
-                        </li>
+
                     </ul>
                 </div>
 
@@ -54,6 +57,8 @@
                                                     <li><a href="{{route('contraseñaP.index')}}">Cambiar contraseña</a></li>
 
                                                     <li><a href="{{ route('usuario.index') }}">Usuarios</a></li>
+                                                    <li><a href="#">Doctores</a></li>
+                                                    <li><a href="#">Servicios</a></li>
                                                     <li><a href="#">Lista de Mensajes</a></li>
 
                                                 </ul>

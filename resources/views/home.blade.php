@@ -19,7 +19,7 @@
 					<div class="info_box">
 						<div class="info_image"><img src="images/info_1.jpg" alt=""></div>
 						<div class="info_content">
-							<div class="info_title">Usuario</div>
+							<div class="info_title">Paciente</div>
 							<div class="info_text">Haz clic en el botón "Ingresa" y coloca tus datos para generar la cita. </div>
 							<div class="button info_button"><a href="{{ route('crearcita.index') }}"><span>Ingresa</span><span>Ingresa</span></a></div>
 						</div>

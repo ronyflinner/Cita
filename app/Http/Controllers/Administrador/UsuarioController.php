@@ -21,6 +21,7 @@ class UsuarioController extends Controller {
 	 */
 	public function index() {
 
+		//return self::conversionAmPM('17:30');
 		return view('admin.usuario.index');
 	}
 
@@ -43,12 +44,12 @@ class UsuarioController extends Controller {
 	 */
 	public function store(Request $request) {
 
-		/*$user = User::create([''=>,
-							  ''=>,
-							  ''=>,
-							  ''=>,
-							  ''=>,]);
-		*/
+		/*$user = User::create(['name' => 1,
+			'email' => 1,
+			'password' => 1,
+			'dni' => 1,
+			'slug' => 1]);*/
+
 		//$user->assignRole('writer');
 
 		return response()->json($request->all());
