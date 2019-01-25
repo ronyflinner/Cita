@@ -5,18 +5,16 @@ namespace App\Http\Controllers\Administrador;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
-class RoleController extends Controller {
+class PermissionController extends Controller {
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index() {
-		$role = Role::find(1);
 
-		return view('admin.role.index', ['permisos' => Permission::all()->pluck('name', 'id')]);
+		return view('admin.permission.index');
 	}
 
 	/**
@@ -25,7 +23,7 @@ class RoleController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create() {
-		return Role::all();
+		//
 	}
 
 	/**
@@ -37,11 +35,9 @@ class RoleController extends Controller {
 	public function store(Request $request) {
 		if ($request->ajax()) {
 
-			$role = Role::create(['name' => $request->data,
-			]);
-			$role->givePermissionTo($request->permiso);
+			$permiso = Permission::create(['name' => $request->data]);
 
-			if ($role->count() > 0) {
+			if ($permiso->count() > 0) {
 				$bandera = 1;
 			}
 
@@ -53,20 +49,20 @@ class RoleController extends Controller {
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  int  $id
+	 * @param  \App\Permission  $permission
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show($id) {
-		//
+	public function show(Permission $permission) {
+
 	}
 
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param  int  $id
+	 * @param  \App\Permission  $permission
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit($id) {
+	public function edit(Permission $permission) {
 		//
 	}
 
@@ -74,22 +70,22 @@ class RoleController extends Controller {
 	 * Update the specified resource in storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
-	 * @param  int  $id
+	 * @param  \App\Permission  $permission
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, $id) {
+	public function update(Request $request, Permission $permission) {
 		//
 	}
 
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  int  $id
+	 * @param  \App\Permission  $permission
 	 * @return \Illuminate\Http\Response
 	 */
 	public function destroy(Request $request, $id) {
 		if ($request->ajax()) {
-			Role::find($id)->delete();
+			Permission::find($id)->delete();
 
 			return response()->json(['data' => 1]);
 		}
@@ -97,9 +93,9 @@ class RoleController extends Controller {
 	}
 	/*AJAX*/
 
-	public function getListadoRoles(request $request) {
+	public function getListadoPermisos(request $request) {
 
-		$user = Role::all();
+		$user = Permission::all();
 
 		$r = 0;
 		return Datatables($user)
@@ -107,9 +103,6 @@ class RoleController extends Controller {
 				return ++$r;
 			})
 			->addColumn('nombre', function ($val) {
-				return $val->name;
-			})
-			->addColumn('permiso', function ($val) {
 				return $val->name;
 			})
 

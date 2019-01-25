@@ -15,15 +15,15 @@
     </div>
     <a href="{{ route('usuario.create') }}" class="btn btn-success">Crear Usuario</a>
     <a href="{{ route('role.index') }}" class="btn btn-info">Crear Role</a>
+    <a href="{{ route('permiso.index') }}" class="btn btn-warning">Crear Permisos</a>
     <br><br>
    <table id="Mytable"  class="table table-bordered table-hover" style="width:100%">
       <thead>
           <tr>
               <th>N°</th>
               <th>DNI</th>
-
               <th>Nombre y Apellido</th>
-               <th>Correo</th>
+              <th>Correo</th>
               <th>Role</th>
               <th>Status</th>
               <th>Creado</th>

@@ -10,30 +10,30 @@
     <br><br>
     <div class="row">
       <div class="col text-center mt-3">
-        <div class="section_title">Lista de Role</div>
+        <div class="section_title">Lista de Permisos</div>
       </div>
     </div>
 	  <br>
-        <form>
-          <div class="form-group">
-            {{ Form::label('Nombre del Role', 'Nombre del Role') }}
-              {{ Form::text('role', null,['class'=>'form-control','placeholder'=>'Ingresar Nombre','id'=>'role']) }}
-          </div>
-          <div class="form-group">
-             {{ Form::label('permiso', 'Selecionar Permisos') }}
-              {!! Form::select('permiso[]',$permisos, '', ['class'=>'form-control form-control-lg single select', 'data-parsley-required','multiple ', 'id'=>'permiso'
-                                      ]) !!}
-          </div>
+	  <form>
+	  <div class="form-row align-items-center">
+	    <div class="col-auto">
+	      <label class="sr-only" for="inlineFormInput">Nombre del Permisión</label>
+	      <input type="text" class="form-control mb-2" id="role" placeholder="Ingresar Nombre">
+	    </div>
+	    <div class="col-auto">
+	      <button type="button" id="buttonAdd" class="btn btn-success mb-2">Agregar</button>
+	    </div>
+	  </div>
+	</form>
 
-           <button type="button" id="buttonAdd" class="btn btn-success mb-2">Agregar</button>
-      	</form>
+
+
     <br><br>
    <table id="Mytable"  class="table table-bordered table-hover" style="width:100%">
       <thead>
           <tr>
 	          <th>N°</th>
 	          <th>Nombre</th>
-            <th>Permiso</th>
 	          <th>Creado</th>
 	          <th>Acción</th>
           </tr>
@@ -44,7 +44,6 @@
           <tr>
 	          <th>N°</th>
 	          <th>Nombre</th>
-            <th>Permiso</th>
 	          <th>Creado</th>
 	          <th>Acción</th>
           </tr>
@@ -57,11 +56,10 @@
 <input type="hidden" name="_token" id="_token" value="{{csrf_token()}}">
 
 <!-- Url-->
-<input type="hidden" name="_path" id="_path" value="{{route('role.store')}}">
-
+<input type="hidden" name="_path" id="_path" value="{{route('permiso.store')}}">
 
 <!-- Url-->
-<input type="hidden" name="_delete" id="_delete" value="{{route('role.destroy',':id')}}">
+<input type="hidden" name="_delete" id="_delete" value="{{route('permiso.destroy',':id')}}">
 
 @endsection
 @section('javascript')
@@ -158,24 +156,20 @@
                       },
                       btnAdd:()=>{
 
-
                       	 $(document).on("click", "#buttonAdd", event=> {
                       	 	let vurl=$("#_path").val();
                       	 	let role=$("#role").val();
                       	 	let token=$("#_token").val();
-                          let permiso=$("#permiso").val();
 
 
 
-                      	 	if(role!="" && permiso.length >0 ){
+                      	 	if(role!=""){
 
-                      	 		data={'data':$("#role").val(),'permiso':permiso};
-
-                            console.log(data);
+                      	 		data={'data':$("#role").val()};
                       	 		PlantillaRoles.ajaxSave(data,vurl,token)
 
                       	 	}else{
-							             	PlantillaRoles.toast_notification("error",'No puede quedar vacio',2);
+								            PlantillaRoles.toast_notification("error",'No puede quedar vacio',2);
                       	 	}
 
                       	 	//PlantillaRoles.ajaxSearch();
@@ -183,16 +177,16 @@
                       },
                       btnDel:()=>{
                       	$(document).on("click", ".btnDel", function (event) {
-          	         				event.preventDefault();
-          	 						let token=$("#_token").val();
-          	 						let dDrop=$("#_delete").val();
+            	         				event.preventDefault();
+            	 						let token=$("#_token").val();
+            	 						let dDrop=$("#_delete").val();
 
-          	 						completrDrop=dDrop.replace(":id", $(this).attr('data-id'));
+            	 						completrDrop=dDrop.replace(":id", $(this).attr('data-id'));
 
-          	 						data={'data':$(this).attr('data-id')};
+            	 						data={'data':$(this).attr('data-id')};
 
-          							PlantillaRoles.ajaxDelete(data,completrDrop,token);
-                 					});
+            							PlantillaRoles.ajaxDelete(data,completrDrop,token);
+                   					});
                       },
                        datatable:()=>{
 
@@ -201,16 +195,16 @@
 	                                  processing: true,
 	                                  serverSide: true,
 	                                  ajax:{
-	                                        url: '{{route("admin.ajax.getRoleTable")}}',
+	                                        url: '{{route("admin.ajax.getPermisoTable")}}',
 	                                        type:'get',
 	                                      } ,
 	                                      language: {
-	                                                url:  "{{asset('health/js/datatable_spanish.js')}}"
+	                                                url: "{{asset('health/js/datatable_spanish.js')}}"
 	                                               },
 	                                      columns: [
 	                                          {data: 'n', name:'n','orderable': false},
 	                                          {data: 'nombre', name:'nombre'},
-                                            {data: 'permiso', name:'permiso'},
+
 	                                          {data: 'creado', name:'creado'},
 	                                          {data: 'action', name:'action'},
 
@@ -221,13 +215,8 @@
 
                                     });
 
-
-
-
-
                       },
                      ajaxSave:(data,vurl,token)=>{
-
 
                       		$.ajax({
                                   type: 'POST',
@@ -238,21 +227,19 @@
                                   headers:{'X-CSRF-TOKEN': token},
                              })
                              .done(( data, textStatus, jqXHR)=> {
-                               // console.log(data);
+                               console.log(data);
 
                                 if(data.data==1){
                                 	PlantillaRoles.toast_notification("success",'Guardado Correctaente!!!',2);
 
-                              	   otable.ajax.reload();
-                                //	$('#Mytable').dataTable().fnClearTable();
-    							//	$('#Mytable').dataTable().fnDestroy();
+                              	  otable.ajax.reload();
+                                     //	$('#Mytable').dataTable().fnClearTable();
+                      							//	$('#Mytable').dataTable().fnDestroy();
 
-    							//	PlantillaRoles.datatable();
-    								$("#role").val("");
-
-
+                      							//	PlantillaRoles.datatable();
+    								              $("#role").val("");
                             	}else{
-                            		PlantillaRoles.toast_notification("error",'No fue posible guardar los datos',2);
+                            		  PlantillaRoles.toast_notification("error",'No fue posible guardar los datos',2);
                             	}
 
                              })
