@@ -14,11 +14,15 @@ class CreateDisponibilidadsTable extends Migration {
 		Schema::create('disponibilidads', function (Blueprint $table) {
 			$table->increments('id');
 
+			$table->integer('status');
 			$table->integer('lugar_id')->unsigned();
 			$table->foreign('lugar_id')->references('id')->on('lugars')->onDelete('cascade');
 
 			$table->integer('fecha_id')->unsigned();
 			$table->foreign('fecha_id')->references('id')->on('fechas')->onDelete('cascade');
+
+			$table->integer('doctor_id')->unsigned();
+			$table->foreign('doctor_id')->references('id')->on('doctor__servicios')->onDelete('cascade');
 
 			$table->integer('hora_id')->unsigned();
 			$table->foreign('hora_id')->references('id')->on('horas')->onDelete('cascade');

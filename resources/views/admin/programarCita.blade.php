@@ -134,17 +134,12 @@
 
     </div>
 </div>
-
-
-
-
     <div class="form-group" id="lu">
       <label for="sel1">Seleccionar Lugar:</label>
       {!! Form::select('lugar',$lugar, '', ['class'=>'form-control form-control-lg single', 'id'=>'lugar']) !!}
     </div>
     <div class="form-group" style="display: none;" >
       <label for="sel1">Seleccionar Lugar:</label>
-
     </div>
 
     <!-- Date range -->
@@ -179,7 +174,7 @@
 
     </div>
 
-<br>
+   <br>
 
     <div class="container">
     <div class="row">
@@ -559,7 +554,7 @@
                   var promise = promesa3();
 
 
-                  console.log('click putooo');
+
                   console.log($(this).val());
                   console.log($('#fec1').val());
                   console.log($('#fec1').val());

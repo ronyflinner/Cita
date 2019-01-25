@@ -4,15 +4,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddStatusToDisponibilidadsTable extends Migration {
+class CreateServiciosTable extends Migration {
 	/**
 	 * Run the migrations.
 	 *
 	 * @return void
 	 */
 	public function up() {
-		Schema::table('disponibilidads', function (Blueprint $table) {
-			$table->integer('status');
+		Schema::create('servicios', function (Blueprint $table) {
+			$table->increments('id');
+			$table->string('nombre');
+			$table->float('costo');
+			$table->string('slug')->unique();
+			$table->timestamps();
 		});
 	}
 
@@ -22,8 +26,6 @@ class AddStatusToDisponibilidadsTable extends Migration {
 	 * @return void
 	 */
 	public function down() {
-		Schema::table('disponibilidads', function (Blueprint $table) {
-			$table->dropColumn('status');
-		});
+		Schema::dropIfExists('servicios');
 	}
 }

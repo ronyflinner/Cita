@@ -1,7 +1,7 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder {
 	/**
@@ -11,15 +11,26 @@ class DatabaseSeeder extends Seeder {
 	 */
 	public function run() {
 		// $this->call(UsersTableSeeder::class);
-		DB::table('users')->insert([
-			'name' => 'Luis Gomez',
+
+		User::create(['name' => 'Luis Gomez',
 			'email' => 'soporte@orange-360.com',
 			'password' => bcrypt('123456'),
-		]);
-		DB::table('users')->insert([
-			'name' => 'Ronald Lindo',
+			'apellidoP' => 'Gomez',
+			'apellidoM' => 'Gomez',
+			'dni' => '12345678',
+			'numero' => '930264784',
+			'slug' => str_random(150),
+			'tipo' => 1]);
+
+		User::create(['name' => 'Ronald Lindo',
 			'email' => 'sistema@orange-360.com',
 			'password' => bcrypt('123456'),
-		]);
+			'apellidoP' => 'Lindo',
+			'apellidoM' => 'Jaimes',
+			'dni' => '76188250',
+			'numero' => '930265065',
+			'slug' => str_random(150),
+			'tipo' => 1]);
+
 	}
 }
