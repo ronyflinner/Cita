@@ -43,7 +43,7 @@ class ProgramarCitaController extends Controller {
 			->join('users', 'users.id', '=', 'doctor__servicios.usuario_id')
 			->join('servicios', 'servicios.id', '=', 'doctor__servicios.servicio_id')
 			->where('servicios.id', $id)
-			->select('users.name')->get();
+			->select('users.name', 'doctor__servicios.id')->get();
 
 		return response()->json($users);
 	}
@@ -79,7 +79,9 @@ class ProgramarCitaController extends Controller {
 			->join('horas', 'disponibilidads.hora_id', '=', 'horas.id')
 			->join('fechas', 'disponibilidads.fecha_id', '=', 'fechas.id')
 			->join('lugars', 'disponibilidads.lugar_id', '=', 'lugars.id')
+			->join('doctor__servicios', 'doctor__servicios.id', '=', 'disponibilidads.doctor_id')
 			->where('lugars.id', $lugar)
+			->where('disponibilidads.doctor_id', $lugar)
 			->whereBetween('fechas.f_fecha', array($f1, $f2))
 			->select('fechas.f_fecha', 'horas.r_hora', 'disponibilidads.status')->get();
 
@@ -102,6 +104,8 @@ class ProgramarCitaController extends Controller {
 	public function buscarFecha(Request $request) {
 		$fecha = $request->fecha;
 		$lugar = $request->lugar;
+		$doctor = $request->doctor;
+
 		$fe = Fecha::where('f_fecha', $fecha)->get();
 		$id = $fe[0]->id;
 
@@ -113,8 +117,10 @@ class ProgramarCitaController extends Controller {
 				->join('horas', 'disponibilidads.hora_id', '=', 'horas.id')
 				->join('fechas', 'disponibilidads.fecha_id', '=', 'fechas.id')
 				->join('lugars', 'disponibilidads.lugar_id', '=', 'lugars.id')
+				->join('doctor__servicios', 'doctor__servicios.id', '=', 'disponibilidads.doctor_id')
 				->where('lugars.id', $lugar)
 				->where('fechas.id', $id)
+				->where('disponibilidads.doctor_id', $doctor)
 				->select('fechas.f_fecha', 'horas.r_hora', 'disponibilidads.status')->get();
 			//$enviar = 0;
 
@@ -126,6 +132,7 @@ class ProgramarCitaController extends Controller {
 		$fecha = $request->fecha;
 		$lugar = $request->lugar;
 		$hora = $request->hora;
+		$doctor = $request->doctor;
 		$actualizar = $request->actualizar;
 		$slug = str_random(180);
 
@@ -136,13 +143,13 @@ class ProgramarCitaController extends Controller {
 		$hora = $o_hora[0]->id;
 		//return response()->json($o_hora[0]->id);
 
-		$dispo = Disponibilidad::where('fecha_id', $fecha)->where('lugar_id', $lugar)->where('hora_id', $hora)->get();
+		$dispo = Disponibilidad::where('fecha_id', $fecha)->where('lugar_id', $lugar)->where('doctor_id', $doctor)->where('hora_id', $hora)->get();
 
 		if (count($dispo) == 0) {
 			// inserto
 			$actualizar = 0;
 			$insertid = \DB::table('disponibilidads')->insertGetId(
-				['fecha_id' => $fecha, 'lugar_id' => $lugar, 'hora_id' => $hora, 'cantPaciente' => 8, 'slug' => $slug, 'status' => 1]);
+				['fecha_id' => $fecha, 'lugar_id' => $lugar, 'hora_id' => $hora, 'cantPaciente' => 5, 'slug' => $slug, 'status' => 1, 'doctor_id' => $doctor]);
 
 		} else {
 			//return response()->json($o_hora[0]->id);
@@ -163,6 +170,8 @@ class ProgramarCitaController extends Controller {
 		$fecha = $request->fecha;
 		$lugar = $request->lugar;
 		$hora = $request->hora;
+		$doctor = $request->doctor;
+
 		$actualizar = $request->actualizar;
 		$slug = str_random(180);
 
@@ -173,13 +182,13 @@ class ProgramarCitaController extends Controller {
 		$hora = $o_hora[0]->id;
 		//return response()->json($o_hora[0]->id);
 
-		$dispo = Disponibilidad::where('fecha_id', $fecha)->where('lugar_id', $lugar)->where('hora_id', $hora)->get();
+		$dispo = Disponibilidad::where('fecha_id', $fecha)->where('lugar_id', $lugar)->where('doctor_id', $doctor)->where('hora_id', $hora)->get();
 
 		if (count($dispo) == 0) {
 			// inserto
 			$actualizar = 0;
 			$insertid = \DB::table('disponibilidads')->insertGetId(
-				['fecha_id' => $fecha, 'lugar_id' => $lugar, 'hora_id' => $hora, 'cantPaciente' => 8, 'slug' => $slug, 'status' => 1]);
+				['fecha_id' => $fecha, 'lugar_id' => $lugar, 'hora_id' => $hora, 'cantPaciente' => 5, 'slug' => $slug, 'status' => 1, 'doctor_id' => $doctor]);
 
 		} else {
 			//return response()->json($o_hora[0]->id);

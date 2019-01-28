@@ -147,11 +147,14 @@
     </div>
 
     <div class="form-group" id="doctor">
-      <label for="sel1">Seleccionar Doctor:</label>
+      <label for="sel1" id="seld">Seleccionar Doctor:</label>
        <select id ='fedoc' class='form-control form-control-lg single'>
            <option value="volvo">Seleccionar</option>
       </select>
     </div>
+
+
+
 
     <!-- Date range -->
       <div class="form-group" id="ra">
@@ -221,16 +224,21 @@
 
 @section('javascript')
 <script>
+$(document).ready(function() {
 
+});
 
     // ajax que retorne la fechas disponibles
    $(function() {
 
 
-               $('#servicio').on('change',function(){
 
+              $('.js-example-basic-multiple').select2();
+
+               $('#servicio').on('change',function(){
+                          $('#seld').remove();
                           $('#fedoc').remove();
-                          $('#doctor').append("<label for=\"sel1\">Seleccionar Doctor:</label><select id ='fedoc' class='form-control form-control-lg single'><option value=\"volvo\">Seleccionar</option></select>");
+                          $('#doctor').append("<label for=\"sel1\" id='seld'>Seleccionar Doctor:</label><select id ='fedoc' class='form-control form-control-lg single'><option value=\"volvo\">Seleccionar</option></select>");
                                 h = $(this).val();
                     //var promise = look();
                                 vurl='{{ url('admin/bdoctor') }}';
@@ -256,7 +264,7 @@
                                 success:  function (data) {
                                     console.log(data);
                                      for(var i in data){
-                                         $("#fedoc").append("<option value='"+data[i]['name']+"'>"+data[i]['name']+"</option>");
+                                         $("#fedoc").append("<option value='"+data[i]['id']+"'>"+data[i]['name']+"</option>");
                                     }
                                 },
                                 error: function (data) {
@@ -291,6 +299,7 @@
                                //(Location).load(vurl, { id: url1 });
                                var parametros = {
                                        "id" : $('#reservation').val()
+
                                     };
 
                                 console.log(vurl);
@@ -310,7 +319,8 @@
                                     fecha = data['fecha'];
 
                                     for(var i in fecha){
-                                      $("#fec1").append("<option value='"+fecha[i]['f_fecha']+"'>"+fecha[i]['f_fecha']+"</option>")
+                                      $("#fec1").append("<option value='"+fecha[i]['f_fecha']+"'>"+fecha[i]['f_fecha']+"</option>");
+
                                     }
 
                                     hora = data['hora'];
@@ -342,6 +352,7 @@
                                var parametros = {
                                        "fecha" : $('#fec1').val(),
                                        "lugar" : $('#lugar').val(),
+                                       "doctor" : $('#fedoc').val()
                                     };
 
                                 console.log(vurl);
@@ -427,7 +438,8 @@
                                        "actualizar" : actualizar,
                                        "lugar" : $('#lugar').val(),
                                        "fecha" : $('#fec1').val(),
-                                       "hora" : h
+                                       "hora" : h,
+                                       "doctor" : $('#fedoc').val()
                                     };
 
                                 console.log(vurl);
@@ -529,12 +541,16 @@
     $('#reservation').on('apply.daterangepicker', function(ev, picker) {
   //do something, like clearing an input
 
+         $('#fecha1').remove();
+         $('#fechas').append("<select id='fecha1' class='js-example-basic-multiple form-control form-control-lg single' name='states[]' multiple='multiple' ></select>");
+
+         $('.js-example-basic-multiple').select2();
          $('#fec1').remove();
          $('#fecha_s').append("<select id ='fec1' class='form-control form-control-lg single'><option value='volvo'>Fecha</option></select>");
          var promise = promesaS();
 
          $('#fec1').click(function(event) {
-
+         // alert($('#fedoc').val());
           $('#fec2').remove();
           $('#el').append("<div class='container' id ='fec2'><br></div>");
 
