@@ -3,12 +3,18 @@
 namespace App\Http\Controllers\Administrador;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\traitsGeneral\principal;
 use App\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
+/*Limpiar variables.*/
+
 class RoleController extends Controller {
+	use principal;
+	private $btnAsign;
+	private $btnEdit;
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -32,13 +38,13 @@ class RoleController extends Controller {
 		$val = Permission::find(2);
 		$name = 'ver programar';
 
-		if ($role->hasPermissionTo($name)) {
-			return 1;
-		} else {
-			return 2;
-		}
+		/*if ($role->hasPermissionTo($name)) {
+				return 1;
+			} else {
+				return 2;
+		*/
 
-		return $val;
+		//	return $val;
 
 		return view('admin.role.index', ['permisos' => Permission::all()->pluck('name', 'id')]);
 	}
@@ -92,7 +98,7 @@ class RoleController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit($id) {
-		//
+		return view('admin.role.edit');
 	}
 
 	/**
@@ -121,6 +127,22 @@ class RoleController extends Controller {
 
 	}
 	/*AJAX*/
+	public function busqueda($id) {
+		//self::unset_clean($tp);
+		//self::unset_clean($role);
+		$tp = '';
+		$role = '';
+
+		$role = Role::find($id);
+
+		foreach (Permission::all() as $key => $value) {
+			if ($role->hasPermissionTo($value->name)) {
+				$tp .= "<span class='badge badge-secondary'>" . $value->name . "</span>";
+			}
+		}
+		return $tp;
+
+	}
 
 	public function getListadoRoles(request $request) {
 
@@ -135,19 +157,18 @@ class RoleController extends Controller {
 				return $val->name;
 			})
 			->addColumn('permiso', function ($val) {
-				return $val->name;
+				return self::busqueda($val->id);
 			})
-
 			->addColumn('creado', function ($val) {
 				return $val->created_at;
 			})
 			->addColumn('action', function ($val) {
-
 				$this->btnAsign = "<a href='#'  data-id='" . $val->id . "' class='btn btn-danger btnDel'><i class='fa fa-trash' aria-hidden='true'></i></a>";
+				$this->btnEdit = "<a href='" . url('admin/role/' . $val->id . '/edit') . "'  data-id='" . $val->id . "' class='btn btn-primary'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>";
 
-				return $this->btnAsign;
+				return $this->btnAsign . $this->btnEdit;
 			})
-			->rawColumns(['status', 'action'])
+			->rawColumns(['permiso', 'status', 'action'])
 
 			->make(true);
 
