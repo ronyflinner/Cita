@@ -14,10 +14,13 @@
       </div>
     </div>
 	  <br>
-        <form>
+        {!! Form::open(['route'=>'role.store','name'=>'form', 'method'=>'POST',"class"=>"form ",'files' => false, 'id'=>'form']) !!}
+
+
           <div class="form-group">
             {{ Form::label('Nombre del Role', 'Nombre del Role') }}
-              {{ Form::text('role', null,['class'=>'form-control','placeholder'=>'Ingresar Nombre','id'=>'role']) }}
+              {{ Form::text('role',null,['class'=>'form-control','placeholder'=>'Ingresar Nombre','id'=>'role','data-parsley-required']) }}
+
           </div>
           <div class="form-group">
              {{ Form::label('permiso', 'Selecionar Permisos') }}
@@ -25,7 +28,8 @@
                                       ]) !!}
           </div>
 
-           <button type="button" id="buttonAdd" class="btn btn-success mb-2">Agregar</button>
+           <button type="submit" id="buttonAdd1" class="btn btn-success mb-2">Agregar</button>
+           <a href="{{ route('usuario.index') }}"  class="btn btn-warning mb-2">Regresar</a>
       	</form>
     <br><br>
    <table id="Mytable"  class="table table-bordered table-hover" style="width:100%">
@@ -94,8 +98,16 @@
 
                       $('#form').on('submit', function(event){
                           event.preventDefault();
+                          form_to=$(this);
                           if($('#form').parsley().isValid())
                           {
+                            formSerialize=form_to.attr('action');
+                            dataSerialize=form_to.serialize();
+                            form_value=dataSerialize;
+                            token=$("#_token").val();
+
+
+                            PlantillaRoles.ajaxSave(dataSerialize,formSerialize,token);
 
                           }
                       });
@@ -172,7 +184,7 @@
                       	 		data={'data':$("#role").val(),'permiso':permiso};
 
                             console.log(data);
-                      	 		PlantillaRoles.ajaxSave(data,vurl,token)
+                      	 		PlantillaRoles.ajaxSave(data,vurl,token);
 
                       	 	}else{
 							             	PlantillaRoles.toast_notification("error",'No puede quedar vacio',2);
@@ -238,17 +250,17 @@
                                   headers:{'X-CSRF-TOKEN': token},
                              })
                              .done(( data, textStatus, jqXHR)=> {
-                               // console.log(data);
+                                console.log(data);
 
                                 if(data.data==1){
                                 	PlantillaRoles.toast_notification("success",'Guardado Correctaente!!!',2);
+                                   $("#role").val("");
 
-                              	   otable.ajax.reload();
-                                //	$('#Mytable').dataTable().fnClearTable();
-    							//	$('#Mytable').dataTable().fnDestroy();
-
-    							//	PlantillaRoles.datatable();
-    								$("#role").val("");
+                                    otable.ajax.reload();
+                                     PlantillaRoles.clean_form_input("#permiso");
+                                  $.each( data.permisos, ( index, value )=> {
+                                       PlantillaRoles.form_option_append('#permiso',index,value)
+                                   });
 
 
                             	}else{
@@ -279,7 +291,7 @@
 
                               	    otable.ajax.reload();
 
-    								$("#role").val("");
+    							               	$("#role").val("");
 
 
                             	}else{

@@ -112,5 +112,8 @@
             .footer{
                 padding-top: 0px;
             }
+            .select2 {
+                width:100%!important;
+                }
         </style>
     </head>

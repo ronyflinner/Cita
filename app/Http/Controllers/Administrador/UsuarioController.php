@@ -46,11 +46,23 @@ class UsuarioController extends Controller {
 	 */
 	public function store(Request $request) {
 
-		/*$user = User::create(['name' => 1,
-			'email' => 1,
-			'password' => 1,
-			'dni' => 1,
-			'slug' => 1]);*/
+		if ($request->ajax()) {
+			$user = User::create([
+				'name' => $request->nombre,
+				'email' => $request->email,
+				'password' => bcrypt($request->clave),
+				'apellidoP' => $request->apellido_paterno,
+				'apellidoM' => $request->apellido_materno,
+				'dni' => $request->tipo . '-' . $request->numero,
+				'numero' => $request->telefono,
+				'tipo' => $request->tipoUsuario,
+				'slug' => str_random(150),
+				'status' => 0]);
+
+			$role = Role::find($request->role);
+			$user->assignRole($role->name);
+
+		}
 
 		//$user->assignRole('writer');
 
@@ -73,8 +85,12 @@ class UsuarioController extends Controller {
 	 * @param  \App\User  $user
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit(User $user) {
-		//
+	public function edit(request $user) {
+		$role = array_add(Role::all()->pluck('name', 'id'), "", "Selecionar");
+
+		$tipoDocumento = ['' => 'Selecionar', '1' => 'DNI', '2' => 'Pasaporte', '3' => 'Carnet de Extranjeria'];
+
+		return view('admin.usuario.edit', ['user' => $user, 'role' => $role, 'tipoDocumento' => $tipoDocumento]);
 	}
 
 	/**
@@ -110,7 +126,18 @@ class UsuarioController extends Controller {
 				return ++$r;
 			})
 			->addColumn('dni', function ($val) {
-				return "0000000000";
+				//1-Dni  2-Pasaporte 3-Carnet Extranjeria
+
+				$documento = explode('-', $val->dni);
+				if ($documento[0] == 1) {
+					$acronimo = 'D';
+				} else if ($documento[0] == 2) {
+					$acronimo = 'P';
+				} else {
+					$acronimo = 'C';
+				}
+				return $acronimo . '-' . $documento[1];
+
 			})
 			->addColumn('nombre', function ($val) {
 				return $val->name;
@@ -119,10 +146,10 @@ class UsuarioController extends Controller {
 				return $val->email;
 			})
 			->addColumn('role', function ($val) {
-				return "Sin Rol";
+				return $val->getRoleNames();
 			})
 			->addColumn('status', function ($val) {
-				if (1 == 1) {
+				if ($val->status == 1) {
 					$this->btnStatus = "<span class='badge badge-success'>Activo</span>";
 				} else {
 					$this->btnStatus = "<span class='badge badge-danger'>Desactivado</span>";
@@ -134,8 +161,9 @@ class UsuarioController extends Controller {
 				return $val->created_at;
 			})
 			->addColumn('action', function ($val) {
+				$path = route('usuario.edit', [$val->slug]);
 
-				$this->btnEdit = "<a href='' data-id='" . $val->id . "' target='_blank' class='btn btn-info btnView'><i class='fa fa-pencil' aria-hidden='true' ></i></a>";
+				$this->btnEdit = "<a href='" . $path . "' data-id='" . $val->id . "' target='_blank' class='btn btn-info btnView'><i class='fa fa-pencil' aria-hidden='true' ></i></a>";
 
 				$this->btnAsign = "<a href=''  data-id='" . $val->id . "' class='btn btn-warning btnPdf'><i class='fa fa-users' aria-hidden='true'></i></a>";
 

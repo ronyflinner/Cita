@@ -22,6 +22,7 @@
 	    </div>
 	    <div class="col-auto">
 	      <button type="button" id="buttonAdd" class="btn btn-success mb-2">Agregar</button>
+         <a href="{{ route('usuario.index') }}"  class="btn btn-warning mb-2">Regresar</a>
 	    </div>
 	  </div>
 	</form>

@@ -1,9 +1,3 @@
-@extends('layouts.principal')
-@section('navT')
-        @include('partials.navAdmin')
-@endsection
-@section('seccion_c')
-
 <div class="container">
 	<br><br>
 	 <div class="row">
@@ -200,12 +194,7 @@
                                //console.log(data);
                              });
 
-
-
                       },
-
-
-
 
               };
 

@@ -16,8 +16,8 @@ class CreateUsersTable extends Migration {
 			$table->string('name');
 			$table->string('apellidoP');
 			$table->string('apellidoM');
-			$table->integer('dni')->unique(); // D-XXXX , P-XXXX , E-xxxxx
-			$table->integer('numero')->unique();
+			$table->string('dni')->unique(); // D-XXXX , P-XXXX , E-xxxxx
+			$table->string('numero')->unique();
 			$table->string('email')->unique();
 			$table->string('password');
 			$table->string('slug')->unique();

@@ -17,20 +17,20 @@ class DatabaseSeeder extends Seeder {
 			'password' => bcrypt('123456'),
 			'apellidoP' => 'Gomez',
 			'apellidoM' => 'Gomez',
-			'dni' => '12345678',
+			'dni' => '1-12345678',
 			'numero' => '930264784',
 			'slug' => str_random(150),
-			'tipo' => 1]);
+			'tipo' => 2, 'status' => 1]);
 
 		User::create(['name' => 'Ronald Lindo',
 			'email' => 'sistema@orange-360.com',
 			'password' => bcrypt('123456'),
 			'apellidoP' => 'Lindo',
 			'apellidoM' => 'Jaimes',
-			'dni' => '76188250',
+			'dni' => '1-76188250',
 			'numero' => '930265065',
 			'slug' => str_random(150),
-			'tipo' => 1]);
+			'tipo' => 2, 'status' => 1]);
 
 	}
 }
