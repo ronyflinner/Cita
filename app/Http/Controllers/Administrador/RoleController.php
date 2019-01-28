@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Administrador;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -15,6 +16,29 @@ class RoleController extends Controller {
 	 */
 	public function index() {
 		$role = Role::find(1);
+		$user = User::find(2);
+
+		$user->id;
+		//$user->assignRole('Fuerza');
+
+		$nola = $user->hasAllRoles(Role::all());
+		/*if ($user->hasAllRoles('Fuerza')) {
+				return 1;
+			} else {
+				return 2;
+		*/
+
+		$Role = Role::find(1);
+		$val = Permission::find(2);
+		$name = 'ver programar';
+
+		if ($role->hasPermissionTo($name)) {
+			return 1;
+		} else {
+			return 2;
+		}
+
+		return $val;
 
 		return view('admin.role.index', ['permisos' => Permission::all()->pluck('name', 'id')]);
 	}
@@ -43,6 +67,7 @@ class RoleController extends Controller {
 
 			if ($role->count() > 0) {
 				$bandera = 1;
+
 			}
 
 		}
