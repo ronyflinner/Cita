@@ -72,6 +72,7 @@ Route::prefix('admin')->group(function () {
 	Route::resource('programarcita', 'ProgramarCita\ProgramarCitaController');
 	Route::resource('historialCitaP', 'ProgramarCita\HistorialCitaController');
 
+	Route::resource('doctoredit', 'ProgramarCita\DoctorEditController');
 	Route::resource('contraseñaP', 'ProgramarCita\ContraseñaController');
 
 	Route::resource('programarcitaP', 'ProgramarCita\ProgramarC');
