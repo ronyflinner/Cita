@@ -59,6 +59,7 @@ Route::prefix('admin')->group(function () {
 	Route::get('editarDispon/{id?}', 'ProgramarCita\ProgramarCitaController@editarDispon')->name('editarDispon.index');
 	Route::get('editarDispon2/{id?}', 'ProgramarCita\ProgramarCitaController@editarDispon2')->name('editarDispon2.index');
 
+	Route::get('bdoctor/{id?}', 'ProgramarCita\ProgramarCitaController@bdoctor')->name('bdoctor.index');
 	Route::get('buscarCita/{id?}', 'ProgramarCita\HistorialCitaController@buscarCita')->name('buscarCita.index');
 	Route::get('reprogramar/{id?}', 'ProgramarCita\HistorialCitaController@reprogramar')->name('reprogramar.index');
 	Route::get('descargarPDF', 'ProgramarCita\HistorialCitaController@showpdf')->name('descargarPDF.index');

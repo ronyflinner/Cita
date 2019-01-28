@@ -7,6 +7,7 @@ use App\Model\Disponibilidad;
 use App\Model\Fecha;
 use App\Model\Hora;
 use App\Model\Locacion\Lugar;
+use App\Model\Servicio;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +20,7 @@ class ProgramarCitaController extends Controller {
 	 */
 	public function index() {
 
-		return view('admin.programarCita', ['lugar' => array_add(Lugar::all()->pluck('nombre', 'id'), '', 'Selecionar'), 'fecha' => array_add(Fecha::all()->pluck('fecha'), '', 'Selecionar')]);
+		return view('admin.programarCita', ['lugar' => array_add(Lugar::all()->pluck('nombre', 'id'), '', 'Selecionar'), 'fecha' => array_add(Fecha::all()->pluck('fecha'), '', 'Selecionar'), 'servicio' => array_add(Servicio::all()->pluck('nombre'), '', 'Selecionar')]);
 	}
 
 	public function data_range($value, $condition = 1) {
@@ -36,6 +37,16 @@ class ProgramarCitaController extends Controller {
 		}
 	}
 
+	public function bdoctor(Request $request) {
+		$id = $request->id + 1;
+		$users = DB::table('doctor__servicios')
+			->join('users', 'users.id', '=', 'doctor__servicios.usuario_id')
+			->join('servicios', 'servicios.id', '=', 'doctor__servicios.servicio_id')
+			->where('servicios.id', $id)
+			->select('users.name')->get();
+
+		return response()->json($users);
+	}
 	public function statusEdit(request $request) {
 		//return response()->json($request->input('id'));
 		$fechas = $request->id;

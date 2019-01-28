@@ -141,6 +141,17 @@
     <div class="form-group" style="display: none;" >
       <label for="sel1">Seleccionar Lugar:</label>
     </div>
+    <div class="form-group" id="lu">
+      <label for="sel1">Seleccionar Servicio:</label>
+      {!! Form::select('servicio',$servicio, '', ['class'=>'form-control form-control-lg single', 'id'=>'servicio']) !!}
+    </div>
+
+    <div class="form-group" id="doctor">
+      <label for="sel1">Seleccionar Doctor:</label>
+       <select id ='fedoc' class='form-control form-control-lg single'>
+           <option value="volvo">Seleccionar</option>
+      </select>
+    </div>
 
     <!-- Date range -->
       <div class="form-group" id="ra">
@@ -215,14 +226,53 @@
     // ajax que retorne la fechas disponibles
    $(function() {
 
+
+               $('#servicio').on('change',function(){
+
+                          $('#fedoc').remove();
+                          $('#doctor').append("<label for=\"sel1\">Seleccionar Doctor:</label><select id ='fedoc' class='form-control form-control-lg single'><option value=\"volvo\">Seleccionar</option></select>");
+                                h = $(this).val();
+                    //var promise = look();
+                                vurl='{{ url('admin/bdoctor') }}';
+                                //vurl = `${vurl}/${url1}`;
+
+                               //(Location).load(vurl, { id: url1 });
+                               var parametros = {
+                                       "id" : $(this).val(),
+                                    };
+
+                                console.log(vurl);
+                                //$(location).attr('href',vurl);
+
+                               // var doc = 'statusEdit';
+                                $.ajax({
+                                url:   vurl,
+                                data: parametros,
+                                type:  'GET', //método de envio
+                                dataType : 'json',
+                                headers: {
+                                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                          } ,
+                                success:  function (data) {
+                                    console.log(data);
+                                     for(var i in data){
+                                         $("#fedoc").append("<option value='"+data[i]['name']+"'>"+data[i]['name']+"</option>");
+                                    }
+                                },
+                                error: function (data) {
+                                   console.log('Error:', data);
+                                  },
+                                  async: false
+                                });
+
+              });
+
+
                $('#lugar').click(function(event) {
                    $('#fec1').remove();
-         $('#fecha_s').append("<select id ='fec1' class='form-control form-control-lg single'><option value='volvo'>Fecha</option></select>");
-         $('#fec2').remove();
-          $('#el').append("<div class='container' id ='fec2'><br></div>");
-
-
-
+                   $('#fecha_s').append("<select id ='fec1' class='form-control form-control-lg single'><option value='volvo'>Fecha</option></select>");
+                   $('#fec2').remove();
+                   $('#el').append("<div class='container' id ='fec2'><br></div>");
                });
               //alert($('#lugar').val());
                  ba = null;
@@ -256,25 +306,9 @@
                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                           } ,
                                 success:  function (data) {
-                                       console.log(data);
-                                        /* var result = [];
-                                           for(var i in data){
-                                               result[i] =[];
 
-                                               result[i].push(data [i]['f_fecha']);
-                                               result[i].push(data [i]['r_hora']);
-
-
-                                               if(data [i]['status'] == 0){
-                                                  result[i].push('Habilitado');
-                                               }else{
-                                                  result[i].push('Desabilitado');
-                                               }
-                                           } */
-
-                                         // console.log(result);
                                     fecha = data['fecha'];
-                                    console.log(fecha.length);
+
                                     for(var i in fecha){
                                       $("#fec1").append("<option value='"+fecha[i]['f_fecha']+"'>"+fecha[i]['f_fecha']+"</option>")
                                     }
@@ -284,39 +318,6 @@
 
                                     console.log(data['fecha']);
                                     console.log(data['hora']);
-                                /*
-                               ba =     $('#Na').DataTable({
-                                                  destroy:true,
-                                                  columns: [
-                                                      {
-                                                          name: 'first',
-                                                          title: 'Fecha',
-                                                      },
-                                                      {
-                                                          name: 'second',
-                                                          title: 'Horario',
-                                                      },
-                                                      {
-                                                          name: 'seconud',
-                                                          title: 'Estado',
-                                                      },
-                                                      {"render": function () {
-                                                            return '<button type="button" id="ButtonEditar" class="editar edit-modal btn btn-warning botonEditar"><span class="fa fa-edit"></span><span class="hidden-xs"> Editar</span></button>';
-                                                        }},
-                                                  ],
-                                                  data: result,
-                                                  rowsGroup: [
-                                                    'first:name',
-                                                    'second:name'
-                                                  ],
-                                                  pageLength: '20',
-                                                  });
-
-
-
-                                       //location.reload(); */
-
-                                     // document.getElementById("variable").value=data;
                                 },
                                 error: function (data) {
                                    console.log('Error:', data);
@@ -597,7 +598,7 @@
               $(".che").each(function(){
                   aux = 0;
                    h = $(this).attr('value');
-                  if(h == '08:00 - 09:00' || h == '09:00 - 10:00'  || h == '10:00 - 11:00' || h == '11:00 - 12:00'){
+                  if(h == '08:30 - 08:30' || h == '08:30 - 09:00'  || h == '09:00 - 09:30' || h == '09:30 - 10:00' || h == '10:00 - 10:30' || h == '10:30 - 11:00' || h == '11:00 - 11:30' || h == '11:30 - 12:00'){
                     aux = 1;
                   }
 
@@ -626,7 +627,7 @@
               $(".che").each(function(){
                   aux = 1;
                    h = $(this).attr('value');
-                  if(h == '08:00 - 09:00' || h == '09:00 - 10:00'  || h == '10:00 - 11:00' || h == '11:00 - 12:00'){
+                  if(h == '08:30 - 08:30' || h == '08:30 - 09:00'  || h == '09:00 - 09:30' || h == '09:30 - 10:00' || h == '10:00 - 10:30' || h == '10:30 - 11:00' || h == '11:00 - 11:30' || h == '11:30 - 12:00'){
                     aux = 0;
                   }
 
