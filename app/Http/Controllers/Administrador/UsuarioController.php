@@ -33,7 +33,9 @@ class UsuarioController extends Controller {
 	public function create() {
 		$role = array_add(Role::all()->pluck('name', 'id'), "", "Selecionar");
 
-		return view('admin.usuario.create', compact('role'));
+		$tipoDocumento = ['' => 'Selecionar', '1' => 'DNI', '2' => 'Pasaporte', '3' => 'Carnet de Extranjeria'];
+
+		return view('admin.usuario.create', compact('role', 'tipoDocumento'));
 	}
 
 	/**

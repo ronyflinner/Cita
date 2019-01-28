@@ -46,11 +46,16 @@ Route::prefix('admin')->group(function () {
 	/*DATATABlE - usuario*/
 
 	/*Datatable - Role */
-
 	Route::get('getRoleTable', 'Administrador\RoleController@getListadoRoles')->name('admin.ajax.getRoleTable');
 
 	Route::resource('role', 'Administrador\RoleController');
 	/*Datatable - Role */
+
+	/*Datatable - Permiso */
+	Route::get('getPermisoTable', 'Administrador\PermissionController@getListadoPermisos')->name('admin.ajax.getPermisoTable');
+
+	Route::resource('permiso', 'Administrador\PermissionController');
+	/*Datatable - Permiso*/
 
 	Route::resource('historialcita', 'CrearCita\HistorialCitaController');
 

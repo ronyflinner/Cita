@@ -3,17 +3,50 @@
 namespace App\Http\Controllers\Administrador;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\traitsGeneral\principal;
+use App\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
+/*Limpiar variables.*/
+
 class RoleController extends Controller {
+	use principal;
+	private $btnAsign;
+	private $btnEdit;
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index() {
-		return view('admin.role.index');
+		$role = Role::find(1);
+		$user = User::find(2);
+
+		$user->id;
+		//$user->assignRole('Fuerza');
+
+		$nola = $user->hasAllRoles(Role::all());
+		/*if ($user->hasAllRoles('Fuerza')) {
+				return 1;
+			} else {
+				return 2;
+		*/
+
+		$Role = Role::find(1);
+		$val = Permission::find(2);
+		$name = 'ver programar';
+
+		/*if ($role->hasPermissionTo($name)) {
+				return 1;
+			} else {
+				return 2;
+		*/
+
+		//	return $val;
+
+		return view('admin.role.index', ['permisos' => Permission::all()->pluck('name', 'id')]);
 	}
 
 	/**
@@ -35,11 +68,12 @@ class RoleController extends Controller {
 		if ($request->ajax()) {
 
 			$role = Role::create(['name' => $request->data,
-				'guard_name' => $request->data,
 			]);
+			$role->givePermissionTo($request->permiso);
 
 			if ($role->count() > 0) {
 				$bandera = 1;
+
 			}
 
 		}
@@ -64,7 +98,7 @@ class RoleController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit($id) {
-		//
+		return view('admin.role.edit');
 	}
 
 	/**
@@ -93,6 +127,22 @@ class RoleController extends Controller {
 
 	}
 	/*AJAX*/
+	public function busqueda($id) {
+		//self::unset_clean($tp);
+		//self::unset_clean($role);
+		$tp = '';
+		$role = '';
+
+		$role = Role::find($id);
+
+		foreach (Permission::all() as $key => $value) {
+			if ($role->hasPermissionTo($value->name)) {
+				$tp .= "<span class='badge badge-secondary'>" . $value->name . "</span>";
+			}
+		}
+		return $tp;
+
+	}
 
 	public function getListadoRoles(request $request) {
 
@@ -106,17 +156,19 @@ class RoleController extends Controller {
 			->addColumn('nombre', function ($val) {
 				return $val->name;
 			})
-
+			->addColumn('permiso', function ($val) {
+				return self::busqueda($val->id);
+			})
 			->addColumn('creado', function ($val) {
 				return $val->created_at;
 			})
 			->addColumn('action', function ($val) {
-
 				$this->btnAsign = "<a href='#'  data-id='" . $val->id . "' class='btn btn-danger btnDel'><i class='fa fa-trash' aria-hidden='true'></i></a>";
+				$this->btnEdit = "<a href='" . url('admin/role/' . $val->id . '/edit') . "'  data-id='" . $val->id . "' class='btn btn-primary'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>";
 
-				return $this->btnAsign;
+				return $this->btnAsign . $this->btnEdit;
 			})
-			->rawColumns(['status', 'action'])
+			->rawColumns(['permiso', 'status', 'action'])
 
 			->make(true);
 

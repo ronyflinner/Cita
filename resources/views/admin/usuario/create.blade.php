@@ -18,9 +18,14 @@
 				{!! Form::open(['route'=>'usuario.store','name'=>'form', 'method'=>'POST',"class"=>"form ",'files' => false, 'id'=>'form']) !!}
 
 						{{ Form::token() }}
+            <div class="form-group">
+              {{ Form::label('tipoDocumento', 'Tipo de Documento') }}
+              {!! Form::select('tipo',$tipoDocumento, '', ['class'=>'form-control form-control-lg single1 select', 'data-parsley-required', 'id'=>'tipo'
+                                  ]) !!}
+            </div>
 						<div class="form-group">
-					    {{ Form::label('dni', 'DNI') }}
-					    {{ Form::text('dni', null,['class'=>'form-control dni','data-parsley-required  ','id'=>'dni']) }}
+					    {{ Form::label('numero_documento', 'Número de Documento') }}
+					    {{ Form::text('numero', null,['class'=>'form-control dni','data-parsley-required  ','id'=>'dni']) }}
 					  </div>
 					  <div class="form-group">
 						{{ Form::label('email', 'Correo') }}
@@ -31,9 +36,17 @@
 					    {{ Form::text('nombre', null,['class'=>'form-control','data-parsley-required','id'=>'nombre']) }}
 					  </div>
 					   <div class="form-group">
-					   	{{ Form::label('apellido', 'Apellido') }}
-					    {{ Form::text('apellido', null,['class'=>'form-control','data-parsley-required','id'=>'apellido']) }}
+					   	{{ Form::label('apellidoP', 'Apellido Paterno') }}
+					    {{ Form::text('apellido_paterno', null,['class'=>'form-control','data-parsley-required','id'=>'apellidoP']) }}
 					  </div>
+             <div class="form-group">
+              {{ Form::label('apellidoM', 'Apellido Materno') }}
+              {{ Form::text('apellido_materno', null,['class'=>'form-control','data-parsley-required','id'=>'apellidoM']) }}
+            </div>
+            <div class="form-group">
+              {{ Form::label('telefono', 'Telefóno') }}
+              {{ Form::text('telefono', null,['class'=>'form-control','data-parsley-required','id'=>'telefono']) }}
+            </div>
 					  <div class="form-group">
 					    {{ Form::label('clave', 'Clave') }}
 					    {{ Form::password('clave', ['class' => 'form-control','data-parsley-required data-parsley-equalto="#repetir-clave"','id'=>'clave']) }}
@@ -42,12 +55,12 @@
 					    {{ Form::label('repetir-clave', 'Clave') }}
 					    {{ Form::password('repetir-clave', ['class' => 'form-control','data-parsley-required data-parsley-equalto="#clave"','id'=>'repetir-clave']) }}
 					  </div>
-					   <div class="form-group">
-					    <label for="apellido">Role</label>
-					     {{ Form::label('repetir-clave', 'Clave') }}
+					  <div class="form-group">
+					    {{ Form::label('role', 'Role') }}
 					   	{!! Form::select('role',$role, '', ['class'=>'form-control form-control-lg single1 select', 'data-parsley-required', 'id'=>'role'
                                   ]) !!}
 					  </div>
+
 					  <br>
 
 					  <button type="submit" class="btn btn-primary">Enviar</button>
@@ -84,14 +97,12 @@
                 },
                 General:()=>{
                    $(function() {
+                      var now = moment();
                       /*Funcionnes Genericas*/
                       $('.single').select2();
-
-                      $('.dni').mask('00000000');
-
+                      $('.dni').mask('000000000');
+                      $('#telefono').mask('(51)000000000');
                       $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
-
-                      var now = moment();
                       /*Limpieza*/
                       $('#form').on('submit', function(event){
                           event.preventDefault();
