@@ -16,7 +16,7 @@ class User extends Authenticatable {
 	 * @var array
 	 */
 	protected $fillable = [
-		'name', 'email', 'password', 'nombre', 'apellidoP', 'apellidoM', 'dni', 'numero', 'tipo', 'slug', 'status',
+		'name', 'email', 'password', 'apellidoP', 'apellidoM', 'dni', 'numero', 'tipo', 'slug', 'status',
 	];
 
 	/**
@@ -30,5 +30,9 @@ class User extends Authenticatable {
 
 	public function role() {
 		return $this->belongsToMany(Role::class, 'role_user');
+	}
+
+	public function getNombreCompletoAttribute() {
+		return $this->name . ' ' . $this->apellidoP;
 	}
 }

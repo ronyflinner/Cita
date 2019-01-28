@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ProgramarCita;
 
 use App\Http\Controllers\Controller;
+use App\Model\Servicio;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -14,8 +15,8 @@ class DoctorEditController extends Controller {
 	 */
 	public function index() {
 
-		return view('admin.doctoredit', ['usuario' => array_add(User::where('tipo', 3)->pluck('name'), '', 'Selecionar')]);
-		return view('admin.doctoredit');
+		return view('admin.doctoredit', ['usuario' => array_add(User::where('tipo', 3)->get()->pluck('NombreCompleto', 'id'), '', 'Selecionar'), 'servicio' => array_add(Servicio::all()->pluck('nombre'), '', 'Selecionar')]);
+
 	}
 
 	/**
