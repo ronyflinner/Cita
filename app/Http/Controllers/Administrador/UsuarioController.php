@@ -124,6 +124,9 @@ class UsuarioController extends Controller {
 			}
 			$positivo = $user->save();
 
+			$role = Role::find($request->role);
+			$user->syncRoles($role->name);
+
 			/*
 				'name', 'email', 'password', 'nombre', 'apellidoP', 'apellidoM', 'dni', 'numero', 'tipo', 'slug', 'status',
 			*/
