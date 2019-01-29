@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\traitsGeneral\principal;
 use App\Model\Cita;
 use App\Model\Disponibilidad;
+use App\Model\Doctor_Servicio;
 use App\Model\Fecha;
 use App\Model\Locacion\Lugar;
 use Carbon\Carbon;
@@ -65,7 +66,7 @@ class CrearCitaController extends Controller {
 		}
 	}
 
-	public function ajaxCrearCitaFecha(request $request, $lugar_id) {
+	public function ajaxCrearCitaFecha(request $request, $lugar_id = null, $servicio = null) {
 		if ($request->ajax()) {
 
 			$contenedor_fecha = array();
@@ -127,9 +128,87 @@ class CrearCitaController extends Controller {
 				$bandera = 1;
 			}
 
-			return response()->json(["contenedor_fecha" => $contenedor_fecha, 'contenedor_fechaFinal' => $fecha_final->f_fecha, 'contenedor_lugar' => $direccion, 'verificacion' => $direccion, 'bandera' => $bandera]);
+			return response()->json(["contenedor_fecha" => $contenedor_fecha, 'contenedor_fechaFinal' => $fecha_final->f_fecha, 'contenedor_lugar' => $direccion, 'verificacion' => $direccion, 'bandera' => $bandera, 'testeo' => "testeo"]);
 
 		}
+	}
+
+	public function testeo(request $request, $lugar_id = null, $servicio = null) {
+
+		$r = 0;
+		$fecha_final = Fecha::latest('f_fecha')->first();
+		/*COnvirtiendo fechas de Base de datos  a una instancia de carbon*/
+		$fecha_final_carbon_y = Date::createFromFormat('Y-m-d', $fecha_final->f_fecha)->format('Y');
+		$fecha_final_carbon_m = Date::createFromFormat('Y-m-d', $fecha_final->f_fecha)->format('m');
+		$fecha_final_carbon_d = Date::createFromFormat('Y-m-d', $fecha_final->f_fecha)->format('d');
+
+		/*Fragmentando la fechas */
+		$fecha_inicial_d = Date::now()->format('d');
+		$fecha_inicial_m = Date::now()->format('m');
+		$fecha_inicial_y = Date::now()->format('Y');
+
+		/*Recorriendo las fechas*/
+		$dtINI = Carbon::create($fecha_inicial_y, $fecha_inicial_m, $fecha_inicial_d, 0, 0, 0, 'America/Lima');
+		$dtEND = Carbon::create(2019, 03, 20, 0, 0, 0, 'America/Lima');
+
+		/*Obtener Rango de fecha*/
+		$rango_fecha = self::generateDateRange($dtINI, $dtEND);
+
+		/*Obteniendo Los Doctores del Servicios*/
+		$doctoresArray = array();
+		$fecha = array();
+		$doctores = Doctor_Servicio::where('servicio_id', $servicio)->where('status', 1)->get();
+
+		foreach ($doctores as $key => $value) {
+			return $doctArray = Disponibilidad::where('lugar_id', $lugar_id)
+				->where('cantPaciente', '!=', 0)
+				->where('status', 1)
+
+				->where('doctor_id', $value->id)
+
+				->whereHas('doctor_servicio_link', function ($query) use ($servicio) {
+					$query->where('servicio_id', $servicio);
+				})
+				->whereHas('fecha_link', function ($query) use ($rango_fecha) {
+					$query->whereIn('f_fecha', [array_first($rango_fecha), last($rango_fecha)]);
+				})
+
+				->get();
+
+			$fecha = $doctArray[0]->fecha_link->f_fecha;
+
+		}
+
+		return $fecha;
+
+		foreach ($rango_fecha as $key => $value) {
+
+			/*Consultar fechas del rango para buscar el ID*/
+			$query_fecha = DB::table('fechas')->where('f_fecha', $value)->get();
+
+			if ($query_fecha->count() > 0) {
+				/*Crear Arreglo del Data picker*/
+				$fecha_disponible = Disponibilidad::where('lugar_id', $lugar_id)
+					->where('fecha_id', $query_fecha[0]->id)
+					->where('cantPaciente', '!=', 0)
+					->where('status', 1)
+					->whereIn('doctor_id', [$doctoresArray])
+					->get();
+
+				if ($fecha_disponible->count() == 0) {
+					$contenedor_fecha[$r] = $value;
+					$cal[] = $value;
+				}
+			} else {
+				$contenedor_fecha[$r] = $value;
+			}
+
+			$r++;
+
+		}
+
+		return $cal;
+
 	}
 
 	/**
