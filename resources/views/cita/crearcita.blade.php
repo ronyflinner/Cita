@@ -4,10 +4,6 @@
         @include('partials.nav2')
 @endsection
 @section('seccion_c')
-
-
-
-
         <div class="container">
           <br><br>
             <div class="row">

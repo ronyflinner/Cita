@@ -52,7 +52,7 @@ class LoginController extends Controller {
 		}
 
 		if (Auth::attempt(['email' => $request['email'], 'password' => $request['password'], 'status' => 1])) {
-
+			/*Redireccionando Rol*/
 			if (Auth::user()->hasRole(['Administrador', 'Asistente'])) {
 				return redirect($this->redirectToAdmin);
 			} else {
