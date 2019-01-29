@@ -18,9 +18,14 @@
                 <div class="container">
                       <div class="row">
                              <div class="col-md-6 offset-md-3">
-                                   <div class="form-group">
+                                <div class="form-group">
                                   <label for="sel1">Seleccionar Centro de Prevención:</label>
-                                  {!! Form::select('lugar',$lugar, '', ['class'=>'form-control form-control-lg single1 select', 'required', 'id'=>'lugar'
+                                  {!! Form::select('lugar',$lugar, '', ['class'=>'form-control form-control-lg single select', 'required', 'id'=>'lugar'
+                                  ]) !!}
+                                </div>
+                                 <div class="form-group">
+                                  <label for="sel1">Seleccionar Servicio:</label>
+                                  {!! Form::select('lugar',[''=>'Selecionar'], '', ['class'=>'form-control form-control-lg single selectServicio', 'required', 'id'=>'lugar'
                                   ]) !!}
                                 </div>
                                 <div class="form-group" id="display_cita" style="display: none;">
@@ -29,7 +34,7 @@
                                 </div>
                                  <div class="form-group" id="display_horario" style="display: none;">
                                   <label for="sel1">Seleccionar Horario:</label>
-                                  {!! Form::select('hora',[], '', ['class'=>'form-control form-control-lg single1', 'id'=>'hora' ,'required']) !!}
+                                  {!! Form::select('hora',[], '', ['class'=>'form-control form-control-lg single', 'id'=>'hora' ,'required']) !!}
                                 </div>
 
                             </div>
@@ -58,6 +63,9 @@
 <!-- guardar-->
 <input type="hidden" name="_ajaxGuardarCita" id="_ajaxGuardarCita" value="{{route('crearcita.store')}}">
 
+<!-- Ruta Selecionar-->
+<input type="hidden" name="_ajaxSelecionarBuscar" id="_ajaxSelecionarBuscar" value="{{route('admin.ajax.selecionarbuscar')}}">
+
 
 
 <!--Fecha a hora-->
@@ -75,7 +83,8 @@
                 init : ()=> {
 
                     PlantillaCrearCita.General();
-                    PlantillaCrearCita.buttonLugar();
+                    PlantillaCrearCita.btnLugar();
+                    PlantillaCrearCita.btnServicio();
                 },
                 // Metodos
                 sayMessage: mensaje=> {
@@ -97,7 +106,7 @@
                           event.preventDefault();
                           if($('#form').parsley().isValid())
                           {
-                            PlantillaCrearCita.dataAjaxhora($("#form").serialize(),2);
+                            PlantillaCrearCita.dataAjaxhora($("#form").serialize(),3);
                           }
                       });
 
@@ -157,25 +166,40 @@
                       form_select_default:destiny=>{
                           $(destiny).prepend('<option value="" selected>Selecionar</option>');
                       },
-                      buttonLugar:()=>
+                      btnLugar:()=>
                       {
-
                         $(document).on("change", ".select", event=> {
                               PlantillaCrearCita.clean_form_input('#hora');
                               PlantillaCrearCita.form_select_default('#hora');
+                              pselectItem=event.target.value;
+                              dataJson={"lugar":pselectItem};
+                              PlantillaCrearCita.dataAjaxhora(dataJson,2);
 
-                              ption=event.target.value;
+                         });
+                      },
+                      btnServicio:()=>{
+                         $(document).on("change", ".selectServicio", event=> {
+                              PlantillaCrearCita.clean_form_input('#hora');
+                              PlantillaCrearCita.form_select_default('#hora');
+
+                               ption=event.target.value;
                               if(ption!=0){
                                 PlantillaCrearCita.date_ajax(ption);
                               }
 
                          });
                       },
+
+
                       /*Ajax para buscar horas*/
                       dataAjaxhora:(...conditionValue)=>{
                           token=$("#_token").val();
                           if(conditionValue[1]==1){
                             rutaHora=`${$('#_ajaxBuscarCita').val()}`;
+                          }else if(conditionValue[1]==2){
+                            /*Buscar Servicios*/
+                            rutaHora=`${$('#_ajaxSelecionarBuscar').val()}`;
+
                           }else{
                             rutaHora=`${$('#_ajaxGuardarCita').val()}`;
                           }
@@ -190,7 +214,18 @@
                              })
                              .done(( data, textStatus, jqXHR)=> {
 
-                                // console.log(data);
+                                  if(data.validar==1){
+                                     PlantillaCrearCita.clean_form_input('.selectServicio');
+                                     PlantillaCrearCita.form_select_default('.selectServicio');
+                                     $.each( data.selecionar, ( index, value )=> {
+                                         PlantillaCrearCita.form_option_append('.selectServicio',index,value)
+                                     });
+
+                                  }else{
+                                     PlantillaCrearCita.toast_notification("error",'Tenemos un problema en el sistema',2);
+                                  }
+
+                                 /*Guardado*/
 
                                  if(data.yeah==0){
                                     PlantillaCrearCita.toast_notification("error",'Tenemos un problema en el sistema',2);
@@ -316,8 +351,6 @@
                                             lcugar=$("#lugar").val();
 
                                             dataJson={"data":date ,"lugar":lcugar};
-
-
 
                                             PlantillaCrearCita.dataAjaxhora(dataJson,1);
                                            // $(this).datepicker('hide');

@@ -22,6 +22,8 @@ Route::prefix('admin')->group(function () {
 
 		Route::post('/crearcita/ajaxBuscar', 'CrearCita\CrearCitaController@ajaxBuscarHora')->name('admin.ajax.buscarCita');
 
+		Route::post('/crearcita/ajaxSelecionarBuscar', 'CrearCita\CrearCitaController@ajaxSelecionarBuscar')->name('admin.ajax.selecionarbuscar');
+
 		/*RUTA MATRIX*/
 		Route::resource('crearcita', 'CrearCita\CrearCitaController');
 
