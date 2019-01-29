@@ -85,10 +85,12 @@ class UsuarioController extends Controller {
 	 * @param  \App\User  $user
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit(request $user) {
+	public function edit($user) {
 		$role = array_add(Role::all()->pluck('name', 'id'), "", "Selecionar");
 
 		$tipoDocumento = ['' => 'Selecionar', '1' => 'DNI', '2' => 'Pasaporte', '3' => 'Carnet de Extranjeria'];
+
+		$user = User::where('slug', $user)->get();
 
 		return view('admin.usuario.edit', ['user' => $user, 'role' => $role, 'tipoDocumento' => $tipoDocumento]);
 	}

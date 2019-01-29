@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Model\Servicio;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DoctorEditController extends Controller {
 	/**
@@ -14,11 +15,21 @@ class DoctorEditController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index() {
-
-		return view('admin.doctoredit', ['usuario' => array_add(User::where('tipo', 3)->get()->pluck('NombreCompleto', 'id'), '', 'Selecionar'), 'servicio' => array_add(Servicio::all()->pluck('nombre'), '', 'Selecionar')]);
-
+		return view('admin.doctoredit', ['usuario' => array_add(User::where('tipo', 3)->get()->pluck('NombreCompleto', 'id'), '', 'Selecionar')]);
 	}
 
+	public function buscarservicio(Request $request) {
+		$doctor_ser = DB::table('doctor__servicios')
+			->join('servicios', 'doctor__servicios.servicio_id', '=', 'servicios.id')
+			->where('doctor__servicios.usuario_id', $request->usuario)
+			->select('servicios.nombre')->get();
+		$servicio = Servicio::all();
+		return response()->json(['servicios' => $servicio, 'doctorser' => $doctor_ser]);
+	}
+
+	public function editardoc(Request $request) {
+		return response()->json($request->servicio);
+	}
 	/**
 	 * Show the form for creating a new resource.
 	 *

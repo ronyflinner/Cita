@@ -72,6 +72,10 @@ Route::prefix('admin')->group(function () {
 	Route::resource('programarcita', 'ProgramarCita\ProgramarCitaController');
 	Route::resource('historialCitaP', 'ProgramarCita\HistorialCitaController');
 
+	Route::get('editardoc', 'ProgramarCita\DoctorEditController@editardoc')->name('editardoc.index');
+
+	Route::get('buscarservicio/{id?}', 'ProgramarCita\DoctorEditController@buscarservicio')->name('buscarservicio.index');
+
 	Route::resource('doctoredit', 'ProgramarCita\DoctorEditController');
 	Route::resource('contraseñaP', 'ProgramarCita\ContraseñaController');
 
