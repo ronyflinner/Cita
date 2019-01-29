@@ -126,11 +126,6 @@ class UsuarioController extends Controller {
 
 			$role = Role::find($request->role);
 			$user->syncRoles($role->name);
-
-			/*
-				'name', 'email', 'password', 'nombre', 'apellidoP', 'apellidoM', 'dni', 'numero', 'tipo', 'slug', 'status',
-			*/
-
 			return response()->json($positivo);
 		}
 	}
@@ -143,6 +138,23 @@ class UsuarioController extends Controller {
 	 */
 	public function destroy(User $user) {
 		//
+	}
+
+	public function getStatusPost(request $request) {
+
+		if ($request->ajax()) {
+			$user = User::find($request->data);
+
+			if ($user->status == 1) {
+				$user->status = 0;
+			} else {
+				$user->status = 1;
+			}
+			$user->save();
+
+			return response()->json(['data' => 1, 'value' => $user]);
+		}
+
 	}
 
 	/*AJAX*/
@@ -196,7 +208,7 @@ class UsuarioController extends Controller {
 
 				$this->btnEdit = "<a href='" . $path . "' data-id='" . $val->id . "' target='_blank' class='btn btn-info btnView'><i class='fa fa-pencil' aria-hidden='true' ></i></a>";
 
-				$this->btnAsign = "<a href=''  data-id='" . $val->id . "' class='btn btn-warning btnPdf'><i class='fa fa-users' aria-hidden='true'></i></a>";
+				$this->btnAsign = "<a href='#'  data-id='" . $val->id . "' class='btn btn-warning btnStatus'><i class='fa fa-users' aria-hidden='true'></i></a>";
 
 				return $this->btnEdit . $this->btnAsign;
 			})
