@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller {
 	/*
@@ -26,6 +27,8 @@ class LoginController extends Controller {
 	 * @var string
 	 */
 	protected $redirectTo = 'admin/home';
+	protected $redirectToUsuario = 'admin/usuario/crearcita';
+	protected $redirectToAdmin = 'admin/programarcita';
 
 	/**
 	 * Create a new controller instance.
@@ -48,16 +51,19 @@ class LoginController extends Controller {
 			return $this->sendLockoutResponse($request);
 		}
 
-		if ($this->attemptLogin($request)) {
-			return $this->sendLoginResponse($request);
+		if (Auth::attempt(['email' => $request['email'], 'password' => $request['password'], 'status' => 1])) {
+
+			if (Auth::user()->hasRole(['Administrador', 'Asistente'])) {
+				return redirect($this->redirectToAdmin);
+			} else {
+				return redirect($this->redirectToUsuario);
+			}
+			//	return $this->redirectTo;
+			return redirect($this->redirectTo);
+		} else {
+			$this->incrementLoginAttempts($request);
+			return $this->sendFailedLoginResponse($request);
 		}
-
-		// If the login attempt was unsuccessful we will increment the number of attempts
-		// to login and redirect the user back to the login form. Of course, when this
-		// user surpasses their maximum number of attempts they will get locked out.
-		$this->incrementLoginAttempts($request);
-
-		return $this->sendFailedLoginResponse($request);
 	}
 
 	protected function validateLogin(Request $request) {

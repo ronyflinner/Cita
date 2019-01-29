@@ -49,6 +49,12 @@
 
 
 </div>
+<!-- Token -->
+<input type="hidden" name="_token" id="_token" value="{{csrf_token()}}">
+
+<!-- Path-->
+<input type="hidden" name="_path" id="_path" value="{{route('admin.ajax.statusUsuario')}}">
+
 
 
 @endsection
@@ -62,7 +68,7 @@
 
                     PlantillaUsuarios.General();
                     PlantillaUsuarios.datatable();
-
+                    PlantillaUsuarios.btnStatus();
                 },
                 // Metodos
                 sayMessage: mensaje=> {
@@ -142,9 +148,43 @@
                       form_select_default:destiny=>{
                           $(destiny).prepend('<option value="" selected>Selecionar</option>');
                       },
-                       datatable:()=>{
 
-                         $('#Mytable').DataTable({
+                      btnStatus:()=>{
+                        $(document).on("click", ".btnStatus", function (event) {
+                            let change_close_id =$(this).data('id');
+                            let path_val=$("#_path").val();
+                            let token=$("#_token").val();
+
+                            data={'data':change_close_id};
+                            PlantillaUsuarios.ajaxSave(data,path_val,token);
+                        });
+                      },
+                      ajaxSave:(data,vurl,token)=>{
+                              $.ajax({
+                                      type: 'POST',
+                                      url: vurl,
+                                      data: data,
+                                      dataType: 'JSON',
+                                      async : true,
+                                      headers:{'X-CSRF-TOKEN': token},
+                                 })
+                                 .done(( data, textStatus, jqXHR)=> {
+                                   //  console.log(data);
+                                      if(data.data==1){
+                                             PlantillaUsuarios.toast_notification("info",'Cambios Realizados Correctamente!!!',2);
+                                            otable.ajax.reload();
+                                      }else{
+                                             PlantillaUsuarios.toast_notification("error",'No fue posible guardar los datos',2);
+                                      }
+
+                                 })
+                                 .fail(( data, textStatus, jqXHR)=> {
+                                   //console.log(data);
+                                 });
+                      },
+                      datatable:()=>{
+
+                      otable = $('#Mytable').DataTable({
                                       responsive: true,
                                       processing: true,
                                         serverSide: true,
@@ -169,16 +209,8 @@
                                            bAutoWidth: false,
                                             order: [[0, "desc"]],
                                             "aaSorting": [],
-
                                     });
-
                       },
-
-
-
-
-
-
 
               };
 

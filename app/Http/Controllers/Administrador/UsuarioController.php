@@ -87,23 +87,47 @@ class UsuarioController extends Controller {
 	 */
 	public function edit($user) {
 		$role = array_add(Role::all()->pluck('name', 'id'), "", "Selecionar");
-
+		$idRole = '';
 		$tipoDocumento = ['' => 'Selecionar', '1' => 'DNI', '2' => 'Pasaporte', '3' => 'Carnet de Extranjeria'];
 
 		$user = User::where('slug', $user)->get();
+		foreach (Role::all() as $value) {
+			if ($user[0]->hasRole($value->name)) {
+				$idRole = $value->id;
+			}
+		}
 
-		return view('admin.usuario.edit', ['user' => $user, 'role' => $role, 'tipoDocumento' => $tipoDocumento]);
+		return view('admin.usuario.edit', ['user' => $user, 'role' => $role, 'tipoDocumento' => $tipoDocumento, 'role_id' => $idRole]);
 	}
 
 	/**
-	 * Update the specified resource in storage.
+	 * Update oranthe specified resource in storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
 	 * @param  \App\User  $user
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, User $user) {
-		//
+	public function update(Request $request, $user) {
+		if ($request->ajax()) {
+			$dni = $request->tipo . '-' . $request->numero;
+			$user = User::find($user);
+			$user->name = $request->nombre;
+			$user->email = $request->email;
+			$user->apellidoP = $request->apellido_paterno;
+			$user->apellidoM = $request->apellido_materno;
+			$user->dni = $dni;
+			$user->numero = $request->telefono;
+
+			if ($request->activo == 1) {
+				$user->password = $request->clave;
+
+			}
+			$positivo = $user->save();
+
+			$role = Role::find($request->role);
+			$user->syncRoles($role->name);
+			return response()->json($positivo);
+		}
 	}
 
 	/**
@@ -114,6 +138,23 @@ class UsuarioController extends Controller {
 	 */
 	public function destroy(User $user) {
 		//
+	}
+
+	public function getStatusPost(request $request) {
+
+		if ($request->ajax()) {
+			$user = User::find($request->data);
+
+			if ($user->status == 1) {
+				$user->status = 0;
+			} else {
+				$user->status = 1;
+			}
+			$user->save();
+
+			return response()->json(['data' => 1, 'value' => $user]);
+		}
+
 	}
 
 	/*AJAX*/
@@ -167,7 +208,7 @@ class UsuarioController extends Controller {
 
 				$this->btnEdit = "<a href='" . $path . "' data-id='" . $val->id . "' target='_blank' class='btn btn-info btnView'><i class='fa fa-pencil' aria-hidden='true' ></i></a>";
 
-				$this->btnAsign = "<a href=''  data-id='" . $val->id . "' class='btn btn-warning btnPdf'><i class='fa fa-users' aria-hidden='true'></i></a>";
+				$this->btnAsign = "<a href='#'  data-id='" . $val->id . "' class='btn btn-warning btnStatus'><i class='fa fa-users' aria-hidden='true'></i></a>";
 
 				return $this->btnEdit . $this->btnAsign;
 			})

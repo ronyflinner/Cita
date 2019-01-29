@@ -40,6 +40,9 @@ Route::prefix('admin')->group(function () {
 		Route::resource('citaprogramada', 'CrearCita\CitaProgramadaController');
 	});
 	/*DATATABlE - usuario*/
+
+	Route::post('StatusUsuario', 'Administrador\UsuarioController@getStatusPost')->name('admin.ajax.statusUsuario');
+
 	Route::get('getUsuarioTable', 'Administrador\UsuarioController@getListadoUsuario')->name('admin.ajax.getUsuarioTable');
 
 	Route::resource('usuario', 'Administrador\UsuarioController');
