@@ -23,13 +23,13 @@ class CrearCitaController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index() {
-
 		/*$years = Date::now()->format('Y');
-
 			foreach (self::cargarFecha($years, 1) as $key => $value) {
 				# code...
 				Fecha::create(['f_fecha' => $value, 'slug' => str_random(120)]);
 		*/
+		$disponibilidad = Disponibilidad::where('lugar_id', 2)->get();
+		return $disponibilidad->doctor_servicio_link;
 
 		return view('cita.crearcita', ['lugar' => array_add(Lugar::all()->pluck('nombre', 'id'), '', 'Selecionar')]);
 	}
