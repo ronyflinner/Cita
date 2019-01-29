@@ -4,12 +4,12 @@
 
         @include('partials.navAdmin')
 @endsection
-@section('seccion_c')
 
+@section('seccion_c')
 
 <div class="container">
 
-    <h3>Programar Cita</h3>
+    <h3>Seleccionar Servicio a Doctor</h3>
 
    <div class="form-group" id="lu">
       <label for="sel1">Seleccionar Doctor:</label>
@@ -30,11 +30,14 @@
 
 
     <div class="d-flex justify-content-center">
-        <button id="bu" type="button" class="btn btn-success d-flex">Generar Cita</button>
+        <button id="bu" type="button" class="btn btn-success d-flex">Crear Servicio</button>
     </div>
 
 </div>
 <br><br><br>
+
+
+
 
 @endsection
 
@@ -47,7 +50,7 @@
     $('.js-example-basic-multiple').select2();
 
 
-
+    ar = 0;
 
     $('#usuario').click(function(){
      console.log($('#usuario').val());
@@ -93,7 +96,7 @@
                                      }
 
                                    }
-
+                                  ar = $('#sel2').val();
 
                                   // $('#sel2').append("<option value="++">Wyoming</option>")
 
@@ -109,10 +112,14 @@
 
 
     $('#bu').click(function(){
+      console.log("antes");
+         console.log(ar);
+         console.log($('#usuario').val());
          vurl='{{ url('admin/editardoc') }}';
          var parametros = {
                  "servicio" : $('#sel2').val(),
                  "usuario" : $('#usuario').val(),
+                 "ser1" : ar,
               };
           console.log(vurl);
           $.ajax({

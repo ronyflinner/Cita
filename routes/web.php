@@ -81,6 +81,7 @@ Route::prefix('admin')->group(function () {
 
 	Route::resource('doctoredit', 'ProgramarCita\DoctorEditController');
 	Route::resource('contraseñaP', 'ProgramarCita\ContraseñaController');
+	Route::resource('servicioedit', 'ProgramarCita\ServicioEditController');
 
 	Route::resource('programarcitaP', 'ProgramarCita\ProgramarC');
 

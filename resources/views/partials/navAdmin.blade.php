@@ -22,14 +22,14 @@
 
                     <ul>
 
-                        <li class="menu_item"><a href="{{ route('programarcita.index') }}">Programar Cita</a></li>
+                        <li><a href="{{ route('programarcita.index') }}">Programar Cita</a></li>
 
-                        <li class="menu_item"><a href="{{route('contraseñaP.index')}}">Cambiar contraseña</a></li>
-                        <li class="menu_item"></li>
-                        <li class="menu_item"><a href="{{ route('usuario.index') }}">Usuarios</a></li>
-                        <li class="menu_item"><a href="{{ route('doctoredit.index')}}">Doctores</a></li>
-                        <li class="menu_item"><a href="#">Servicios</a></li>
-                        <li class="menu_item"><a href="#">Lista de Mensajes</a></li>
+                        <li><a href="{{route('contraseñaP.index')}}">Cambiar contraseña</a></li>
+                        <li></li>
+                        <li><a href="{{ route('usuario.index') }}">Usuarios</a></li>
+                        <li><a href="{{ route('doctoredit.index')}}">Doctores</a></li>
+                        <li><a href="{{ route('servicioedit.index')}}">Servicios</a></li>
+                        <li><a href="#">Lista de Mensajes</a></li>
 
 
                     </ul>
@@ -57,8 +57,9 @@
                                                     <li><a href="{{route('contraseñaP.index')}}">Cambiar contraseña</a></li>
 
                                                     <li><a href="{{ route('usuario.index') }}">Usuarios</a></li>
-                                                    <li><a href="{{ route('doctoredit.index') }}">Doctores</a></li>
-                                                    <li><a href="#">Servicios</a></li>
+                                                    <li><a href="{{ route('doctoredit.index')}}">Doctores</a></li>
+                                                     <li><a href="{{ route('servicioedit.index')}}">Servicios</a></li>
+
                                                     <li><a href="#">Lista de Mensajes</a></li>
 
                                                 </ul>

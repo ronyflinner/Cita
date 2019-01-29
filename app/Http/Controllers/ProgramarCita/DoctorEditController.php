@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ProgramarCita;
 
 use App\Http\Controllers\Controller;
+use App\Model\Doctor_Servicio;
 use App\Model\Servicio;
 use App\User;
 use Illuminate\Http\Request;
@@ -22,6 +23,7 @@ class DoctorEditController extends Controller {
 		$doctor_ser = DB::table('doctor__servicios')
 			->join('servicios', 'doctor__servicios.servicio_id', '=', 'servicios.id')
 			->where('doctor__servicios.usuario_id', $request->usuario)
+			->where('doctor__servicios.status', 1)
 			->select('servicios.nombre')->get();
 		$servicio = Servicio::all();
 		return response()->json(['servicios' => $servicio, 'doctorser' => $doctor_ser]);
@@ -31,24 +33,47 @@ class DoctorEditController extends Controller {
 		$guardar = 0;
 
 		if (!empty($request->servicio[0])) {
+			if (!empty($request->ser1[0])) {
+				foreach ($request->ser1 as $val) {
+					$ser = DB::table('doctor__servicios')->where('usuario_id', $request->usuario)->where('servicio_id', $val)->get();
+					if (sizeof($ser) != 0) {
+						$pres = Doctor_Servicio::where('usuario_id', $request->usuario)->where('servicio_id', $val)->update(['status' => 0]);
+					}
+				}
+			}
 
 			foreach ($request->servicio as $val) {
 				//$int = (int) $val;
-				$ser = DB::table('doctor__servicios')->where('id', $val)->get();
-				if (empty($ser)) {
+				//return response()->json($val);
+				$ser = DB::table('doctor__servicios')->where('usuario_id', $request->usuario)->where('servicio_id', $val)->get();
+
+				if (sizeof($ser) == 0) {
+
 					// creo servicio
 					$slug = str_random(180);
 					$insertid = \DB::table('doctor__servicios')->insertGetId(['servicio_id' => $val, 'usuario_id' => $request->usuario, 'slug' => $slug, 'status' => 1]);
+
 				} else {
 					// actualizar
-					$guardar = 1;
-					$pres = Doctor_Servicio::where('id', $ser->id)->update(['status' => 0]);
-				}
 
+					$guardar = 1;
+					$pres = Doctor_Servicio::where('usuario_id', $request->usuario)->where('servicio_id', $val)->update(['status' => 1]);
+				}
 			}
+		} else {
+
+			if (!empty($request->ser1[0])) {
+				foreach ($request->ser1 as $val) {
+					$ser = DB::table('doctor__servicios')->where('usuario_id', $request->usuario)->where('servicio_id', $val)->get();
+					if (sizeof($ser) != 0) {
+						$pres = Doctor_Servicio::where('usuario_id', $request->usuario)->where('servicio_id', $val)->update(['status' => 0]);
+					}
+				}
+			}
+
 		}
 
-		return response()->json($guardar);
+		return response()->json($request->ser1);
 	}
 	/**
 	 * Show the form for creating a new resource.
