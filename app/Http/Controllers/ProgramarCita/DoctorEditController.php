@@ -28,7 +28,27 @@ class DoctorEditController extends Controller {
 	}
 
 	public function editardoc(Request $request) {
-		return response()->json($request->servicio);
+		$guardar = 0;
+
+		if (!empty($request->servicio[0])) {
+
+			foreach ($request->servicio as $val) {
+				//$int = (int) $val;
+				$ser = DB::table('doctor__servicios')->where('id', $val)->get();
+				if (empty($ser)) {
+					// creo servicio
+					$slug = str_random(180);
+					$insertid = \DB::table('doctor__servicios')->insertGetId(['servicio_id' => $val, 'usuario_id' => $request->usuario, 'slug' => $slug, 'status' => 1]);
+				} else {
+					// actualizar
+					$guardar = 1;
+					$pres = Doctor_Servicio::where('id', $ser->id)->update(['status' => 0]);
+				}
+
+			}
+		}
+
+		return response()->json($guardar);
 	}
 	/**
 	 * Show the form for creating a new resource.

@@ -112,6 +112,7 @@
          vurl='{{ url('admin/editardoc') }}';
          var parametros = {
                  "servicio" : $('#sel2').val(),
+                 "usuario" : $('#usuario').val(),
               };
           console.log(vurl);
           $.ajax({
