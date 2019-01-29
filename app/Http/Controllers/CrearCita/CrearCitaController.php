@@ -28,10 +28,25 @@ class CrearCitaController extends Controller {
 				# code...
 				Fecha::create(['f_fecha' => $value, 'slug' => str_random(120)]);
 		*/
-		$disponibilidad = Disponibilidad::where('lugar_id', 2)->get();
-		return $disponibilidad->doctor_servicio_link;
 
 		return view('cita.crearcita', ['lugar' => array_add(Lugar::all()->pluck('nombre', 'id'), '', 'Selecionar')]);
+	}
+
+	public function ajaxSelecionarBuscar(request $request) {
+		$disponibilidad = Disponibilidad::where('lugar_id', $request->lugar)->where('status', 1)->get();
+
+		$seleccionar = array();
+		foreach ($disponibilidad as $key => $value) {
+			$seleccionar[$value->doctor_servicio_link->servicio_id] = $value->doctor_servicio_link->servicio_link->nombre;
+		}
+		if (count($seleccionar) > 0) {
+			$oh = 1;
+		} else {
+			$oh = 0;
+		}
+		//$validar = (count($seleccionar) > 0) ? $oh = 1 : $oh = 0;
+
+		return response()->json(['validar' => $oh, 'selecionar' => $seleccionar]);
 	}
 
 	public function ajaxBuscarHora(request $request) {
