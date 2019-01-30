@@ -211,41 +211,48 @@
                                   headers:{'X-CSRF-TOKEN': token},
                              })
                              .done(( data, textStatus, jqXHR)=> {
-                                  console.log(data);
+                                  //console.log(data);
 
-                                  if(data.validar==1){
-                                     PlantillaCrearCita.clean_form_input('.selectServicio');
-                                     PlantillaCrearCita.form_select_default('.selectServicio');
-                                     $.each( data.selecionar, ( index, value )=> {
-                                         PlantillaCrearCita.form_option_append('.selectServicio',index,value)
-                                     });
+                                  switch(data.switch) {
+                                        case 1:
+                                           if(data.validar==1){
+                                               PlantillaCrearCita.clean_form_input('.selectServicio');
+                                               PlantillaCrearCita.form_select_default('.selectServicio');
+                                               $.each( data.selecionar, ( index, value )=> {
+                                                   PlantillaCrearCita.form_option_append('.selectServicio',index,value)
+                                               });
 
-                                  }else if(data.validar!=1){
-                                     PlantillaCrearCita.toast_notification("error",'No se registrado algún servicio médico',2);
-                                  }
+                                            }else if(data.validar!=1){
+                                               PlantillaCrearCita.toast_notification("error",'No se registrado algún servicio médico',2);
+                                            }
+                                          break;
+                                        case 2:
+                                            /*Guardado*/
+                                           if(data.yeah==0){
+                                              PlantillaCrearCita.toast_notification("error",'Tenemos un problema en el sistema',2);
 
-                                 /*Guardado*/
-                                 if(data.yeah==0){
-                                    PlantillaCrearCita.toast_notification("error",'Tenemos un problema en el sistema',2);
+                                           }else if(data.yeah==1){
+                                              PlantillaCrearCita.toast_notification("success",'Se ha registrado satisfactoriamente',2);
 
-                                 }else if(data.yeah==1){
-                                    PlantillaCrearCita.toast_notification("success",'Se ha registrado satisfactoriamente',2);
+                                               setTimeout(function(){
+                                                location = '{{ route('citaprogramada.index') }}'
+                                              },2000)
+                                           }else if(data.yeah==2) {
+                                              PlantillaCrearCita.toast_notification("warning",'Aun dispone de una cita activa.',2);
 
-                                     setTimeout(function(){
-                                      location = '{{ route('citaprogramada.index') }}'
-                                    },2000)
-
-
-                                 }else if(data.yeah==2) {
-                                    PlantillaCrearCita.toast_notification("warning",'Aun dispone de una cita activa.',2);
-
-                                 }else{
-                                     PlantillaCrearCita.clean_form_input('#hora');
-                                     PlantillaCrearCita.form_select_default('#hora');
-                                     $.each( data, ( index, value )=> {
-                                         PlantillaCrearCita.form_option_append('#hora',index,value)
-                                     });
-                                 }
+                                           }
+                                          break;
+                                        case 3:
+                                          // code block
+                                           PlantillaCrearCita.clean_form_input('#hora');
+                                               PlantillaCrearCita.form_select_default('#hora');
+                                               $.each( data.data, ( index, value )=> {
+                                                   PlantillaCrearCita.form_option_append('#hora',index,value)
+                                               });
+                                          break;
+                                        default:
+                                          // code block
+                                      }
 
                              })
                              .fail(( data, textStatus, jqXHR)=> {

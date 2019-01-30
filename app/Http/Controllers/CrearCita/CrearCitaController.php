@@ -46,7 +46,7 @@ class CrearCitaController extends Controller {
 		}
 		//$validar = (count($seleccionar) > 0) ? $oh = 1 : $oh = 0;
 
-		return response()->json(['validar' => $oh, 'selecionar' => $seleccionar]);
+		return response()->json(['validar' => $oh, 'selecionar' => $seleccionar, 'switch' => 1]);
 	}
 
 	public function ajaxCrearCitaFecha(request $request, $lugar_id = null, $servicio = null) {
@@ -158,7 +158,7 @@ class CrearCitaController extends Controller {
 				}
 			}
 
-			return response()->json($Disponibilidad);
+			return response()->json(['data' => $Disponibilidad, 'switch' => 3]);
 		}
 	}
 
@@ -252,7 +252,7 @@ class CrearCitaController extends Controller {
 			$mensaje = 2; // error de existencia de cita activa
 			$disponbilidad = $disponbilidadCita;
 		} else {
-
+			/*Buscar la hora disponbile selecionada*/
 			$busqueda_disponbilidad = Disponibilidad::where('hora_id', $hora)
 				->where('lugar_id', $lugar)
 				->whereHas('doctor_servicio_link', function ($query) use ($servicio) {
@@ -266,11 +266,12 @@ class CrearCitaController extends Controller {
 			foreach ($busqueda_disponbilidad as $value) {
 				$cantidad = 0;
 
+				/*Decrementar la cantidad de cita disponible*/
 				if ($value->cantPaciente > 0) {
 					$cantidad = $value->cantPaciente - 1;
 					Disponibilidad::where('id', $value->id)
 						->update(['cantPaciente' => $cantidad]);
-
+					/*asignar cita*/
 					$cita = Cita::create([
 						'disponibilidad_id' => $value->id,
 						'paciente_id' => Auth::id(),
@@ -278,14 +279,14 @@ class CrearCitaController extends Controller {
 						'status' => 1, //cita activa
 						'slug' => str_random(120)]);
 					$mensaje = 1; // Su cita fue correctamente creada */
-					break;
+					break; // detener proceso
 				}
 				$r++;
 			}
 
 		}
 
-		return response()->json(["dispo" => $disponbilidad, 'yeah' => $mensaje]);
+		return response()->json(["dispo" => $disponbilidad, 'yeah' => $mensaje, 'switch' => 2]);
 	}
 
 	/**
