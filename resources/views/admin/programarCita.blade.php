@@ -224,16 +224,22 @@
 
 @section('javascript')
 <script>
-$(document).ready(function() {
+   var PlantillaContacto = {
+              //Variables
+                MesajeSaludo:'HelloWord',
+                init : ()=> {
 
-});
+                    PlantillaContacto.General();
 
-    // ajax que retorne la fechas disponibles
-   $(function() {
+                },
+                // Metodos
+                sayMessage: mensaje=> {
+                  alert("Hola como estas!!!");
+                },
+                General:()=>{
 
 
-
-              $('.js-example-basic-multiple').select2();
+                   $('.js-example-basic-multiple').select2();
 
                $('#servicio').on('change',function(){
                           $('#seld').remove();
@@ -352,7 +358,8 @@ $(document).ready(function() {
                                var parametros = {
                                        "fecha" : $('#fec1').val(),
                                        "lugar" : $('#lugar').val(),
-                                       "doctor" : $('#fedoc').val()
+                                       "doctor" : $('#fedoc').val(),
+
                                     };
 
                                 console.log(vurl);
@@ -371,7 +378,7 @@ $(document).ready(function() {
                                    console.log('data 2');
                                    console.log(data2);
                                   //console.log(data2[0]['status']);
-                                       if(data2 == 0){
+                                      if(data2 == 0){
                                         actualizar = 1 ; // insertar
                                               for(var i in hora){
                                             $("#fec2").append("<label class='customcheck'>"+hora[i]['r_hora']+"<input type='checkbox'  class='che' value='"+hora[i]['r_hora']+"'><span class='checkmark'></span></label>");
@@ -427,6 +434,7 @@ $(document).ready(function() {
                function promesa3(){
                 return  new Promise(function() {
                                 console.log('entre');
+                                //alert($('#servicio').val());
                                 url1 = $('#fec1').val();
                                 url2 = $('#fec1').val();
 
@@ -439,7 +447,8 @@ $(document).ready(function() {
                                        "lugar" : $('#lugar').val(),
                                        "fecha" : $('#fec1').val(),
                                        "hora" : h,
-                                       "doctor" : $('#fedoc').val()
+                                       "doctor" : $('#fedoc').val(),
+                                       "servicio" :$('#servicio').val()
                                     };
 
                                 console.log(vurl);
@@ -457,7 +466,17 @@ $(document).ready(function() {
                                 success:  function (data3) {
                                    console.log('data 6');
                                    console.log(data3);
-                                   actualizar = data3;
+
+                                   if(data3 == 9){
+                                    PlantillaContacto.toast_notification("warning","Ya existe un horario asignado",2);
+
+                                   }else{
+                                    console.log('data 6jdkjlk');
+                                    actualizar = data3;
+                                   }
+
+
+
 
                                 },
                                 error: function (data2) {
@@ -680,6 +699,75 @@ $(document).ready(function() {
          console.log('hola');
                    console.log(hora);
     });
+
+
+                },
+                toast_notification:(message,data,flag)=>{
+                      let listar;
+                      if(flag==1){
+                        listar="<ul>";
+                          data.forEach( function(element, index) {
+                            listar+=`<li>${element}</li>`;
+                          });
+                        listar+="</ul>";
+
+                        toastr[message](listar);
+                      }else{
+                        toastr[message](data);
+                      }
+
+                      toastr.options = {
+                       "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": true,
+                        "positionClass": "toast-bottom-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                      }
+
+                    },
+                      clean_form_html:destiny=>{
+                          $(destiny).html('');
+                      },
+                      hide_form_input:(destiny,property)=>{
+                          $(destiny).attr({
+                            style: `display:${property};`
+                          });
+                      },
+                      clean_form_input:destiny=>{
+                          $(destiny).empty();
+                      },
+                      form_option_append:(destiny,index,value)=>{
+                          $(destiny).append('<option value='+index+'>'+ value+' </option>' );
+                      },
+                      form_option_disable:(value,boleano)=>{
+                          $(value).prop('disabled', boleano);
+                      },
+                      form_select_default:destiny=>{
+                          $(destiny).prepend('<option value="" selected>Selecionar</option>');
+                      },
+
+
+
+              };
+
+
+              $(function() {
+                //arranque de funciones y procesos que estan en el init
+                  PlantillaContacto.init();
+              });
+
+    // ajax que retorne la fechas disponibles
+   $(function() {
 
 
 

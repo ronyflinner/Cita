@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ProgramarCita;
 
 use App\Http\Controllers\Controller;
 use App\Model\Disponibilidad;
+use App\Model\Doctor_Servicio;
 use App\Model\Fecha;
 use App\Model\Hora;
 use App\Model\Locacion\Lugar;
@@ -113,6 +114,7 @@ class ProgramarCitaController extends Controller {
 		if (empty($disponibilidads)) {
 			$enviar = 0;
 		} else {
+
 			$enviar = DB::table('disponibilidads')
 				->join('horas', 'disponibilidads.hora_id', '=', 'horas.id')
 				->join('fechas', 'disponibilidads.fecha_id', '=', 'fechas.id')
@@ -122,6 +124,7 @@ class ProgramarCitaController extends Controller {
 				->where('fechas.id', $id)
 				->where('disponibilidads.doctor_id', $doctor)
 				->select('fechas.f_fecha', 'horas.r_hora', 'disponibilidads.status')->get();
+
 			//$enviar = 0;
 
 		}
@@ -133,6 +136,8 @@ class ProgramarCitaController extends Controller {
 		$lugar = $request->lugar;
 		$hora = $request->hora;
 		$doctor = $request->doctor;
+		$servicio = $request->servicio;
+
 		$actualizar = $request->actualizar;
 		$slug = str_random(180);
 
@@ -145,12 +150,32 @@ class ProgramarCitaController extends Controller {
 
 		$dispo = Disponibilidad::where('fecha_id', $fecha)->where('lugar_id', $lugar)->where('doctor_id', $doctor)->where('hora_id', $hora)->get();
 
+		// debo buscar para ese doctor si tiene otro sercivio con la misma fecha
+		$iddo = Doctor_Servicio::where('id', $doctor)->get();
+		//return response()->json($iddo);
+		$enviar2 = DB::table('doctor__servicios')
+			->join('disponibilidads', 'doctor__servicios.id', '=', 'disponibilidads.doctor_id')
+			->join('servicios', 'doctor__servicios.servicio_id', '=', 'servicios.id')
+			->where('disponibilidads.hora_id', $hora)
+			->where('disponibilidads.doctor_id', $doctor)
+			->select('servicios.id', 'disponibilidads.lugar_id')->get();
+		//return response()->json($servicio);
+		if (sizeof($enviar2) == 1) {
+
+			foreach ($enviar2 as $val) {
+				if ($val->id != $servicio && $val->lugar_id != $lugar) {
+					return response()->json(9);
+				}
+			}
+
+		}
+
 		if (count($dispo) == 0) {
 			// inserto
 			$actualizar = 0;
+			//return response()->json("hoi");
 			$insertid = \DB::table('disponibilidads')->insertGetId(
 				['fecha_id' => $fecha, 'lugar_id' => $lugar, 'hora_id' => $hora, 'cantPaciente' => 5, 'slug' => $slug, 'status' => 1, 'doctor_id' => $doctor]);
-
 		} else {
 			//return response()->json($o_hora[0]->id);
 			// edito
