@@ -24,6 +24,7 @@
                       <th>Fecha Cita</th>
                       <th>Hora Cita</th>
                       <th>Centro de Prevención</th>
+                      <th>Atendido</th>
                       <th>Estado de Cita</th>
                       <th>Ticket de Atención</th>
                   </tr>
@@ -37,6 +38,7 @@
                       <th>Fecha Cita</th>
                       <th>Hora Cita</th>
                       <th>Centro de Prevención</th>
+                      <th>Atendido</th>
                       <th>Estado de Cita</th>
                       <th>Ticket de Atención</th>
                   </tr>
@@ -178,6 +180,7 @@
                                               {data: 'fecha', name:'fecha'},
                                               {data: 'hora', name:'hora'},
                                               {data: 'lugar', name:'lugar'},
+                                              {data: 'doctor', name:'doctor'},
                                               {data: 'status', name:'status'},
                                               {data: 'action', name:'action'},
 

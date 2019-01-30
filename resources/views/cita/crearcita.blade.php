@@ -25,7 +25,7 @@
                                 </div>
                                  <div class="form-group">
                                   <label for="sel1">Seleccionar Servicio:</label>
-                                  {!! Form::select('lugar',[''=>'Selecionar'], '', ['class'=>'form-control form-control-lg single selectServicio', 'required', 'id'=>'lugar'
+                                  {!! Form::select('servicio',[''=>'Selecionar'], '', ['class'=>'form-control form-control-lg single selectServicio', 'required', 'id'=>'lugar'
                                   ]) !!}
                                 </div>
                                 <div class="form-group" id="display_cita" style="display: none;">
@@ -109,8 +109,6 @@
                             PlantillaCrearCita.dataAjaxhora($("#form").serialize(),3);
                           }
                       });
-
-
                    });
                 },
                 toast_notification:(message,data,flag)=>{
@@ -144,7 +142,6 @@
                         "showMethod": "fadeIn",
                         "hideMethod": "fadeOut"
                       }
-
                     },
                       clean_form_html:destiny=>{
                           $(destiny).html('');
@@ -177,13 +174,6 @@
                               pselectItem=event.target.value;
                               dataJson={"lugar":pselectItem};
                               PlantillaCrearCita.dataAjaxhora(dataJson,2);
-
-                              /*-Viejo-*/
-                            /*  ption=event.target.value;
-                              if(ption!=0){
-                                PlantillaCrearCita.date_ajax(ption);
-                              }*/
-
                          });
                       },
                       btnServicio:()=>{
@@ -221,6 +211,7 @@
                                   headers:{'X-CSRF-TOKEN': token},
                              })
                              .done(( data, textStatus, jqXHR)=> {
+                                  console.log(data);
 
                                   if(data.validar==1){
                                      PlantillaCrearCita.clean_form_input('.selectServicio');
@@ -230,11 +221,10 @@
                                      });
 
                                   }else if(data.validar!=1){
-                                     PlantillaCrearCita.toast_notification("error",'No se ha encontrado días para citas',2);
+                                     PlantillaCrearCita.toast_notification("error",'No se registrado algún servicio médico',2);
                                   }
 
                                  /*Guardado*/
-
                                  if(data.yeah==0){
                                     PlantillaCrearCita.toast_notification("error",'Tenemos un problema en el sistema',2);
 
@@ -257,19 +247,15 @@
                                      });
                                  }
 
-
-
                              })
                              .fail(( data, textStatus, jqXHR)=> {
                                //console.log(data);
                              });
                       },
 
-                    /* AJ*/
-
                     /* AJAX - Funciones*/
                     date_ajax:(fecha=null,servicio=null,condition=null)=>{
-                      console.log(`${fecha} ${servicio}`)
+                        //console.log(`${fecha} ${servicio}`)
                         token=$("#_token").val();
                         vurl=`${$("#_ajaxCrearCita").val()}/${fecha}/${servicio}`;
 
@@ -293,7 +279,7 @@
                              });
 
                             promise.done(function(data) {
-                                  console.log(data);
+                                 // console.log(data);
 
                                    var fechas_array=[];
                                    $.each( data.contenedor_fecha, ( index, value )=> {
@@ -342,7 +328,6 @@
                                               }
                                               var date = yyyy+'-'+mm+'-'+dd;
                                        } ,*/
-
                                       }).on('changeDate', function(e) {
                                             // `e` here contains the extra attributes
                                             var day = e.date.getDay();
@@ -358,8 +343,10 @@
                                             var date = yyyy+'-'+mm+'-'+dd;
 
                                             lcugar=$("#lugar").val();
+                                            serviValor=$(".selectServicio").val();
+                                            console.log(serviValor);
 
-                                            dataJson={"data":date ,"lugar":lcugar};
+                                            dataJson={"data":date ,"lugar":lcugar,'serv':serviValor};
 
                                             PlantillaCrearCita.dataAjaxhora(dataJson,1);
                                            // $(this).datepicker('hide');
@@ -378,6 +365,4 @@
               });
 
 </script>
-
-
 @endsection

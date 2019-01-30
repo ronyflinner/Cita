@@ -50,6 +50,10 @@ class CitaProgramadaController extends Controller {
 					return $val->disponibilidad_link->lugar_link->nombre;
 
 				})
+				->addColumn('doctor', function ($val) {
+					return $val->disponibilidad_link->doctor_servicio_link->usuario_link->name;
+
+				})
 				->addColumn('status', function ($val) {
 
 					switch ($val->status_asistio) {
