@@ -18,7 +18,10 @@ Route::prefix('admin')->group(function () {
 	Route::group(['prefix' => 'usuario'], function () {
 
 		/*AJAX*/
-		Route::get('/crearcita/ajaxCrear/{id?}', 'CrearCita\CrearCitaController@ajaxCrearCitaFecha')->name('admin.ajax.crearCita');
+
+		Route::get('/testeo/ajaxCrear/{id?}/{servicio?}', 'CrearCita\CrearCitaController@testeo');
+
+		Route::get('/crearcita/ajaxCrear/{id?}/{servicio?}', 'CrearCita\CrearCitaController@ajaxCrearCitaFecha')->name('admin.ajax.crearCita');
 
 		Route::post('/crearcita/ajaxBuscar', 'CrearCita\CrearCitaController@ajaxBuscarHora')->name('admin.ajax.buscarCita');
 

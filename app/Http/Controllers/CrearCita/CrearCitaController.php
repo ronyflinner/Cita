@@ -7,6 +7,7 @@ use App\Http\Controllers\traitsGeneral\principal;
 use App\Model\Cita;
 use App\Model\Disponibilidad;
 use App\Model\Fecha;
+use App\Model\Hora;
 use App\Model\Locacion\Lugar;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -28,10 +29,9 @@ class CrearCitaController extends Controller {
 				# code...
 				Fecha::create(['f_fecha' => $value, 'slug' => str_random(120)]);
 		*/
-
 		return view('cita.crearcita', ['lugar' => array_add(Lugar::all()->pluck('nombre', 'id'), '', 'Selecionar')]);
 	}
-
+	/*Crear Cita*/
 	public function ajaxSelecionarBuscar(request $request) {
 		$disponibilidad = Disponibilidad::where('lugar_id', $request->lugar)->where('status', 1)->get();
 
@@ -46,26 +46,10 @@ class CrearCitaController extends Controller {
 		}
 		//$validar = (count($seleccionar) > 0) ? $oh = 1 : $oh = 0;
 
-		return response()->json(['validar' => $oh, 'selecionar' => $seleccionar]);
+		return response()->json(['validar' => $oh, 'selecionar' => $seleccionar, 'switch' => 1]);
 	}
 
-	public function ajaxBuscarHora(request $request) {
-
-		if ($request->ajax()) {
-			$fecha_buscar = $request->data;
-			$lugar = $request->lugar;
-
-			$Disponibilidad = Disponibilidad::orderBy('hora_id', 'DESC')->where('lugar_id', $lugar)->where('status', 1)
-				->whereHas('fecha_link', function ($query) use ($fecha_buscar) {
-					$query->where('f_fecha', $fecha_buscar);
-				})->with('hora_link')
-				->get()->pluck('hora_link.r_hora', 'id');
-
-			return response()->json($Disponibilidad);
-		}
-	}
-
-	public function ajaxCrearCitaFecha(request $request, $lugar_id) {
+	public function ajaxCrearCitaFecha(request $request, $lugar_id = null, $servicio = null) {
 		if ($request->ajax()) {
 
 			$contenedor_fecha = array();
@@ -93,19 +77,25 @@ class CrearCitaController extends Controller {
 			$rango_fecha = self::generateDateRange($dtINI, $dtEND);
 
 			/*Recorriendo el arreglo de rango de fechas*/
-
-			foreach ($rango_fecha as $key => $value) {
-
+			foreach ($rango_fecha as $value) {
 				/*Consultar fechas del rango para buscar el ID*/
 				$query_fecha = DB::table('fechas')->where('f_fecha', $value)->get();
 
 				if ($query_fecha->count() > 0) {
-					/*Crear Arreglo del Data picker*/
-					$fecha_disponible = Disponibilidad::where('lugar_id', $lugar_id)->where('fecha_id', $query_fecha[0]->id)->where('cantPaciente', '!=', 0)->where('status', 1)->get();
-
+					/*Buscar disponibilidad de los doctorres a con ese servicio*/
+					$fecha_disponible = Disponibilidad::where('lugar_id', $lugar_id)
+						->where('fecha_id', $query_fecha[0]->id)
+						->where('cantPaciente', '!=', 0)
+						->where('status', 1)
+					/*Buscar doctores que son parte del servicio*/
+						->whereHas('doctor_servicio_link', function ($query) use ($servicio) {
+							$query->where('servicio_id', $servicio);
+						})->with('hora_link');
 					if ($fecha_disponible->count() == 0) {
 						$contenedor_fecha[$r] = $value;
+						$cal[] = $value;
 					}
+
 				} else {
 					$contenedor_fecha[$r] = $value;
 				}
@@ -127,8 +117,106 @@ class CrearCitaController extends Controller {
 				$bandera = 1;
 			}
 
-			return response()->json(["contenedor_fecha" => $contenedor_fecha, 'contenedor_fechaFinal' => $fecha_final->f_fecha, 'contenedor_lugar' => $direccion, 'verificacion' => $direccion, 'bandera' => $bandera]);
+			return response()->json(["contenedor_fecha" => $contenedor_fecha, 'contenedor_fechaFinal' => $fecha_final->f_fecha, 'contenedor_lugar' => $direccion, 'verificacion' => $direccion, 'bandera' => $bandera, 'testeo' => "testeo"]);
 
+		}
+	}
+
+	public function ajaxBuscarHora(request $request) {
+
+		if ($request->ajax()) {
+			$Disponibilidad = array();
+			$fecha_buscar = $request->data;
+			$lugar = $request->lugar;
+			$servicio = $request->serv;
+
+			/*$Disponibilidad = Disponibilidad::orderBy('hora_id', 'DESC')->where('lugar_id', $lugar)->where('status', 1)
+				->whereHas('fecha_link', function ($query) use ($fecha_buscar) {
+					$query->where('f_fecha', $fecha_buscar);
+				})->with('hora_link')
+				->get()->pluck('hora_link.r_hora', 'id');*/
+
+			foreach (Hora::all() as $value) {
+
+				$fecha_disponible = Disponibilidad::where('lugar_id', $lugar)
+				//->where('fecha_id', 23)
+					->where('cantPaciente', '!=', 0)
+					->where('status', 1)
+					->where('hora_id', $value->id)
+					->whereHas('doctor_servicio_link', function ($query) use ($servicio) {
+						$query->where('servicio_id', $servicio)
+							->where('status', 1)
+						;
+					})->whereHas('fecha_link', function ($query) use ($fecha_buscar) {
+					$query->where('f_fecha', $fecha_buscar);
+				})->get(); //->pluck('hora_link.r_hora', 'hora_id')
+
+				if ($fecha_disponible->count() > 0) {
+					/*Haciendo el arreglo para el select id hora disponbilidad y nombre de hora*/
+					$Disponibilidad[$fecha_disponible[0]->hora_id] = $fecha_disponible[0]->hora_link->r_hora;
+					//return $fecha_disponible[0]->hora_link->r_hora;
+				}
+			}
+
+			return response()->json(['data' => $Disponibilidad, 'switch' => 3]);
+		}
+	}
+
+	public function testeo(request $request, $lugar_id = null, $servicio = null) {
+		$fecha_buscar = '2019-01-31';
+		$hora = 19;
+		$lugar = 1;
+		$servicio = 1;
+
+		$busqueda_disponbilidad = Disponibilidad::where('hora_id', $hora)
+			->where('lugar_id', $lugar)
+			->whereHas('doctor_servicio_link', function ($query) use ($servicio) {
+				$query->where('servicio_id', $servicio)
+					->where('status', 1);
+			})->whereHas('fecha_link', function ($query) use ($fecha_buscar) {
+			$query->where('f_fecha', $fecha_buscar);
+		})->get();
+
+		$r = 0;
+		foreach ($busqueda_disponbilidad as $value) {
+			$cantidad = 0;
+
+			if ($value->cantPaciente > 0) {
+				$cantidad = $value->cantPaciente - 1;
+				Disponibilidad::where('id', $value->id)
+					->update(['cantPaciente' => $cantidad]);
+
+				$cita = Cita::create([
+					'disponibilidad_id' => $value->id,
+					'paciente_id' => Auth::id(),
+					'status_asistio' => 1,
+					'status' => 1, //cita activa
+					'slug' => str_random(120)]);
+				$mensaje = 1; // Su cita fue correctamente creada */
+				break;
+			}
+
+			$r++;
+
+		}
+
+		return $r;
+
+		if ($disponbilidad->cantPaciente > 0) {
+			/*Decrementar la cantidad de cita*/
+			$disponbilidad->cantPaciente = $disponbilidad->cantPaciente - 1;
+			$disponbilidad->save();
+
+			Cita::create([
+				'disponibilidad_id' => $request->hora,
+				'paciente_id' => Auth::id(),
+				'status_asistio' => 1,
+				'status' => 1, //cita activa
+				'slug' => str_random(120)]);
+
+			$mensaje = 1; // Su cita fue correctamente creada
+		} else {
+			$mensaje = 0; // error, cita fue tomada.
 		}
 	}
 
@@ -148,38 +236,57 @@ class CrearCitaController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request) {
-		$yeah = 0;
+		//return response()->json($request->all());
+		$mensaje = 0;
 		$disponbilidad = '';
 
+		$fecha_buscar = $request->date;
+		$hora = $request->hora;
+		$lugar = $request->lugar;
+		$servicio = $request->servicio;
+
+		/*Validando  si el paciente tiene una  cita asignada*/
 		$disponbilidadCita = Cita::where('paciente_id', Auth::id())->where('status', 1)->get();
 
 		if ($disponbilidadCita->count() > 0) {
-			$yeah = 2; // error de existencia de cita activa
+			$mensaje = 2; // error de existencia de cita activa
 			$disponbilidad = $disponbilidadCita;
 		} else {
+			/*Buscar la hora disponbile selecionada*/
+			$busqueda_disponbilidad = Disponibilidad::where('hora_id', $hora)
+				->where('lugar_id', $lugar)
+				->whereHas('doctor_servicio_link', function ($query) use ($servicio) {
+					$query->where('servicio_id', $servicio)
+						->where('status', 1);
+				})->whereHas('fecha_link', function ($query) use ($fecha_buscar) {
+				$query->where('f_fecha', $fecha_buscar);
+			})->get();
 
-			$disponbilidad = Disponibilidad::find($request->hora);
+			$r = 0;
+			foreach ($busqueda_disponbilidad as $value) {
+				$cantidad = 0;
 
-			if ($disponbilidad->cantPaciente > 0) {
-				/*Decrementar la cantidad de cita*/
-				$disponbilidad->cantPaciente = $disponbilidad->cantPaciente - 1;
-				$disponbilidad->save();
-
-				Cita::create([
-					'disponibilidad_id' => $request->hora,
-					'paciente_id' => Auth::id(),
-					'status_asistio' => 1,
-					'status' => 1, //cita activa
-					'slug' => str_random(120)]);
-
-				$yeah = 1; // Su cita fue correctamente creada
-			} else {
-				$yeah = 0; // error, cita fue tomada.
+				/*Decrementar la cantidad de cita disponible*/
+				if ($value->cantPaciente > 0) {
+					$cantidad = $value->cantPaciente - 1;
+					Disponibilidad::where('id', $value->id)
+						->update(['cantPaciente' => $cantidad]);
+					/*asignar cita*/
+					$cita = Cita::create([
+						'disponibilidad_id' => $value->id,
+						'paciente_id' => Auth::id(),
+						'status_asistio' => 1,
+						'status' => 1, //cita activa
+						'slug' => str_random(120)]);
+					$mensaje = 1; // Su cita fue correctamente creada */
+					break; // detener proceso
+				}
+				$r++;
 			}
 
 		}
 
-		return response()->json(["dispo" => $disponbilidad, 'yeah' => $yeah]);
+		return response()->json(["dispo" => $disponbilidad, 'yeah' => $mensaje, 'switch' => 2]);
 	}
 
 	/**
