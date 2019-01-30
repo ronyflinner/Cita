@@ -162,64 +162,15 @@ class CrearCitaController extends Controller {
 		}
 	}
 
-	public function testeo(request $request, $lugar_id = null, $servicio = null) {
-		$fecha_buscar = '2019-01-31';
-		$hora = 19;
-		$lugar = 1;
-		$servicio = 1;
+	public function testeo(request $request) {
 
-		$busqueda_disponbilidad = Disponibilidad::where('hora_id', $hora)
-			->where('lugar_id', $lugar)
-			->whereHas('doctor_servicio_link', function ($query) use ($servicio) {
-				$query->where('servicio_id', $servicio)
-					->where('status', 1);
-			})->whereHas('fecha_link', function ($query) use ($fecha_buscar) {
-			$query->where('f_fecha', $fecha_buscar);
-		})->get();
+		return $Value = $request->all();
 
-		$r = 0;
-		foreach ($busqueda_disponbilidad as $value) {
-			$cantidad = 0;
-
-			if ($value->cantPaciente > 0) {
-				$cantidad = $value->cantPaciente - 1;
-				Disponibilidad::where('id', $value->id)
-					->update(['cantPaciente' => $cantidad]);
-
-				$cita = Cita::create([
-					'disponibilidad_id' => $value->id,
-					'paciente_id' => Auth::id(),
-					'status_asistio' => 1,
-					'status' => 1, //cita activa
-					'slug' => str_random(120)]);
-				$mensaje = 1; // Su cita fue correctamente creada */
-				break;
-			}
-
-			$r++;
-
-		}
-
-		return $r;
-
-		if ($disponbilidad->cantPaciente > 0) {
-			/*Decrementar la cantidad de cita*/
-			$disponbilidad->cantPaciente = $disponbilidad->cantPaciente - 1;
-			$disponbilidad->save();
-
-			Cita::create([
-				'disponibilidad_id' => $request->hora,
-				'paciente_id' => Auth::id(),
-				'status_asistio' => 1,
-				'status' => 1, //cita activa
-				'slug' => str_random(120)]);
-
-			$mensaje = 1; // Su cita fue correctamente creada
-		} else {
-			$mensaje = 0; // error, cita fue tomada.
-		}
 	}
+	public function confirmation(request $request) {
+		return $Value = $request->all();
 
+	}
 	/**
 	 * Show the form for creating a new resource.
 	 *

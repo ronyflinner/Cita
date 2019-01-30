@@ -19,7 +19,8 @@ Route::prefix('admin')->group(function () {
 
 		/*AJAX*/
 
-		Route::get('/testeo/ajaxCrear/{id?}/{servicio?}', 'CrearCita\CrearCitaController@testeo');
+		Route::get('/testeo/ajaxCrear/response', 'CrearCita\CrearCitaController@testeo')->name('roteo');
+		Route::get('/testeo/ajaxCrear/confirmation', 'CrearCita\CrearCitaController@testeo')->name('confirmation');
 
 		Route::get('/crearcita/ajaxCrear/{id?}/{servicio?}', 'CrearCita\CrearCitaController@ajaxCrearCitaFecha')->name('admin.ajax.crearCita');
 
