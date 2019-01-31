@@ -75,10 +75,13 @@
     </div>
 </div>
 
+
   </div>
 @endsection
 
 @section('javascript')
+
+<script src="{{ url('health/plugins/ckeditor/ckeditor.js') }}"></script>
 <script>
       var PlantillaContacto = {
               //Variables
@@ -94,6 +97,7 @@
                 },
                 General:()=>{
                    $(function() {
+                      CKEDITOR.replace('message');
                       /*Funcionnes Genericas*/
                       $('.single').select2();
 

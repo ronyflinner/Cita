@@ -15,13 +15,13 @@
        <div class="col-md-4">
          <div class="form-group">
             <label for="usr">Nombre del Servicio:</label>
-            <input type="text" class="form-control" id="usr">
+            <input type="text" class="form-control" id="servicio">
         </div>
        </div>
        <div class="col-md-4">
          <div class="form-group">
             <label for="usr">Costo:</label>
-            <input type="text" class="form-control" id="usr">
+            <input type="text" class="form-control" id="costo">
         </div>
        </div>
        <div class="col-md-4">
@@ -43,12 +43,8 @@
                <thead>
                   <tr>
                      <th>N°</th>
-                     <th>Id Cita</th>
-                     <th>Id Paciente</th>
-                     <th>Hora</th>
-                     <th>Nombre de Paciente</th>
-                     <th>Asistencia</th>
-                     <th>Reprogramar</th>
+                     <th>Nombre</th>
+                     <th>Costo</th>
                   </tr>
                </thead>
             </table>
@@ -82,10 +78,81 @@
                    $(function() {
                       /*Funcionnes Genericas*/
                      $('#bu').click(function(){
-                         alert('hola');
+                         vurl='{{ url('admin/editarServicio') }}';
+                                //vurl = `${vurl}/${url1}`;
+
+                               //(Location).load(vurl, { id: url1 });
+                               var parametros = {
+                                       "nombre" : $('#servicio').val(),
+                                       "costo"  : $("#costo").val()
+                                    };
+
+                                console.log(vurl);
+                                //$(location).attr('href',vurl);
+
+                               // var doc = 'statusEdit';
+                                $.ajax({
+                                url:   vurl,
+                                data: parametros,
+                                type:  'GET', //método de envio
+                                dataType : 'json',
+                                headers: {
+                                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                          } ,
+                                success:  function (data3) {
+                                   console.log('data 6');
+                                   console.log(data3);
+                                   actualizar = data3;
+
+                                },
+                                error: function (data2) {
+                                   console.log('Error:', data2);
+                                  },
+                                  async: false
+                                });
                      })
 
 
+                  vurl='{{ url('admin/mostrarServicio') }}';
+                  //vurl = `${vurl}/${url1}`;
+
+                 //(Location).load(vurl, { id: url1 });
+                 var parametros = {
+                         "lugar" : 0
+
+                      };
+                     itable = $('#Na').DataTable({
+                                        processing: true,
+                                        serverSide: true,
+                                        ajax:{
+                                            url:   vurl,
+                                            data: parametros,
+                                            type:  'GET', //método de envio
+                                            dataType : 'json',
+                                            headers: {
+                                                       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                      }
+                                        } ,
+                                         language: {
+                                            url: '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json'
+                                         },
+                                        columns: [
+                                            {data: 'id', name:'id','orderable': false},
+                                            {data: 'nombre', name:'nombre'},
+                                            {data: 'costo', name:'costo'},
+
+                                        ],
+                                        bAutoWidth: false,
+                                        order: [[0, 'asc']],
+                                        'aaSorting': [],
+                                        paging: true,
+                                        searching: false,
+                                        columnDefs: [
+                                              { width: 20, height: 100,  targets: 0 }
+                                          ],
+                                         fixedColumns: true,
+
+                                    });
                    });
                 },
                 toast_notification:(message,data,flag)=>{
