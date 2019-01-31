@@ -14,6 +14,7 @@
       </div>
     </div>
     <br><br>
+{{ route('roteo') }}
 
     <div class="row">
       <div class="container">

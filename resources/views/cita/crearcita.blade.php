@@ -54,6 +54,28 @@
         </div>
  {!! Form::close() !!}
 
+
+
+
+
+ <form method="post" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/">
+  <input name="merchantId"    type="hidden"  value="508029"   >
+  <input name="accountId"     type="hidden"  value="512323" >
+  <input name="description"   type="hidden"  value="donativo"  >
+  <input name="referenceCode" type="hidden"  value="000005" >
+  <input name="amount"        type="hidden"  value="20.7"   >
+  <input name="tax"           type="hidden"  value="0"  >
+  <input name="taxReturnBase" type="hidden"  value="0" >
+  <input name="currency"      type="hidden"  value="PEN" >
+  <input name="signature"     type="hidden"  value="2341eea82024a770c3738e9c71816e78"  >
+  <input name="test"          type="hidden"  value="1" >
+  <input name="buyerEmail"    type="hidden"  value="luiskaco@gmail.com" >
+  <input name="responseUrl"    type="hidden"  value="{{ route('roteo') }}
+" >
+  <input name="confirmationUrl"    type="hidden"  value="{{ route('confirmation') }}" >
+  <input name="Submit" class="btn btn-success"       type="submit"  value="Enviar" >
+</form>
+
 <!-- Token -->
 <input type="hidden" name="_token" id="_token" value="{{csrf_token()}}">
 
