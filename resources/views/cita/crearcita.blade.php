@@ -113,7 +113,7 @@
 <script>
 
     // Configura tu llave pública
-      Culqi.publicKey = 'pk_test_59lE1AGPamKF9KIO';
+      Culqi.publicKey = 'pk_test_gj4UppEa7dS8f5By';
     // Configura tu Culqi Checkout
       Culqi.settings({
           title: 'Culqi Store',
@@ -155,17 +155,14 @@
                         headers:{'X-CSRF-TOKEN': tokenLaravel},
                    })
                    .done(( data, textStatus, jqXHR)=> {
-                        console.log(data);
-
-
-                             Culqi.close();
-
+                         console.log(data);
+                         Culqi.close();
                    })
                    .fail(( data, textStatus, jqXHR)=> {
                      //console.log(data);
                    })
                    .always(function() {
-                    console.log("complete");
+                        console.log("complete");
                   });
 
           }

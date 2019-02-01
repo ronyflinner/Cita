@@ -14,7 +14,7 @@ class CulquiController extends Controller {
 	 */
 	public function cargo(Request $request) {
 
-		$SECRET_KEY = "sk_test_ygHgf8F0U2HOKmwn";
+		$SECRET_KEY = "sk_test_UJq6Dpm855bjvdqo";
 		$culqi = new Culqi(array('api_key' => $SECRET_KEY));
 
 		try {
