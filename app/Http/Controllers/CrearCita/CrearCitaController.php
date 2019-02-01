@@ -168,6 +168,7 @@ class CrearCitaController extends Controller {
 
 	}
 	public function confirmation(request $request) {
+
 		return $Value = $request->all();
 
 	}

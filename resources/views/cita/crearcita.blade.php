@@ -58,21 +58,26 @@
 
 
 
+<button id="buyButton" type="button" name="ronadl"  class="btn btn-success">
+  enviar
+</button>
+
+
  <form method="post" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/">
   <input name="merchantId"    type="hidden"  value="508029"   >
   <input name="accountId"     type="hidden"  value="512323" >
   <input name="description"   type="hidden"  value="donativo"  >
-  <input name="referenceCode" type="hidden"  value="000005" >
-  <input name="amount"        type="hidden"  value="20.7"   >
+  <input name="referenceCode" type="hidden"  value="000017" >
+  <input name="amount"        type="hidden"  value="15.0"   >
   <input name="tax"           type="hidden"  value="0"  >
   <input name="taxReturnBase" type="hidden"  value="0" >
   <input name="currency"      type="hidden"  value="PEN" >
-  <input name="signature"     type="hidden"  value="2341eea82024a770c3738e9c71816e78"  >
+  <input name="signature"     type="hidden"  value="baad83532698d3f669bca16377354d0c"  >
   <input name="test"          type="hidden"  value="1" >
   <input name="buyerEmail"    type="hidden"  value="luiskaco@gmail.com" >
   <input name="responseUrl"    type="hidden"  value="{{ route('roteo') }}
 " >
-  <input name="confirmationUrl"    type="hidden"  value="{{ route('confirmation') }}" >
+  <input name="confirmationUrl" type="hidden" value="{{ route('confirmation') }}" >
   <input name="Submit" class="btn btn-success"       type="submit"  value="Enviar" >
 </form>
 
@@ -88,16 +93,86 @@
 <!-- Ruta Selecionar-->
 <input type="hidden" name="_ajaxSelecionarBuscar" id="_ajaxSelecionarBuscar" value="{{route('admin.ajax.selecionarbuscar')}}">
 
-
-
 <!--Fecha a hora-->
 <input type="hidden" name="_ajaxBuscarCita" id="_ajaxBuscarCita" value="{{route('admin.ajax.buscarCita')}}">
 
+<!-- Rutas Pagos-->
+<input type="hidden" name="_ajaxPago" id="_ajaxPago" value="{{route('cargo.cliente')}}">
 
 
 @endsection
 
 @section('javascript')
+
+<!-- Incluye Culqi Checkout en tu sitio web-->
+<script src="https://checkout.culqi.com/js/v3"></script>
+
+<script>
+    // Configura tu llave pública
+    Culqi.publicKey = 'pk_test_59lE1AGPamKF9KIO';
+    // Configura tu Culqi Checkout
+    Culqi.settings({
+        title: 'Culqi Store',
+        currency: 'PEN',
+        description: 'Polo Culqi lover',
+        amount: 3500,
+        order: "ord_live_0CjjdWhFpEAZlxlz"
+    });
+    // Usa la funcion Culqi.open() en el evento que desees
+    $('#buyButton').on('click', function(e) {
+        // Abre el formulario con las opciones de Culqi.settings
+        Culqi.open();
+
+
+        e.preventDefault();
+
+
+         var tokenLaravel=$("#_token").val();
+            console.log(tokenLaravel);
+            $.ajax({
+              url: $("#_ajaxPago").val(),
+              type: 'POST',
+              dataType: 'JSON',
+              data: {token: "token"},
+              headers:{'X-CSRF-TOKEN': tokenLaravel},
+            })
+            .done(function(data, textStatus, jqXHR) {
+              console.log(data);
+            })
+            .fail(function(data, textStatus, jqXHR) {
+              console.log(data);
+            })
+            .always(function() {
+              console.log("complete");
+            });
+    });
+
+
+    function culqi() {
+        if (Culqi.token) { // ¡Objeto Token creado exitosamente!
+            var token = Culqi.token.id;
+            console.log('Se ha creado un token:' + token);
+            // Aqui enviar token Id a servidor para crear cargo..
+
+
+
+        }
+        else if (Culqi.order) {
+            console.log(Culqi.order)
+
+            console.log('Se ha elegido el metodo de pago en efectivo');
+
+             /* Aqui enviar al servidor el order Id y asociarlo al detalle de tu venta.
+                Además, tu venta en tu comercio debe quedar estado pendiente.
+              */
+        }
+        else { // ¡Hubo algún problema!
+            // Mostramos JSON de objeto error en consola
+            console.log(Culqi.error);
+            console.log(Culqi.error.user_message);
+        }
+};
+</script>
 <script>
       var PlantillaCrearCita = {
               //Variables
