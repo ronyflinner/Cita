@@ -47,7 +47,7 @@ Route::prefix('admin')->group(function () {
 	});
 
 	/*Culqui*/
-	Route::get('cargo', 'Pagos\CulquiController@cargo')->name('cargo.cliente');
+	Route::post('cargo', 'Pagos\CulquiController@cargo')->name('cargo.cliente');
 	Route::post('orden', 'Pagos\CulquiController@orden')->name('orden.cliente');
 
 	/*DATATABlE - usuario*/
