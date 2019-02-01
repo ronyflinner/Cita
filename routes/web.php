@@ -45,6 +45,11 @@ Route::prefix('admin')->group(function () {
 
 		Route::resource('citaprogramada', 'CrearCita\CitaProgramadaController');
 	});
+
+	/*Culqui*/
+	Route::get('cargo', 'Pagos\CulquiController@cargo')->name('cargo.cliente');
+	Route::post('orden', 'Pagos\CulquiController@orden')->name('orden.cliente');
+
 	/*DATATABlE - usuario*/
 
 	Route::post('StatusUsuario', 'Administrador\UsuarioController@getStatusPost')->name('admin.ajax.statusUsuario');

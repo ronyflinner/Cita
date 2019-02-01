@@ -4,57 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fdefde9634fddd54e0475379a695efc3",
+    "content-hash": "626e83b9d6e718b59e6e1a1ab227fbe4",
     "packages": [
-        {
-            "name": "alexo/laravel-payu",
-            "version": "1.0.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/alejogutierrez/laravel-payu.git",
-                "reference": "936c16999054a9fd11b6a658de05e67eba1a0484"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/alejogutierrez/laravel-payu/zipball/936c16999054a9fd11b6a658de05e67eba1a0484",
-                "reference": "936c16999054a9fd11b6a658de05e67eba1a0484",
-                "shasum": ""
-            },
-            "require": {
-                "nesbot/carbon": "~1.0",
-                "php": ">=5.5.9"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.0",
-                "vlucas/phpdotenv": "~2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "sdk/lib"
-                ],
-                "psr-4": {
-                    "Alexo\\LaravelPayU\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alejandro Gutiérrez",
-                    "email": "alejandrogutierrezacosta@gmail.com"
-                }
-            ],
-            "description": "Una interfaz fluida para Laravel usando el SDK oficial de PayU latam.",
-            "keywords": [
-                "laravel",
-                "pagos",
-                "payu"
-            ],
-            "time": "2018-04-29T19:40:41+00:00"
-        },
         {
             "name": "barryvdh/laravel-dompdf",
             "version": "v0.8.3",
@@ -168,6 +119,56 @@
                 "captcha"
             ],
             "time": "2018-07-11T12:33:31+00:00"
+        },
+        {
+            "name": "culqi/culqi-php",
+            "version": "v1.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/culqi/culqi-php.git",
+                "reference": "fe7e2743439661bab1751d2e45a03b83e400f515"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/culqi/culqi-php/zipball/fe7e2743439661bab1751d2e45a03b83e400f515",
+                "reference": "fe7e2743439661bab1751d2e45a03b83e400f515",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "rmccue/requests": ">=1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.4.*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "lib/Culqi/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Culqi and contributors",
+                    "homepage": "https://github.com/culqi/culqi-php/contributors"
+                }
+            ],
+            "description": "Cliente Culqi API para PHP",
+            "homepage": "https://culqi.com",
+            "keywords": [
+                "api",
+                "client",
+                "culqi",
+                "pagos",
+                "payments",
+                "peru",
+                "php"
+            ],
+            "time": "2018-10-10T21:53:37+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -2133,6 +2134,55 @@
                 "uuid"
             ],
             "time": "2018-07-19T23:38:55+00:00"
+        },
+        {
+            "name": "rmccue/requests",
+            "version": "v1.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rmccue/Requests.git",
+                "reference": "87932f52ffad70504d93f04f15690cf16a089546"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rmccue/Requests/zipball/87932f52ffad70504d93f04f15690cf16a089546",
+                "reference": "87932f52ffad70504d93f04f15690cf16a089546",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2"
+            },
+            "require-dev": {
+                "requests/test-server": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Requests": "library/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "ISC"
+            ],
+            "authors": [
+                {
+                    "name": "Ryan McCue",
+                    "homepage": "http://ryanmccue.info"
+                }
+            ],
+            "description": "A HTTP library written in PHP, for human beings.",
+            "homepage": "http://github.com/rmccue/Requests",
+            "keywords": [
+                "curl",
+                "fsockopen",
+                "http",
+                "idna",
+                "ipv6",
+                "iri",
+                "sockets"
+            ],
+            "time": "2016-10-13T00:11:37+00:00"
         },
         {
             "name": "sabberworm/php-css-parser",

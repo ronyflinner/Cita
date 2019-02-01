@@ -191,8 +191,6 @@ return [
 
 		Spatie\Permission\PermissionServiceProvider::class,
 
-		Alexo\LaravelPayU\LaravelPayUServiceProvider::class,
-
 	],
 
 	/*

@@ -14,7 +14,7 @@
       </div>
     </div>
     <br><br>
-{{ route('roteo') }}
+    {{ route('roteo') }}
 
     <div class="row">
       <div class="container">
