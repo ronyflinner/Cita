@@ -11,9 +11,7 @@
            <div class="col-md-4">
                <div class="form-group">
                   <label for="sel1">Seleccionar Lugar:</label>
-
                      {!! Form::select('lugar',$lugar, '', ['class'=>'form-control form-control-lg single', 'id'=>'lugar']) !!}
-
                 </div>
            </div>
 
@@ -68,11 +66,12 @@
                   <tr>
                      <th>N°</th>
                      <th>Id Cita</th>
+                     <th>Servicio</th>
                      <th>Id Paciente</th>
                      <th>Hora</th>
                      <th>Nombre de Paciente</th>
                      <th>Asistencia</th>
-                     <th>Reprogramar</th>
+                     <th>Reprogramación</th>
                   </tr>
                </thead>
             </table>
@@ -84,10 +83,20 @@
 @section('javascript')
 
 <script type="text/javascript">
+    var PlantillaContacto = {
+              //Variables
+                MesajeSaludo:'HelloWord',
+                init : ()=> {
 
+                    PlantillaContacto.General();
 
-
-   $(function() {
+                },
+                // Metodos
+                sayMessage: mensaje=> {
+                  alert("Hola como estas!!!");
+                },
+                General:()=>{
+                   $(function() {
 
 
     //Date picker
@@ -145,6 +154,7 @@
                                         columns: [
                                             {data: 'id', name:'id','orderable': false},
                                             {data: 'idcita', name:'idcita'},
+                                             {data: 'servicio', name:'servicio'},
                                             {data: 'idU', name:'idU'},
                                             {data: 'hora', name:'hora'},
                                             {data: 'nombre', name:'nombre'},
@@ -196,6 +206,7 @@
                              "id" : data.idU,
                              "asistencia" :data.asistencia,
                              "cita" :data.idcita,
+                             "servicio" : data.servicio
                           };
 
                       console.log(vurl);
@@ -211,8 +222,15 @@
                                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                 } ,
                       success:  function (data) {
-                             console.log('dataaaa hola');
-                             location.reload();
+                             console.log('jlkj');
+                             console.log(data);
+
+                             if(data == 1){
+                               PlantillaContacto.toast_notification("success",'Reprogramado correctamente',2);
+                             }else{
+                              PlantillaContacto.toast_notification("warning",'Debe habilitar doctores . no hay disponibles para reprogramar',2);
+                             }
+                             //location.reload();
 
                       },
                       error: function (data) {
@@ -228,7 +246,7 @@
     $('#bun').on('click',function(){
               $('#Na_wrapper').remove();
               $('#Na').remove();
-              $('#No').append("<table class='table table-bordered' id='Na'><thead><tr><th>N°</th><th>Id Cita</th><th>Id Paciente</th><th>Hora</th><th>Nombre de Paciente</th><th>Asistencia</th><th>Reprogramar</th></tr></thead></table>");
+              $('#No').append("<table class='table table-bordered' id='Na'><thead><tr><th>N°</th><th>Id Cita</th><th>Servicio</th><th>Id Paciente</th><th>Hora</th><th>Nombre de Paciente</th><th>Asistencia</th><th>Reprogramación</th></tr></thead></table>");
               var promise = promesa3();
               obtener_habilitar("#Na tbody",itable,"button.editar");
     });
@@ -236,6 +254,74 @@
 
 
   });
+
+                },
+                toast_notification:(message,data,flag)=>{
+                      let listar;
+                      if(flag==1){
+                        listar="<ul>";
+                          data.forEach( function(element, index) {
+                            listar+=`<li>${element}</li>`;
+                          });
+                        listar+="</ul>";
+
+                        toastr[message](listar);
+                      }else{
+                        toastr[message](data);
+                      }
+
+                      toastr.options = {
+                       "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": true,
+                        "positionClass": "toast-bottom-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                      }
+
+                    },
+                      clean_form_html:destiny=>{
+                          $(destiny).html('');
+                      },
+                      hide_form_input:(destiny,property)=>{
+                          $(destiny).attr({
+                            style: `display:${property};`
+                          });
+                      },
+                      clean_form_input:destiny=>{
+                          $(destiny).empty();
+                      },
+                      form_option_append:(destiny,index,value)=>{
+                          $(destiny).append('<option value='+index+'>'+ value+' </option>' );
+                      },
+                      form_option_disable:(value,boleano)=>{
+                          $(value).prop('disabled', boleano);
+                      },
+                      form_select_default:destiny=>{
+                          $(destiny).prepend('<option value="" selected>Selecionar</option>');
+                      },
+
+
+
+              };
+
+
+              $(function() {
+                //arranque de funciones y procesos que estan en el init
+                  PlantillaContacto.init();
+              });
+
+
+
 
 
 </script>

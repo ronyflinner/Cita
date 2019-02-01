@@ -7,6 +7,7 @@ use App\Model\Cita;
 use App\Model\Disponibilidad;
 use App\Model\Fecha;
 use App\Model\Locacion\Lugar;
+use App\Model\Servicio;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -43,9 +44,10 @@ class HistorialCitaController extends Controller {
 			->join('disponibilidads', 'citas.disponibilidad_id', '=', 'disponibilidads.id')
 			->join('users', 'citas.paciente_id', '=', 'users.id')
 			->join('horas', 'disponibilidads.hora_id', '=', 'horas.id')
+			->join('doctor__servicios', 'doctor__servicios.id', '=', 'disponibilidads.doctor_id')
 			->where('disponibilidads.lugar_id', $lugar)
 			->where('disponibilidads.fecha_id', $id)
-			->select('citas.id AS idc', 'users.id', 'horas.r_hora', 'users.name', 'citas.status_asistio')->get();
+			->select('citas.id AS idc', 'users.id', 'horas.r_hora', 'users.name', 'citas.status_asistio', 'citas.idReprogramada')->get();
 
 		$con = 1;
 		return datatables($enviar)
@@ -53,6 +55,16 @@ class HistorialCitaController extends Controller {
 				return $con++;
 			})->addColumn('idcita', function ($val) {
 			return $val->idc;
+		})->addColumn('servicio', function ($val) {
+			if ($val->status_asistio == 2) {
+				return "Asistio";
+			} else if ($val->status_asistio == 0) {
+				return "Falto";
+			} else if ($val->status_asistio == 1) {
+				return "Despistaje";
+			} else if ($val->status_asistio == 3) {
+				return "Reprogramada";
+			}
 		})->addColumn('idU', function ($val) {
 			return $val->id;
 		})->addColumn('hora', function ($val) {
@@ -72,6 +84,14 @@ class HistorialCitaController extends Controller {
 		})->addColumn('reprogramar', function ($val) {
 			if ($val->status_asistio == 0 || $val->status_asistio == 1) {
 				return "<button type='button'  class='editar btn btn-primary'><i class='fa fa-pencil-square-o'></i></button> ";
+			} else if ($val->idReprogramada != 0) {
+
+				$enviar1 = DB::table('citas')
+					->join('disponibilidads', 'citas.disponibilidad_id', '=', 'disponibilidads.id')
+					->where('citas.id', $val->idReprogramada)
+					->select('disponibilidads.fecha_id')->get();
+				$fecha = Fecha::where('id', $enviar1[0]->fecha_id)->get();
+				return $fecha[0]->f_fecha;
 			}
 
 			return " ";
@@ -90,93 +110,103 @@ class HistorialCitaController extends Controller {
 
 		$asistencia = $request->asistencia;
 
-		if ($asistencia == "Programada") {
-			$pres = Cita::where('id', $request->cita)->update(['status' => 0, 'status_asistio' => 3]);
-		}
-
 		$fecha = new Carbon($fecha);
 
-		$fecha = $fecha->addMonth(1);
-		$f1 = $fecha->format('m');
+		$fecha = $fecha->addWeek();
+		$f1 = $fecha->format('Y-m-d');
 
 		//return response()->json($f1);
 
-		$fe = Fecha::whereMonth('f_fecha', $f1)->get();
+		//$fe = Fecha::whereMonth('f_fecha', $f1)->get();
 		//$id = $fe[0]->id;
 
-		//	return response()->json($fe[0]->id);
+		$serid = Servicio::where('nombre', $request->servicio)->get();
+
+		//return response()->json($serid[0]->id);
 
 		//return response()->json($enviar);
 		$obtenerF = ' ';
 		$b = true;
 		$cont = 0;
-		while ($b) {
-			$obtenerF = $fe[$cont]->f_fecha;
-			$enviar = DB::table('disponibilidads')
-				->join('horas', 'disponibilidads.hora_id', '=', 'horas.id')
-				->join('fechas', 'disponibilidads.fecha_id', '=', 'fechas.id')
-				->join('lugars', 'disponibilidads.lugar_id', '=', 'lugars.id')
-				->where('lugars.id', $lugar)
-				->where('fechas.id', $fe[$cont]->id)
-				->select('disponibilidads.cantPaciente', 'disponibilidads.status', 'disponibilidads.id')->get();
-			//return response()->json($enviar[0]->cantPaciente);
-			if (count($enviar) == 0) {
-				# inserta disponibilidad y inserta en cita
+		$aux = 1;
 
-				$slug = str_random(180);
-				$insertid = \DB::table('disponibilidads')->insertGetId(['fecha_id' => $fe[$cont]->id, 'lugar_id' => $lugar, 'hora_id' => 0, 'cantPaciente' => 8, 'slug' => $slug, 'status' => 1]);
-				$slug = str_random(180);
-				$cit = \DB::table('citas')->insertGetId(['disponibilidad_id' => $insertid, 'paciente_id' => $idpaciente, 'slug' => $slug, 'status' => 1, 'status_asistio' => 1]);
+		//$obtenerF = $fe[$cont]->f_fecha;
+		$enviar = DB::table('disponibilidads')
+			->join('horas', 'disponibilidads.hora_id', '=', 'horas.id')
+			->join('fechas', 'disponibilidads.fecha_id', '=', 'fechas.id')
+			->join('lugars', 'disponibilidads.lugar_id', '=', 'lugars.id')
+			->join('doctor__servicios', 'doctor__servicios.id', '=', 'disponibilidads.doctor_id')
+			->where('lugars.id', $lugar)
+			->where('fechas.f_fecha', '>', $f1)
+			->where('doctor__servicios.servicio_id', $serid[0]->id)
+			->select('fechas.f_fecha', 'doctor__servicios.servicio_id', 'disponibilidads.cantPaciente', 'disponibilidads.status', 'disponibilidads.id')->get();
+		//return response()->json($enviar);
+
+		if (count($enviar) == 0) {
+			# inserta disponibilidad y inserta en cita
+
+			/*	$slug = str_random(180);
+					$insertid = \DB::table('disponibilidads')->insertGetId(['fecha_id' => $fe[$cont]->id, 'lugar_id' => $lugar, 'hora_id' => 0, 'cantPaciente' => 8, 'slug' => $slug, 'status' => 1]);
+					$slug = str_random(180);
+					$cit = \DB::table('citas')->insertGetId(['disponibilidad_id' => $insertid, 'paciente_id' => $idpaciente, 'slug' => $slug, 'status' => 1, 'status_asistio' => 1]);
+				*/
+
+			//return response()->json('no reprogramo prro');
+
+			$aux = 0;
+			$b = false;
+
+		} else {
+
+			$cont2 = 0;
+			while ($b && $cont2 != count($enviar)) {
+				if ($enviar[$cont2]->cantPaciente != 0 && $enviar[$cont2]->status != 0) {
+
+					//return response()->json('ya casi prro');
+
+					#crea cita en esa disponibilidad
+					$slug = str_random(180);
+					$insertid = \DB::table('citas')->insertGetId(['disponibilidad_id' => $enviar[$cont2]->id, 'paciente_id' => $idpaciente, 'slug' => $slug, 'status' => 1, 'status_asistio' => 1]);
+
+					$pres = Cita::where('id', $request->cita)->update(['status' => 0, 'status_asistio' => 3, 'idReprogramada' => $insertid]);
+					$disp = $enviar[$cont2]->id;
+					$can = $enviar[$cont2]->cantPaciente - 1;
+
+					//return response()->json($);
+					$pres = Disponibilidad::where('id', $disp)->update(['cantPaciente' => $can]);
+
+					$b = false;
+				}
+				$cont2++;
+			}
+
+			if ($cont2 < 19 && $b) {
+				$aux = 0;
+				## insertar disponibilidad y insertar cita
+				//return response()->json('no reprogramo prro');
+				/*	$slug = str_random(180);
+						// encontrar disponibilidad vacia en unmes
+
+						$programado = Disponibilidads::where('lugars.id', $lugar)->where('fechas.id', $fe[$cont]->id)->get();
+
+						$insertid = \DB::table('disponibilidads')->insertGetId(['fecha_id' => $fe[$cont]->id, 'lugar_id' => $lugar, 'hora_id' => $cont2, 'cantPaciente' => 8, 'slug' => $slug, 'status' => 1]);
+
+						$slug = str_random(180);
+
+					*/
 
 				$b = false;
 
-			} else {
-
-				$cont2 = 0;
-				while ($b && $cont2 != count($enviar)) {
-					if ($enviar[$cont2]->cantPaciente != 0 && $enviar[$cont2]->status != 0) {
-
-						#crea cita en esa disponibilidad
-						$slug = str_random(180);
-						$insertid = \DB::table('citas')->insertGetId(['disponibilidad_id' => $enviar[$cont2]->id, 'paciente_id' => $idpaciente, 'slug' => $slug, 'status' => 1, 'status_asistio' => 1]);
-
-						$disp = $enviar[$cont2]->id;
-						$can = $enviar[$cont2]->cantPaciente - 1;
-
-						//return response()->json($);
-						$pres = Disponibilidad::where('id', $disp)->update(['cantPaciente' => $can]);
-
-						$b = false;
-					}
-					$cont2++;
-				}
-
-				if ($cont2 < 9 && $b) {
-					## insertar disponibilidad y insertar cita
-					return response()->json('reprogramado');
-					$slug = str_random(180);
-
-					$insertid = \DB::table('disponibilidads')->insertGetId(['fecha_id' => $fe[$cont]->id, 'lugar_id' => $lugar, 'hora_id' => $cont2, 'cantPaciente' => 8, 'slug' => $slug, 'status' => 1]);
-
-					$slug = str_random(180);
-
-					$cit = \DB::table('citas')->insertGetId(['disponibilidad_id' => $insertid, 'paciente_id' => $idpaciente, 'slug' => $slug, 'status' => 1, 'status_asistio' => 1]);
-
-					$b = false;
-
-				}
-
 			}
 
-			$cont++;
-
 		}
+
 		//$id = Cita::all();
-		return response()->json($obtenerF);
+		return response()->json($aux);
 		$b = true;
 		$con = 0;
 
-		return response()->json($fe);
+		return response()->json($aux);
 	}
 
 	public function showpdf(Request $request) {
