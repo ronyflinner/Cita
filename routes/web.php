@@ -92,6 +92,10 @@ Route::prefix('admin')->group(function () {
 
 	Route::resource('doctoredit', 'ProgramarCita\DoctorEditController');
 	Route::resource('contraseñaP', 'ProgramarCita\ContraseñaController');
+
+	Route::get('editarServicio', 'ProgramarCita\ServicioEditController@editarServicio')->name('editarServicio.index');
+	Route::get('mostrarServicio', 'ProgramarCita\ServicioEditController@mostrarServicio')->name('mostrarServicio.index');
+
 	Route::resource('servicioedit', 'ProgramarCita\ServicioEditController');
 
 	Route::resource('programarcitaP', 'ProgramarCita\ProgramarC');

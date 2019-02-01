@@ -191,6 +191,11 @@ return [
 
 		Spatie\Permission\PermissionServiceProvider::class,
 
+<<<<<<< HEAD
+=======
+//		Alexo\LaravelPayU\LaravelPayUServiceProvider::class,
+
+>>>>>>> 4d39d4e7e32e242059b3e61034772886665ede77
 	],
 
 	/*

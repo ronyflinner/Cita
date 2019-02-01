@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\ProgramarCita;
 
 use App\Http\Controllers\Controller;
+use App\Model\Servicio;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ServicioEditController extends Controller {
 	/**
@@ -24,6 +26,32 @@ class ServicioEditController extends Controller {
 		//
 	}
 
+	public function editarServicio(Request $request) {
+
+		$slug = str_random(180);
+		$costo = (float) $request->costo;
+		$insertid = \DB::table('servicios')->insertGetId(
+			['nombre' => $request->nombre, 'costo' => $costo, 'slug' => $slug]);
+		return response()->json($insertid);
+	}
+
+	public function mostrarServicio(Request $request) {
+
+		$enviar = Servicio::all();
+
+		$con = 1;
+		return datatables($enviar)
+			->addColumn('id', function ($val) use (&$con) {
+				return $con++;
+			})->addColumn('nombre', function ($val) {
+			return $val->nombre;
+		})->addColumn('costo', function ($val) {
+			return $val->costo;
+		});
+
+		return " ";
+
+	}
 	/**
 	 * Store a newly created resource in storage.
 	 *
