@@ -123,7 +123,8 @@
 
 
 </style>
-<div class="container">
+
+<div class="container" >
 
     <h3></h3>
 
@@ -208,12 +209,14 @@
             </div>
         </div>
     </div>
+
+     <div class="form-check" id ='fec2'>
+
+  </div>
 </div>
 
 
- <div class="form-check" id ='fec2'>
 
-  </div>
 
     <br>
 

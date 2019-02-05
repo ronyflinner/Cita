@@ -1,6 +1,25 @@
 @extends('layouts.principal')
 @section('navT')
         @include('partials.nav1')
+
+
+
+ <section id="intro" class="intro">
+      <div class="intro-content">
+        <div class="container">
+             <div class="info">
+        <div class="container">
+    <div class="form-wrapper">
+                <div class="wow fadeInRight" data-wow-duration="2s" data-wow-delay="0.2s">
+
+                  <div class="panel panel-skin">
+                    <div class="panel-heading">
+                      <h3 class="panel-title"><span class="fa fa-pencil-square-o"></span> Registro al Sistema de Citas</h3>
+                    </div>
+                    <div class="panel-body">
+                      <div id="sendmessage">Your message has been sent. Thank you!</div>
+                      <div id="errormessage"></div>
+
         <div class="home_container">
             <div class="container">
                 <div class="row">
@@ -9,10 +28,6 @@
    <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2 ">
-            <div class="panel panel-default">
-                <div class="panel-heading">Regístrese</div>
-
-                <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
 
@@ -88,8 +103,8 @@
                             </div>
                         </div>
                     </form>
-                </div>
-            </div>
+
+
         </div>
     </div>
 </div>
@@ -100,6 +115,20 @@
                 </div>
             </div>
         </div>
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+</div>
+    </div>
+            <div class="col-lg-6">
+
+          </div>
+        </div>
+      </div>
+    </section>
 
 
 @endsection
