@@ -2,7 +2,7 @@
 
 @section('navT')
 
-        @include('partials.nav2')
+        @include('partials.nav')
 @endsection
 @section('seccion_c')
      <div class="container" id="No">

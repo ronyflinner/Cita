@@ -13,7 +13,7 @@
         <div class="container">
     <div class="form-wrapper">
                 <div class="row">
-                	<div class="col-md-6">
+                	<div class="col-md-4">
                 		<div class="wow fadeInUp" data-wow-delay="0.2s">
 			              <div class="box text-center">
 
@@ -29,7 +29,7 @@
 
 			            </div>
                 	</div>
-                	<div class="col-md-6">
+                	<div class="col-md-4">
                 		<div class="wow fadeInUp" data-wow-delay="0.2s">
 			              <div class="box text-center">
 
@@ -38,15 +38,33 @@
 			                <p>
 			                  Solo de uso para el personal autorizado de la institución.
 			                </p>
-
-
-                               <a href="{{ route('programarcita.index') }}"> <button type="submit" class="btn btn-primary">
+                         <a href="{{ route('programarcita.index') }}">
+                            <button type="submit" class="btn btn-primary">
                                     Ingresar
-                                </button></a>
-
+                            </button>
+                          </a>
 			              </div>
 			            </div>
                 	</div>
+
+                  <div class="col-md-4">
+                    <div class="wow fadeInUp" data-wow-delay="0.2s">
+                    <div class="box text-center">
+
+                      <i class="fa fa-list-alt fa-3x circled bg-skin"></i>
+                      <h4 class="h-bold">Asistencia</h4>
+                      <p>
+                        Solo de uso para el personal autorizado de la institución.
+                      </p>
+
+
+                               <a href="{{ route('verificarcita.index') }}"> <button type="submit" class="btn btn-primary">
+                                    Ingresar
+                                </button></a>
+
+                    </div>
+                  </div>
+                  </div>
 
                 </div>
               </div>

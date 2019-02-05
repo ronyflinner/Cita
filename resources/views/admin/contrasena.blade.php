@@ -2,7 +2,7 @@
 
 @section('navT')
 
-        @include('partials.navAdmin')
+        @include('partials.nav')
 @endsection
 @section('seccion_c')
 

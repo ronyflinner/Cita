@@ -1,5 +1,4 @@
-
-    <body>
+ <body>
 
    <div class="fh5co-loader"></div>
    <!--<div class="text-center" id="fakeLoader"></div>-->
@@ -7,8 +6,15 @@
     <div id="page">
 
 <div class="home">
-        <div class="background_image" style="background-image:url(health/images/index_hero.jpg)"></div>
-<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+
+<style type="text/css">
+    .home{
+        height: 180px;
+    }
+
+</style>
+         <!-- Menu -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
       <div class="top-area">
         <div class="container">
           <div class="row">
@@ -27,7 +33,7 @@
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                     <i class="fa fa-bars"></i>
                 </button>
-          <a class="navbar-brand" href="{{ route('home') }}">
+           <a class="navbar-brand" href="{{ route('home') }}">
                     <img src="{{ url('health/images/lcc.png') }}" alt="" width="100" height="40" />
           </a>
         </div>
@@ -35,9 +41,22 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="{{ url('/') }}" >Inicio</a></li>
-            <li><a href="https://www.ligacancer.org.pe/quienesomos.html" target="_blank">Quiénes Somos</a></li>
-            <li><a href="https://www.ligacancer.org.pe/quehacemos.html" target="_blank">Qué Hacemos</a></li>
+            <li><a href="{{ route('programarcita.index') }}">Verificar Asistencia</a></li>
+            <li><a href="{{ route('historialCitaP.index') }}">Crear Cita</a></li>
+            <li><a href="{{route('contraseñaP.index')}}">Cambiar contraseña</a></li>
+             <li>
+                    <a href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                                 document.getElementById('logout-form').submit();" >Cerrar Sesion</a>
+
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
+
+
+                     </div>
+            </li>
           </ul>
         </div>
         <!-- /.navbar-collapse -->

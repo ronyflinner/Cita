@@ -37,8 +37,7 @@
 <!-- datapicker-->
 <script src="{{ url('health/js/bootstrap-datepicker.js') }}"></script>
 
-<!-- select 2-->
-<script src="{{ url('health/js/select2.min.js') }}"></script>
+
 
 <!-- Parsley Validator -->
 <link rel="stylesheet" type="text/css" href="{{url('health/styles/parsley.css')}}">
@@ -63,7 +62,8 @@
 
      {{ Html::style('https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css') }}
        {{ Html::script('https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js') }}
-
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
 
 @yield('javascript')
