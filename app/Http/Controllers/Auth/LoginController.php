@@ -29,6 +29,7 @@ class LoginController extends Controller {
 	protected $redirectTo = 'admin/home';
 	protected $redirectToUsuario = 'admin/usuario/crearcita';
 	protected $redirectToAdmin = 'admin/programarcita';
+	protected $redirectToPaciente = 'admin/verificarcita';
 
 	/**
 	 * Create a new controller instance.
@@ -53,10 +54,12 @@ class LoginController extends Controller {
 
 		if (Auth::attempt(['email' => $request['email'], 'password' => $request['password'], 'status' => 1])) {
 			/*Redireccionando Rol*/
-			if (Auth::user()->hasRole(['Administrador', 'Asistente'])) {
+			if (Auth::user()->hasRole(['Administrador'])) {
 				return redirect($this->redirectToAdmin);
-			} else {
+			} else if (Auth::user()->hasRole(['Paciente'])) {
 				return redirect($this->redirectToUsuario);
+			} else {
+				return redirect($this->redirectToPaciente);
 			}
 			//	return $this->redirectTo;
 			return redirect($this->redirectTo);

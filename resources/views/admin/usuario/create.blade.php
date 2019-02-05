@@ -7,14 +7,14 @@
 <div class="container">
 	<br><br>
 	 <div class="row">
-      <div class="col text-center mt-3">
+      <div class=" text-center ">
         <div class="section_title">Crear Usuario</div>
       </div>
     </div>
 	<br><br>
 
 		<div class="container">
-			<div class="col-md-10 offset-1">
+			<div class="col-md-12 ">
 				{!! Form::open(['route'=>'usuario.store','name'=>'form', 'method'=>'POST',"class"=>"form ",'files' => false, 'id'=>'form']) !!}
 
 						{{ Form::token() }}

@@ -10,11 +10,11 @@
     <br><br>
     <div class="row">
       <div class="col text-center mt-3">
-        <div class="section_title">Citas Programadas</div>
+        <div class="section_title"><h3>Citas Programadas</h3></div>
       </div>
     </div>
     <br><br>
-    {{ route('roteo') }}
+
 
     <div class="row">
       <div class="container">
