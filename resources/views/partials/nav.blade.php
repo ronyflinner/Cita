@@ -35,42 +35,82 @@
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                     <i class="fa fa-bars"></i>
                 </button>
-           <a class="navbar-brand" href="{{ route('home') }}">
+           <a class="navbar-brand" href="#">
                     <img src="{{ url('health/images/lcc.png') }}" alt="" width="100" height="40" />
           </a>
         </div>
-
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
           <ul class="nav navbar-nav">
+
+
             <!-- Administrador -->
-            <li><a href="{{ route('programarcita.index') }}">Programar Cita</a></li>
-            <li><a href="{{ route('historialCitaP.index') }}">Historial de Citas</a></li>
+            @hasrole('Administrador')
 
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración</a>
-              <ul class="dropdown-menu">
-                <li><a href="{{ route('usuario.index') }}">Usuarios</a></li>
-                <li><a href="{{ route('doctoredit.index')}}">Doctores</a></li>
-                <li><a href="{{ route('servicioedit.index')}}">Servicios</a></li>
+                @can('ver Programar Cita')
+                   <li><a href="{{ route('programarcita.index') }}">Programar Cita</a></li>
+                @endcan
+                @can('ver consultar citas')
+                   <li><a href="{{ route('historialCitaP.index') }}">Consultar Citas</a></li>
+                @endcan
+                @can('ver administración')
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración</a>
+                  <ul class="dropdown-menu">
+                    @can('ver usuarios')
+                    <li><a href="{{ route('usuario.index') }}">Usuarios</a></li>
+                    @endcan
+                    @can('ver doctores')
+                    <li><a href="{{ route('doctoredit.index')}}">Doctores</a></li>
+                    @endcan
+                    @can('ver servicios')
+                    <li><a href="{{ route('servicioedit.index')}}">Servicios</a></li>
+                    @endcan
+                  </ul>
+                </li>
+                @endcan
 
-              </ul>
-            </li>
-             <li><a href="#">Lista de Mensajes</a></li>
-
+                @can('ver lista contacto')
+                  <li><a href="#">Lista de Mensajes</a></li>
+                @endcan
+             <!-- Fin Administrador -->
+            @endhasrole
+            @hasrole('Paciente')
             <!-- Paciente -->
-              <li><a href="{{ route('crearcita.index') }}">Crear Cita</a></li>
-              <li><a href="{{ route('citaprogramada.index') }}">Cita Programada</a></li>
-              <li><a href="{{ route('historialcita.index') }}">Historial de Citas</a></li>
-              <li><a href="{{ route('contacto.index') }}">Contáctanos</a></li>
+
+                @can('ver crear cita')
+                    <li><a href="{{ route('crearcita.index') }}">Crear Cita</a></li>
+                @endcan
+                @can('ver cita programada')
+                    <li><a href="{{ route('citaprogramada.index') }}">Cita Programada</a></li>
+                @endcan
+                @can('ver Historia')
+                    <li><a href="{{ route('historialcita.index') }}">Historia</a></li>
+                @endcan
+                @can('ver contacto')
+                    <li><a href="{{ route('contacto.index') }}">Contáctanos</a></li>
+                @endcan
+
+            <!-- Fin Paciente -->
+            @endhasrole
+            @hasrole('Asistente')
+
 
             <!-- Asistente -->
-            <li><a href="{{ route('verificarcita.index') }}">Verificar Asistencia</a></li>
-            <li><a href="{{ route('historialCitaP.index') }}">Crear Cita</a></li>
+                @can('ver asistencia')
+                  <li><a href="{{ route('verificarcita.index') }}">Verificar Asistencia</a></li>
+                @endcan
+                @can('ver crear asistencia manual')
+                  <li><a href="{{ route('historialCitaP.index') }}">Crear Cita</a></li>
+                @endcan
+            <!-- Fin asistente-->
+            @endhasrole
+                @can('ver clave')
+                   <li><a href="{{route('contraseñaP.index')}}">Cambiar contraseña</a></li>
+                @endcan
 
-             <li><a href="{{route('contraseñaP.index')}}">Cambiar contraseña</a></li>
              <li>
-                    <a href="{{ route('logout') }}"
+               <a href="{{ route('logout') }}"
                         onclick="event.preventDefault();
                                  document.getElementById('logout-form').submit();" >Cerrar Sesion</a>
 
@@ -78,9 +118,7 @@
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         {{ csrf_field() }}
                     </form>
-
-
-                     </div>
+                </div>
             </li>
           </ul>
         </div>
