@@ -28,8 +28,7 @@
   <link href="{{url('medico/css/animate.css')}}" rel="stylesheet" />
   <link href="{{url('medico/css/style.css')}}"  rel="stylesheet">
 
-  <!-- boxed bg -->
-  <link href="{{url('medico/bodybg/bg1.css')}}" id="bodybg" rel="stylesheet" type="text/css" />
+
   <!-- template skin -->
   <link href="{{url('medico/color/default.css')}}" id="t-colors" rel="stylesheet">
 
