@@ -7,7 +7,7 @@
         <div class="container">
           <br><br>
             <div class="row">
-              <div class="col text-center mt-3">
+              <div class="text-center ">
                 <div class="section_title">Solicitud de Cita</div>
               </div>
             </div>
@@ -17,7 +17,7 @@
               <!-- Icon Box -->
                 <div class="container">
                       <div class="row">
-                             <div class="col-md-6 offset-md-3">
+                             <div class="col-md-12">
                                 <div class="form-group">
                                   <label for="sel1">Seleccionar Centro de Prevención:</label>
                                   {!! Form::select('lugar',$lugar, '', ['class'=>'form-control form-control-lg single select', 'required', 'id'=>'lugar'
@@ -39,15 +39,14 @@
 
                             </div>
                       </div>
-                          <div id="destiny" class="col-md-6 offset-md-3">
+                          <div id="destiny" class="col-md-6 ">
                           </div>
-                      </div>
-                 </div>
+            </div>
+            </div>
             <br><br><br>
             <div class="row">
               <div class="col text-center">
                 <button type="submit" disabled="" id="buttonCargar" class=" btn btn-success"><span>Generar Cita</span></button>
-
               </div>
             </div>
           </div>
@@ -134,8 +133,6 @@
 <script type="text/javascript">
 
       function culqi() {
-
-
 
           if (Culqi.token) { // ¡Objeto Token creado exitosamente!
               var token = Culqi.token.id;
