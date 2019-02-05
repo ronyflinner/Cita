@@ -2,46 +2,62 @@
 
 @section('navT')
 
-        @include('partials.navO')
+        @include('partials.nav1')
 @endsection
 @section('seccion_c')
 
+<section id="intro" class="intro">
+      <div class="intro-content">
+        <div class="container">
+             <div class="info">
+        <div class="container">
+    <div class="form-wrapper">
+                <div class="row">
+                	<div class="col-md-6">
+                		<div class="wow fadeInUp" data-wow-delay="0.2s">
+			              <div class="box text-center">
 
-<div class="container">
+			                <i class="fa fa-list-alt fa-3x circled bg-skin"></i>
+			                <h4 class="h-bold">Paciente</h4>
+			                <p>
+			                  Haz clic en el botón "Ingresa" y coloca tus datos para generar la cita.
+			                </p>
+			                <a href="{{ route('crearcita.index') }}"> <button type="submit" class="btn btn-primary">
+                                    Ingresar
+                                </button></a>
+			              </div>
+
+			            </div>
+                	</div>
+                	<div class="col-md-6">
+                		<div class="wow fadeInUp" data-wow-delay="0.2s">
+			              <div class="box text-center">
+
+			                <i class="fa fa-list-alt fa-3x circled bg-skin"></i>
+			                <h4 class="h-bold">Administrador</h4>
+			                <p>
+			                  Solo de uso para el personal autorizado de la institución.
+			                </p>
 
 
-	<div class="info">
-		<div class="container">
-			<div class="row row-eq-height">
+                               <a href="{{ route('programarcita.index') }}"> <button type="submit" class="btn btn-primary">
+                                    Ingresar
+                                </button></a>
 
-				<!-- Info Box -->
-				<div class="offset-2 col-lg-4 info_box_col">
-					<div class="info_box">
-						<div class="info_image"><img src="images/info_1.jpg" alt=""></div>
-						<div class="info_content">
-							<div class="info_title">Paciente</div>
-							<div class="info_text">Haz clic en el botón "Ingresa" y coloca tus datos para generar la cita. </div>
-							<div class="button info_button"><a href="{{ route('crearcita.index') }}"><span>Ingresa</span><span>Ingresa</span></a></div>
-						</div>
-					</div>
-				</div>
+			              </div>
+			            </div>
+                	</div>
 
-				<!-- Info Box -->
-				<div class="col-lg-4 info_box_col">
-					<div class="info_box">
-						<div class="info_image"><img src="images/info_2.jpg" alt=""></div>
-						<div class="info_content">
-							<div class="info_title">Administrador</div>
-							<div class="info_text">Solo de uso para el personal autorizado de la institución.</div>
-							<div class="button info_button"><a href="{{ route('programarcita.index') }}"><span>Ingresa</span><span>Ingresa</span></a></div>
-						</div>
-					</div>
-				</div>
+                </div>
+              </div>
+</div>
+    </div>
+            <div class="col-lg-6">
 
-
-			</div>
-		</div>
-	</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
 
 

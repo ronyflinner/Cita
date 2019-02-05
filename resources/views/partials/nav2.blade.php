@@ -14,56 +14,54 @@
     }
 
 </style>
-
-            <!-- Menu -->
-
-            <div class="menu trans_500">
-                <div class="menu_content d-flex flex-column align-items-center justify-content-center text-center">
-                    <div class="menu_close_container"><div class="menu_close"></div></div>
-
-                    <ul>
-                        <li class="menu_item"><a href="{{ route('crearcita.index') }}">Crear Cita</a></li>
-                        <li class="menu_item"><a href="{{ route('citaprogramada.index') }}">Cita Programada</a></li>
-                        <li class="menu_item"><a href="{{ route('historialcita.index') }}">Historial de Citas</a></li>
-                        <li class="menu_item"><a href="{{ route('contacto.index') }}">Contáctanos</a></li>
-                        <li class="menu_item"><a href="{{route('cambiar.index') }}">Cambiar contraseña</a></li>
-
-                    </ul>
-                </div>
+      <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+      <div class="top-area">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-6 col-md-6">
 
             </div>
-
-        <!-- Header -->
-
-        <header class="header" id="header">
-            <div>
-                <!-- Top header -->
-                @include('partials.top')
-
-                <div class="header_nav" id="header_nav_pin">
-                    <div class="header_nav_inner">
-                        <div class="header_nav_container">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="header_nav_content d-flex flex-row align-items-center justify-content-start">
-                                            <nav class="main_nav">
-                                                <ul class="d-flex flex-row align-items-center justify-content-start">
-                                                    <li class="active"><a href="{{ route('crearcita.index') }}">Crear Cita</a></li>
-                                                    <li><a href="{{ route('citaprogramada.index') }}">Cita Programada</a></li>
-                                                    <li><a href="{{ route('historialcita.index') }}">Tus Resultados</a></li>
-                                                    <li><a href="{{ route('contacto.index') }}">Contacto</a></li>
-                                                    <li><a href="{{route('cambiar.index') }}">Cambiar contraseña</a></li>
-
-                                                </ul>
-                                            </nav>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-sm-6 col-md-6">
+              <p class="bold text-right">Central Telefónica: (511) 204-0404</p>
             </div>
-        </header>
+          </div>
+        </div>
+      </div>
+      <div class="container navigation">
+
+        <div class="navbar-header page-scroll">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    <i class="fa fa-bars"></i>
+                </button>
+          <a class="navbar-brand" href="{{ route('home') }}">
+                    <img src="{{ url('health/images/lcc.png') }}" alt="" width="100" height="40" />
+          </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="{{ route('crearcita.index') }}">Crear Cita</a></li>
+            <li><a href="{{ route('citaprogramada.index') }}">Cita Programada</a></li>
+            <li><a href="{{ route('historialcita.index') }}">Historial de Citas</a></li>
+            <li><a href="{{ route('contacto.index') }}">Contáctanos</a></li>
+            <li><a href="{{route('cambiar.index') }}">Cambiar contraseña</a></li>
+            <li>
+                    <a href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                                 document.getElementById('logout-form').submit();" >Cerrar Sesion</a>
+
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
+
+
+                     </div>
+            </li>
+          </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+      </div>
+      <!-- /.container -->
+    </nav>
