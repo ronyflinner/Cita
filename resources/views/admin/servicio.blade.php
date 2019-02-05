@@ -2,7 +2,7 @@
 
 @section('navT')
 
-        @include('partials.navAdmin')
+        @include('partials.nav')
 @endsection
 
 @section('seccion_c')
@@ -26,16 +26,11 @@
        </div>
        <div class="col-md-4">
          <div class="form-group">
-            <label for="usr">x</label>
+            <br>
             <button type="button" class="btn btn-primary" id='bu'>Aceptar</button>
          </div>
        </div>
-
      </div>
-
-
-
-
    </div>
 
    <div class="container" id="No">
@@ -115,45 +110,37 @@
 
                   vurl='{{ url('admin/mostrarServicio') }}';
                   //vurl = `${vurl}/${url1}`;
+                  //(Location).load(vurl, { id: url1 });
+                               var parametros = {
+                                       "nombre" : $('#servicio').val(),
+                                       "costo"  : $("#costo").val()
+                                    };
 
-                 //(Location).load(vurl, { id: url1 });
-                 var parametros = {
-                         "lugar" : 0
+                                console.log(vurl);
+                                //$(location).attr('href',vurl);
 
-                      };
-                     itable = $('#Na').DataTable({
-                                        processing: true,
-                                        serverSide: true,
-                                        ajax:{
-                                            url:   vurl,
-                                            data: parametros,
-                                            type:  'GET', //método de envio
-                                            dataType : 'json',
-                                            headers: {
-                                                       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                                      }
-                                        } ,
-                                         language: {
-                                            url: '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json'
-                                         },
-                                        columns: [
-                                            {data: 'id', name:'id','orderable': false},
-                                            {data: 'nombre', name:'nombre'},
-                                            {data: 'costo', name:'costo'},
+                               // var doc = 'statusEdit';
+                                $.ajax({
+                                url:   vurl,
+                                data: parametros,
+                                type:  'GET', //método de envio
+                                dataType : 'json',
+                                headers: {
+                                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                          } ,
+                                success:  function (data3) {
+                                   console.log('data 09999');
+                                   console.log(data3);
+                                   actualizar = data3;
 
-                                        ],
-                                        bAutoWidth: false,
-                                        order: [[0, 'asc']],
-                                        'aaSorting': [],
-                                        paging: true,
-                                        searching: false,
-                                        columnDefs: [
-                                              { width: 20, height: 100,  targets: 0 }
-                                          ],
-                                         fixedColumns: true,
+                                },
+                                error: function (data2) {
+                                   console.log('Error:', data2);
+                                  },
+                                  async: false
+                                });
+                               });
 
-                                    });
-                   });
                 },
                 toast_notification:(message,data,flag)=>{
                       let listar;

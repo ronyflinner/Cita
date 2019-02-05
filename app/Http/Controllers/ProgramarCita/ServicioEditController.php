@@ -38,7 +38,7 @@ class ServicioEditController extends Controller {
 	public function mostrarServicio(Request $request) {
 
 		$enviar = Servicio::all();
-
+		return $enviar;
 		$con = 1;
 		return datatables($enviar)
 			->addColumn('id', function ($val) use (&$con) {
