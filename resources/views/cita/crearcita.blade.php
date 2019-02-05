@@ -135,8 +135,6 @@
 
       function culqi() {
 
-
-
           if (Culqi.token) { // ¡Objeto Token creado exitosamente!
               var token = Culqi.token.id;
               console.log('Se ha creado un token:' + token);
