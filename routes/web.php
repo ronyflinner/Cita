@@ -70,6 +70,9 @@ Route::prefix('admin')->group(function () {
 
 	Route::resource('permiso', 'Administrador\PermissionController');
 	/*Datatable - Permiso*/
+
+	Route::get('buscarVeri/{id?}', 'Asistencia\VerificadorController@buscar')->name('buscarveri.index');
+
 	Route::resource('verificarcita', 'Asistencia\VerificadorController');
 
 	Route::resource('historialcita', 'CrearCita\HistorialCitaController');

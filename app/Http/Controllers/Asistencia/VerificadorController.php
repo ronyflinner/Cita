@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Asistencia;
 
 use App\Http\Controllers\Controller;
+use App\Model\Cita;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 
 class VerificadorController extends Controller {
@@ -20,6 +22,12 @@ class VerificadorController extends Controller {
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
+
+	public function buscar(Request $request) {
+		$cita = Cita::where('id', $request->id)->get();
+		$user = User::where('id', $cita[0]->paciente_id)->get();
+		return response()->json(['nombre' => $user[0]->name, 'dni' => $user[0]->dni, 'status_asistio' => $cita[0]->status_asistio, 'status_pago' => $cita[0]->status_pago]);
+	}
 	public function create() {
 		//
 	}
