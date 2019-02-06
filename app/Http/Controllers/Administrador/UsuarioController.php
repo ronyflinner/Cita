@@ -7,6 +7,7 @@ use App\Http\Controllers\traitsGeneral\principal;
 use App\Http\Requests\ReiniciarRequest;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 
 class UsuarioController extends Controller {
@@ -160,7 +161,17 @@ class UsuarioController extends Controller {
 	}
 
 	public function resetPassword(ReiniciarRequest $request) {
-		return $request->all();
+
+		$user = User::where('id', Auth::id())
+			->update(['password' => bcrypt($request->password)]);
+
+		if ($user) {
+			$mensaje = 1;
+
+		} else {
+			$mensaje = 2;
+		}
+		return response()->json(['mensaje' => $mensaje]);
 
 	}
 
