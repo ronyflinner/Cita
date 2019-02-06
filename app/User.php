@@ -33,6 +33,6 @@ class User extends Authenticatable {
 	}
 
 	public function getNombreCompletoAttribute() {
-		return $this->name . ' ' . $this->apellidoP;
+		return ucfirst($this->name) . ' ' . ucfirst($this->apellidoP);
 	}
 }

@@ -1,6 +1,6 @@
 @extends('layouts.principal')
 @section('navT')
-        @include('partials.navAdmin')
+        @include('partials.nav')
 @endsection
 @section('seccion_c')
 <div class="container">
