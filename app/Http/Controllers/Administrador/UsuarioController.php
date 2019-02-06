@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Administrador;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\traitsGeneral\principal;
+use App\Http\Requests\ReiniciarRequest;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 
 class UsuarioController extends Controller {
@@ -13,6 +15,7 @@ class UsuarioController extends Controller {
 	private $btnStatus;
 	private $btnEdit;
 	private $btnAsign;
+	private $pathRedirecion = '';
 
 	/**
 	 * Display a listing of the resource.
@@ -154,6 +157,21 @@ class UsuarioController extends Controller {
 
 			return response()->json(['data' => 1, 'value' => $user]);
 		}
+
+	}
+
+	public function resetPassword(ReiniciarRequest $request) {
+
+		$user = User::where('id', Auth::id())
+			->update(['password' => bcrypt($request->password)]);
+
+		if ($user) {
+			$mensaje = 1;
+
+		} else {
+			$mensaje = 2;
+		}
+		return response()->json(['mensaje' => $mensaje]);
 
 	}
 

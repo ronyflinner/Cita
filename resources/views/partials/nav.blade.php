@@ -24,7 +24,9 @@
 
             </div>
             <div class="col-sm-6 col-md-6">
-              <p class="bold text-right">Central Telefónica: (511) 204-0404</p>
+              <p class="bold text-right">Bienenid@: {{ Auth::user()->NombreCompleto }}</p>
+
+
             </div>
           </div>
         </div>
@@ -125,5 +127,6 @@
         <!-- /.navbar-collapse -->
       </div>
       <!-- /.container -->
+
     </nav>
 

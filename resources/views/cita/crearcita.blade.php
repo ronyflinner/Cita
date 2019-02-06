@@ -119,7 +119,7 @@
           currency: 'PEN',
           description: 'Polo Culqi lover',
           amount: 3500,
-          order:"dsgjsdkgjnsdgkjbdgskjdgb"
+          order:"ord_live_0CjjdWhFpEAZlxlz"
       });
       // Usa la funcion Culqi.open() en el evento que desees
       $('#buyButton').on('click', function(e) {
@@ -147,9 +147,12 @@
                         type: 'POST',
                         url: rutaPago,
                         data: dataCompra,
-                        dataType: 'JSON',
-                        async : true,
-                        headers:{'X-CSRF-TOKEN': tokenLaravel},
+                       // dataType: 'JSON',
+                       /* async : true,*/
+                        headers:{
+                          'X-CSRF-TOKEN': tokenLaravel,
+                          'Content-Type':'application/json'
+                        },
                    })
                    .done(( data, textStatus, jqXHR)=> {
                          console.log(data);

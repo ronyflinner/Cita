@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RoleCreateRequest extends FormRequest {
+class ReiniciarRequest extends FormRequest {
 	/**
 	 * Determine if the user is authorized to make this request.
 	 *
@@ -22,7 +22,6 @@ class RoleCreateRequest extends FormRequest {
 	public function rules() {
 		return [
 			'password' => 'nullable|required_with:password_confirmation|string|confirmed',
-
 		];
 	}
 }

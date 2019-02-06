@@ -18,7 +18,7 @@
 
     <div class="row">
       <div class="container">
-          <table id="Mytable"  class="table table-bordered table-hover " style="width:100%">
+          <table id="Mytable"  class="table table-bordered table-hover table-responsive " style="width:100%">
               <thead>
                   <tr>
                       <th>N°</th>
@@ -50,7 +50,7 @@
     </div>
 
 
-
+<br><br>
 
 </div>
 

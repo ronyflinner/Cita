@@ -57,7 +57,9 @@ Route::prefix('admin')->group(function () {
 
 	Route::post('StatusUsuario', 'Administrador\UsuarioController@getStatusPost')->name('admin.ajax.statusUsuario');
 
-	Route::get('getUsuarioTable', 'Administrador\UsuarioController@getListadoUsuario')->name('admin.ajax.getUsuarioTable');
+	Route::get('getUsuarioTable', 'Administrador\UsuarioController@getListadoUsuario')->name('admin.ajax.getUsuarioTable')->name('admin.reiniciarClave');
+
+	Route::post('reiniciarClave', 'Administrador\UsuarioController@resetPassword')->name('admin.reiniciarClave');
 
 	Route::resource('usuario', 'Administrador\UsuarioController');
 	/*DATATABlE - usuario*/

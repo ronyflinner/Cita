@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller {
@@ -26,7 +27,7 @@ class RegisterController extends Controller {
 	 *
 	 * @var string
 	 */
-	protected $redirectTo = '/admin/home';
+	protected $redirectTo = '/admin/usuario/crearcita';
 
 	/**
 	 * Create a new controller instance.
@@ -48,10 +49,13 @@ class RegisterController extends Controller {
 			'name' => 'required|string|max:255',
 			'email' => 'required|string|email|max:255|unique:users',
 			'password' => 'required|string|min:6|confirmed',
-			'apellidoP' => 'required|string|max:255',
-			'apellidoM' => 'required|string|max:255',
-			'dni' => 'required|string|max:9',
-			'numero' => 'required|integer|max:9',
+			'apellido_paterno' => 'required|string|max:255',
+			'apellido_materno' => 'required|string|max:255',
+			'numero' => 'required|min:8',
+			'tipo' => 'required',
+			'telefono' => 'required',
+			'captcha' => 'required|captcha',
+
 		]);
 	}
 
@@ -62,16 +66,26 @@ class RegisterController extends Controller {
 	 * @return \App\User
 	 */
 	protected function create(array $data) {
-		return User::create([
+
+		$user = User::create([
 			'name' => $data['name'],
 			'email' => $data['email'],
 			'password' => bcrypt($data['password']),
-			'apellidoP' => $data['apellidoP'],
-			'apellidoM' => $data['apellidoM'],
-			'dni' => $data['dni'],
-			'numero' => $data['numero'],
+			'apellidoP' => $data['apellido_paterno'],
+			'apellidoM' => $data['apellido_materno'],
+			'dni' => $data['tipo'] . '-' . $data['numero'],
+			'numero' => $data['telefono'],
 			'slug' => str_random(150),
-			'tipo' => $data['tipo'],
+			'tipo' => 2,
 		]);
+		$user->assignRole('Paciente');
+
+		return $user;
+	}
+
+	public function showRegistrationForm() {
+		$tipoDocumento = ['' => 'Selecionar', '1' => 'DNI', '2' => 'Pasaporte', '3' => 'Carnet de Extranjeria'];
+
+		return view('auth.register', compact('tipoDocumento'));
 	}
 }
