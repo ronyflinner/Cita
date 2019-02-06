@@ -49,7 +49,6 @@
       <link rel="stylesheet" type="text/css" href="{{url('health/styles/bootstrap-datepicker.css')}}">
 
 
-     <link rel="stylesheet" type="text/css" href="{{url('health/styles/jquery.dataTables.min.css')}}">
 
 
      <link rel="stylesheet" type="text/css" href="{{url('health/styles/bootstrap-datepicker.css')}}">

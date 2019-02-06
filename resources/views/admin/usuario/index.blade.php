@@ -10,7 +10,7 @@
     <br><br>
     <div class="row">
       <div class="col text-center mt-3">
-        <div class="section_title">Lista de Usuarios</div>
+        <div class="section_title"><h3>Lista de Usuarios</h3></div>
       </div>
     </div>
     <a href="{{ route('usuario.create') }}" class="btn btn-success">Crear Usuario</a>

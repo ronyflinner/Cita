@@ -60,7 +60,8 @@
 <button id="buyButton" type="button" name="ronadl"  class="btn btn-success">
   enviar
 </button>
-
+{{ route('roteo') }}<br>
+{{ route('confirmation') }}
 
  <form method="post" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/">
   <input name="merchantId"    type="hidden"  value="508029"   >
@@ -77,6 +78,7 @@
   <input name="responseUrl"    type="hidden"  value="{{ route('roteo') }}
 " >
   <input name="confirmationUrl" type="hidden" value="{{ route('confirmation') }}" >
+
   <input name="Submit" class="btn btn-success"       type="submit"  value="Enviar" >
 </form>
 

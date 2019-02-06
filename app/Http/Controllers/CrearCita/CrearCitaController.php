@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Jenssegers\Date\Date;
 
 class CrearCitaController extends Controller {
@@ -163,12 +164,13 @@ class CrearCitaController extends Controller {
 	}
 
 	public function testeo(request $request) {
-
+		Log::info('Aprobado');
+		return self::index();
 		return $Value = $request->all();
 
 	}
 	public function confirmation(request $request) {
-
+		Log::info($request->all());
 		return $Value = $request->all();
 
 	}

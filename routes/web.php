@@ -10,6 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
  */
+/*Webhood*/
+
+Route::post('webhook', 'WebhookController@handle');
+Route::post('confirmation', 'CrearCita\CrearCitaController@testeo')->name('confirmation');
+
 Route::prefix('admin')->group(function () {
 	Route::get('/home', 'HomeController@index')->name('home');
 
@@ -19,8 +24,7 @@ Route::prefix('admin')->group(function () {
 
 		/*AJAX*/
 
-		Route::get('/testeo/ajaxCrear/response', 'CrearCita\CrearCitaController@testeo')->name('roteo');
-		Route::get('/testeo/ajaxCrear/confirmation', 'CrearCita\CrearCitaController@testeo')->name('confirmation');
+		Route::get('response', 'CrearCita\CrearCitaController@testeo')->name('roteo');
 
 		Route::get('/crearcita/ajaxCrear/{id?}/{servicio?}', 'CrearCita\CrearCitaController@ajaxCrearCitaFecha')->name('admin.ajax.crearCita');
 
@@ -57,7 +61,7 @@ Route::prefix('admin')->group(function () {
 
 	Route::post('StatusUsuario', 'Administrador\UsuarioController@getStatusPost')->name('admin.ajax.statusUsuario');
 
-	Route::get('getUsuarioTable', 'Administrador\UsuarioController@getListadoUsuario')->name('admin.ajax.getUsuarioTable')->name('admin.reiniciarClave');
+	Route::get('getUsuarioTable', 'Administrador\UsuarioController@getListadoUsuario')->name('admin.ajax.getUsuarioTable');
 
 	Route::post('reiniciarClave', 'Administrador\UsuarioController@resetPassword')->name('admin.reiniciarClave');
 

@@ -27,7 +27,7 @@
 
 <script src="{{ url('health/js/fullcalendar.min.js') }}"></script>
 
-<script src="{{ url('health/js/jquery.dataTables.min.js') }}"></script>
+
 
 
 
@@ -61,9 +61,13 @@
 
 
      {{ Html::style('https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css') }}
-       {{ Html::script('https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js') }}
+     {{ Html::script('https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js') }}
      <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
+<!-- Datatable-->
+<link rel="stylesheet" type="text/css" href="{{url('health/styles/jquery.dataTables.min.css')}}">
+
+<script src="{{ url('health/js/jquery.dataTables.min.js') }}"></script>
 
 @yield('javascript')
