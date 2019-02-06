@@ -36,10 +36,6 @@
     <div class="row">
         <div class="col-md-8">
             <div class="well well-sm">
-
-
-              {!! Form::open(['route'=>'contacto.store','name'=>'form', 'method'=>'POST',"class"=>"form ",'files' => false, 'id'=>'form']) !!}
-              {!! Form::token() !!}
                 <div class="row">
                     <div class="col-md-12">
 
@@ -51,11 +47,10 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <button type="submit" class="btn btn-primary pull-right" id="btnContactUs">
+                        <button type="submit" class="btn btn-primary pull-right" id="men">
                             Enviar Mensaje</button>
                     </div>
                 </div>
-                {!! Form::close() !!}
 
 
 
@@ -89,35 +84,24 @@
                 init : ()=> {
 
                     PlantillaContacto.General();
-                    PlantillaContacto.buttonLugar();
+
                 },
                 // Metodos
                 sayMessage: mensaje=> {
                   alert("Hola como estas!!!");
                 },
                 General:()=>{
-                   $(function() {
-                      CKEDITOR.replace('message');
-                      /*Funcionnes Genericas*/
-                      $('.single').select2();
 
-                      $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
+                      $('#men').click(function(event) {
 
-                      var now = moment();
-                      /*Limpieza*/
-
-
-                      $('#form').on('submit', function(event){
-                          event.preventDefault();
-                          if($('#form').parsley().isValid())
-                          {
-                                vurl='{{ url('admin/usuario/cargard') }}';
+                            alert('hola');
+                            vurl='{{ url('admin/usuario/cargard') }}';
                                 //vurl = `${vurl}/${url1}`;
 
                                //(Location).load(vurl, { id: url1 });
-                               var parametros = {
+                             var parametros = {
                                        "mensaje" : $('#message').val(),
-                                    };
+                                     };
 
                                 console.log(vurl);
                               $.ajax({
@@ -133,7 +117,6 @@
                                    console.log(data3);
                                    actualizar = data3;
                                    PlantillaContacto.toast_notification("success",'Guardado Correctaente!!!',2);
-
                                    setTimeout(
                                       function()
                                       {
@@ -147,12 +130,7 @@
                                   async: false
                                 });
 
-                           // PlantillaContacto.dataAjaxhora($("#form").serialize(),2);
-                          }
                       });
-
-
-                   });
                 },
                 toast_notification:(message,data,flag)=>{
                       let listar;

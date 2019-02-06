@@ -39,11 +39,14 @@ Route::prefix('admin')->group(function () {
 
 		Route::get('cargard/{id?}', 'CrearCita\ContactoController@cargar')->name('cargard.index');
 
+		Route::get('list_mensaje', 'CrearCita\MensajeController@list_mensaje')->name('listamen.index');
+		Route::resource('listameonsaje', 'CrearCita\MensajeController');
 		Route::resource('contacto', 'CrearCita\ContactoController');
 
 		Route::resource('cambiar', 'CrearCita\CambiarContraController');
 
 		Route::resource('citaprogramada', 'CrearCita\CitaProgramadaController');
+
 	});
 
 	/*Culqui*/
@@ -72,6 +75,7 @@ Route::prefix('admin')->group(function () {
 	/*Datatable - Permiso*/
 
 	Route::get('buscarVeri/{id?}', 'Asistencia\VerificadorController@buscar')->name('buscarveri.index');
+	Route::get('asistenciab/{id?}', 'Asistencia\VerificadorController@asistencia')->name('asistenciab.index');
 
 	Route::resource('verificarcita', 'Asistencia\VerificadorController');
 

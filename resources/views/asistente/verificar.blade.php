@@ -4,8 +4,7 @@
        @include('partials.nav')
 @endsection
 @section('seccion_c')
-<br><br><br><br><br><br>
-<br><br><br><br><br><br>
+
  <div class="container">
     <div class="form-wrapper">
                 <div class="wow fadeInRight" data-wow-duration="2s" data-wow-delay="0.2s">
@@ -36,33 +35,37 @@
                         </div>
 
                         <div class="row">
-                          <div class="col-xs-3 col-sm-3 col-md-3">
+                          <div class="col-xs-2 col-sm-2 col-md-2">
                             <div class="form-group">
                               <label>Nombre</label>
                               <div id="nombre"></div>
                             </div>
                           </div>
-                          <div class="col-xs-3 col-sm-3 col-md-3">
+                          <div class="col-xs-2 col-sm-2 col-md-2">
                             <div class="form-group">
                               <label>DNI</label>
                               <div id="dni" ></div>
                             </div>
                           </div>
-                          <div class="col-xs-3 col-sm-3 col-md-3">
+                          <div class="col-xs-2 col-sm-2 col-md-2">
                             <div class="form-group">
                               <label>Pago</label>
                               <div id="pago" ></div>
                             </div>
                           </div>
-                          <div class="col-xs-3 col-sm-3 col-md-3">
+                          <div class="col-xs-2 col-sm-2 col-md-2">
                             <div class="form-group">
                               <label>Asistio</label>
                               <div id="asistio"></div>
                             </div>
                           </div>
+                          <div class="col-xs-2 col-sm-2 col-md-2">
+                            <div class="form-group">
+                              <br>
+                              <button type="button" id="asistencia" class="btn btn-primary">Aceptar</button>
+                            </div>
+                          </div>
                         </div>
-
-                        <button type="button" id="asistencia" class="btn btn-primary">Aceptar</button>
 
                       </form>
                     </div>
@@ -93,15 +96,13 @@
            General:()=>{
                    $(function() {
                       $('#buscar').click(function(){
-                        vurl='{{ url('admin/buscarVeri') }}';
+                              vurl='{{ url('admin/buscarVeri') }}';
                                 //vurl = `${vurl}/${url1}`;
-
                                //(Location).load(vurl, { id: url1 });
                                var parametros = {
                                        "id" : $('#codigo_cita').val()
                                     };
                                 //$(location).attr('href',vurl);
-
                                // var doc = 'statusEdit';
                                 $.ajax({
                                 url:   vurl,
@@ -113,6 +114,11 @@
                                           } ,
                                 success:  function (data) {
                                     console.log(data['nombre']);
+                                    $('#nombre').empty();
+                                    $('#dni').empty();
+                                    $('#asistio').empty();
+                                    $('#pago').empty();
+
                                     $('#nombre').append(data['nombre']);
                                     $('#dni').append(data['dni']);
 
@@ -127,10 +133,13 @@
                                     }else{
                                       $('#pago').append("No");
                                     }
-
-
                                 },
                                 error: function (data) {
+                                  $('#nombre').empty();
+                                    $('#dni').empty();
+                                    $('#asistio').empty();
+                                    $('#pago').empty();
+                                    PlantillaContacto.toast_notification("warning",'Ingrese codigo de la cita',2);
                                    console.log('Error:', data);
                                   },
                                   async: false
@@ -139,9 +148,40 @@
 
 
                     $('#asistencia').click(function(){
-                      if($('#pago').html() == "Sí")
+                      if($('#pago').html() == "Sí" && $('#asistio').html() == "No")
                        {
 
+                         vurl='{{ url('admin/asistenciab') }}';
+                                //vurl = `${vurl}/${url1}`;
+                               //(Location).load(vurl, { id: url1 });
+                        var parametros = {
+                                       "id" : $('#codigo_cita').val()
+                                    };
+                         $.ajax({
+                                url:   vurl,
+                                data: parametros,
+                                type:  'GET', //método de envio
+                                dataType : 'json',
+                                headers: {
+                                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                          } ,
+                                success:  function (data) {
+                                    $('#pago').empty();
+                                    PlantillaContacto.toast_notification("success",'Se verifico la asistencia!!!',2);
+                                    $('#pago').append("Sí");
+                                },
+                                error: function (data) {
+                                    $('#nombre').empty();
+                                    $('#dni').empty();
+                                    $('#asistio').empty();
+                                    $('#pago').empty();
+
+                                   console.log('Error:', data);
+                                  },
+                                  async: false
+                                });
+                       }else{
+                          PlantillaContacto.toast_notification("warning",'No puede asistir sino ha pagado',2);
                        }
                     });
 

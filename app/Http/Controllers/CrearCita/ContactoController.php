@@ -25,12 +25,6 @@ class ContactoController extends Controller {
 
 	public function cargar(Request $request) {
 
-		$tipo = 3;
-		if ($request->tipo == 'service') {
-			$tipo = 1;
-		} else if ($request->tipo == 'suggestions') {
-			$tipo = 2;
-		}
 		$slug = str_random(180);
 		$insertid = \DB::table('contactos')->insertGetId(['paciente_id' => Auth::id(), 'mensaje' => $request->mensaje, 'slug' => $slug, 'status' => 0, 'tipo' => 0]);
 		return response()->json('listo');

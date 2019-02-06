@@ -1,20 +1,44 @@
 <?php
 
-namespace App\Http\Controllers\Asistencia;
+namespace App\Http\Controllers\CrearCita;
 
 use App\Http\Controllers\Controller;
-use App\Model\Cita;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class VerificadorController extends Controller {
+class MensajeController extends Controller {
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index() {
-		return view('asistente.verificar');
+		return view('cita.listamensaje');
+	}
+
+	public function list_mensaje(Request $request) {
+		if ($request->ajax()) {
+			$enviar = DB::table('contactos')
+				->join('users', 'contactos.paciente_id', '=', 'users.id')->select('contactos.mensaje', 'users.name', 'users.apellidoP', 'users.apellidoM', 'users.email')->get();
+
+			$r = 0;
+			return Datatables($enviar)
+				->addColumn('id', function ($val) use (&$r) {
+					return ++$r;
+				})
+				->addColumn('paciente', function ($val) {
+					return $val->name . $val->apellidoP . $val->apellidoM;
+				})
+				->addColumn('mensaje', function ($val) {
+					return $val->mensaje;
+
+				})->addColumn('responder', function ($val) {
+
+				return " <a href='mailto:" . $val->email . "'><button type='button'  class='editar btn btn-primary'><i class='fa fa-pencil-square-o'></i></button></a>";
+
+			})->rawColumns(['responder'])->make(true);
+		}
+
 	}
 
 	/**
@@ -22,17 +46,6 @@ class VerificadorController extends Controller {
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-
-	public function buscar(Request $request) {
-		$cita = Cita::where('id', $request->id)->get();
-		$user = User::where('id', $cita[0]->paciente_id)->get();
-		return response()->json(['nombre' => $user[0]->name, 'dni' => $user[0]->dni, 'status_asistio' => $cita[0]->status_asistio, 'status_pago' => $cita[0]->status_pago]);
-	}
-
-	public function asistencia(Request $request) {
-		$pres = Cita::where('id', $request->id)->update(['status_asistio' => 0]);
-		return response()->json('hola');
-	}
 	public function create() {
 		//
 	}

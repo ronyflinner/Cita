@@ -71,7 +71,7 @@
                 @endcan
 
                 @can('ver lista contacto')
-                  <li><a href="#">Lista de Mensajes</a></li>
+                  <li><a href="{{ route('listameonsaje.index') }}">Lista de Mensajes</a></li>
                 @endcan
              <!-- Fin Administrador -->
             @endhasrole
