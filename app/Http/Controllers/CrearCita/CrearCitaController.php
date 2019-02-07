@@ -165,7 +165,7 @@ class CrearCitaController extends Controller {
 
 	public function testeo(request $request) {
 		Log::info('Aprobado');
-		return self::index();
+		//return self::index();
 		return $Value = $request->all();
 
 	}
