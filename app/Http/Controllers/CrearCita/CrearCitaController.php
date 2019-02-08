@@ -9,6 +9,7 @@ use App\Model\Disponibilidad;
 use App\Model\Fecha;
 use App\Model\Hora;
 use App\Model\Locacion\Lugar;
+use App\Model\Servicio;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -165,6 +166,18 @@ class CrearCitaController extends Controller {
 
 	public function testeo(request $request) {
 		Log::info('Aprobado');
+
+		$request->referenceCode; // Codigo de referencia
+
+		$request->processingDate; //fecha
+		$request->buyerEmail;
+		$request->transactionId; //Transacion ID
+		$request->reference_pol; //referencia de pago
+		$request->message; // Mensaje de aprobacion
+
+		/*Estado transacion*/
+		$request->transactionState;
+		$request->lapTransactionState;
 		//return self::index();
 		return $Value = $request->all();
 
@@ -241,6 +254,47 @@ class CrearCitaController extends Controller {
 		}
 
 		return response()->json(["dispo" => $disponbilidad, 'yeah' => $mensaje, 'switch' => 2]);
+	}
+
+	public function ajaxPayuFormulario(Request $request) {
+		if ($request->ajax()) {
+
+			/*Buscando precio del servicio*/
+
+			$servicio = Servicio::find($request->servicio);
+
+			/*Formulario de pago*/
+
+			$ApiKey = '4Vj8eK4rloUd272L48hsrarnUA';
+			$merchantId = '508029';
+			$referenceCode = '000018';
+			$amount = $servicio->costo;
+			$currency = 'PEN';
+			$description = 'Donativo';
+			$accountId = '512323';
+			$tax = 0;
+
+			/*000+DNI+ID CITA*/
+
+			$valores = $ApiKey . '~' . $merchantId . '~' . $referenceCode . '~' . $amount . '~' . $currency;
+
+			$signature = md5($valores);
+
+			$data = [
+				'referenceCode' => $referenceCode,
+				'amount' => $amount,
+				'signature' => $signature,
+				'currency' => $currency,
+				'description' => $description,
+				'accountId' => $accountId,
+				'merchantId' => $merchantId,
+				'tax' => $tax,
+			];
+
+			return response()->json($data);
+
+		}
+
 	}
 
 	/**

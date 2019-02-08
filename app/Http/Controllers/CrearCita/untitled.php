@@ -125,3 +125,84 @@ foreach ($doctores as $key => $value) {
 
 		return $horasOrdenadas; 
 
+
+
+<!-- Incluye Culqi Checkout en tu sitio web-->
+<script src="https://checkout.culqi.com/js/v3"></script>
+
+<script>
+
+    // Configura tu llave pública
+      Culqi.publicKey = 'pk_test_gj4UppEa7dS8f5By';
+    // Configura tu Culqi Checkout
+      Culqi.settings({
+          title: 'Culqi Store',
+          currency: 'PEN',
+          description: 'Polo Culqi lover',
+          amount: 3500,
+          order:"ord_live_0CjjdWhFpEAZlxlz"
+      });
+      // Usa la funcion Culqi.open() en el evento que desees
+      $('#buyButton').on('click', function(e) {
+          // Abre el formulario con las opciones de Culqi.settings
+          Culqi.open();
+
+          e.preventDefault();
+      });
+
+</script>
+<script type="text/javascript">
+
+      function culqi() {
+
+          if (Culqi.token) { // ¡Objeto Token creado exitosamente!
+              var token = Culqi.token.id;
+              console.log('Se ha creado un token:' + token);
+              // Aqui enviar token Id a servidor para crear cargo..
+
+                 tokenLaravel=$("#_token").val();
+                 dataCompra={tokenCukqui:token,compra:'compra'};
+                 rutaPago=$("#_ajaxPago").val();
+
+                 $.ajax({
+                        type: 'POST',
+                        url: rutaPago,
+                        data: dataCompra,
+                       // dataType: 'JSON',
+                       /* async : true,*/
+                        headers:{
+                          'X-CSRF-TOKEN': tokenLaravel,
+                          'Content-Type':'application/json'
+                        },
+                   })
+                   .done(( data, textStatus, jqXHR)=> {
+                         console.log(data);
+                         Culqi.close();
+                   })
+                   .fail(( data, textStatus, jqXHR)=> {
+                     //console.log(data);
+                   })
+                   .always(function() {
+                        console.log("complete");
+                  });
+
+          }
+          else if (Culqi.order) {
+              console.log(Culqi.order)
+
+              console.log('Se ha elegido el metodo de pago en efectivo');
+
+               /* Aqui enviar al servidor el order Id y asociarlo al detalle de tu venta.
+                  Además, tu venta en tu comercio debe quedar estado pendiente.
+                */
+          }
+          else { // ¡Hubo algún problema!
+              // Mostramos JSON de objeto error en consola
+              console.log(Culqi.error);
+            //  console.log(Culqi.error.user_message);
+
+
+                Culqi.close();
+          }
+  };
+</script>

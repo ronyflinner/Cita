@@ -8,11 +8,15 @@
           <br><br>
             <div class="row">
               <div class="text-center ">
-                <div class="section_title">Solicitud de Cita</div>
+                <div class="section_title"><h3>Solicitud de Cita</h3></div>
               </div>
             </div>
+
+
             <div class="row icon_boxes_row">
-              {!! Form::open(['route'=>'crearcita.store','name'=>'form', 'method'=>'POST',"class"=>"form ",'files' => false, 'id'=>'form']) !!}
+            <form class="form" id="form" method="POST" name="form" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/" accept-charset="UTF-8" >
+
+
               {!! Form::token() !!}
               <!-- Icon Box -->
                 <div class="container">
@@ -25,7 +29,7 @@
                                 </div>
                                  <div class="form-group">
                                   <label for="sel1">Seleccionar Servicio:</label>
-                                  {!! Form::select('servicio',[''=>'Selecionar'], '', ['class'=>'form-control form-control-lg single selectServicio', 'required', 'id'=>'lugar'
+                                  {!! Form::select('servicio',[''=>'Selecionar'], '', ['class'=>'form-control form-control-lg single selectServicio', 'required', 'id'=>'servicio'
                                   ]) !!}
                                 </div>
                                 <div class="form-group" id="display_cita" style="display: none;">
@@ -41,44 +45,40 @@
                       </div>
                           <div id="destiny" class="col-md-6 ">
                           </div>
-            </div>
+               </div>
             </div>
             <br><br><br>
+
+                <input name='merchantId' id="merchantId"   type='hidden'  value=''   >
+                <input name='accountId'   id="accountId"  type='hidden'  value='' >
+                <input name='description'  id="description" type='hidden'  value=''  >
+                <input name='referenceCode'  id='referenceCode'  type='hidden' value='' >
+                <input name='amount'       id='amount' type='hidden'  value=''   >
+                <input name='tax'         id="tax"  type='hidden'  value='0'  >
+                <input name='taxReturnBase' id="taxReturnBase" type='hidden'  value='0' >
+                <input name='currency' id="currency"     type='hidden'  value='PEN' >
+                <input name='signature'    id="signature" type='hidden'  value=''  >
+                <input name='buyerEmail'    type='hidden'  value='luiskaco@gmail.com' >
+                <input name='test'          type='hidden'  value='1' >
+                <input name='responseUrl'    type='hidden'  value='{{ url('')."/admin/usuario/response" }}' >
+                <input name='confirmationUrl' type='hidden' value='{{ route('confirmation') }}'>
+
             <div class="row">
               <div class="col text-center">
-                <button type="submit" disabled="" id="buttonCargar" class=" btn btn-success"><span>Generar Cita</span></button>
+                <button type="submit" disabled="" id="buttonCargar" class="btn btn-success"><span>Pagar Cita</span></button>
+                 {!! Form::close() !!}
+
               </div>
             </div>
           </div>
         </div>
- {!! Form::close() !!}
+        <br>
+        <br>
+        <br>
 
 
 
 
-
-<button id="buyButton" type="button" name="ronadl"  class="btn btn-success">
-  enviar
-</button>
-
-
- <form method="post" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/">
-  <input name="merchantId"    type="hidden"  value="508029"   >
-  <input name="accountId"     type="hidden"  value="512323" >
-  <input name="description"   type="hidden"  value="donativo"  >
-  <input name="referenceCode" type="hidden"  value="000017" >
-  <input name="amount"        type="hidden"  value="15.0"   >
-  <input name="tax"           type="hidden"  value="0"  >
-  <input name="taxReturnBase" type="hidden"  value="0" >
-  <input name="currency"      type="hidden"  value="PEN" >
-  <input name="signature"     type="hidden"  value="baad83532698d3f669bca16377354d0c"  >
-  <input name="test"          type="hidden"  value="1" >
-  <input name="buyerEmail"    type="hidden"  value="luiskaco@gmail.com" >
-  <input name="responseUrl"    type="hidden"  value="{{ route('roteo') }}
-" >
-  <input name="confirmationUrl" type="hidden" value="{{ route('confirmation') }}" >
-  <input name="Submit" class="btn btn-success"       type="submit"  value="Enviar" >
-</form>
 
 <!-- Token -->
 <input type="hidden" name="_token" id="_token" value="{{csrf_token()}}">
@@ -95,96 +95,21 @@
 <!--Fecha a hora-->
 <input type="hidden" name="_ajaxBuscarCita" id="_ajaxBuscarCita" value="{{route('admin.ajax.buscarCita')}}">
 
-<!-- Rutas Pagos-->
-<input type="hidden" name="_ajaxPago" id="_ajaxPago" value="{{route('cargo.cliente')}}">
 
-<!-- Rutas Pagos-->
-<input type="hidden" name="_ajaxPago" id="_ajaxPago" value="{{route('cargo.cliente')}}">
+
+<!-- Ruta Payu-->
+<input type="hidden" name="_ajaxPagoPayuFormulario" id="_ajaxPayuFormulario" value="{{route('admin.ajax.ajaxPayuFormulario')}}">
+
+
+<
 
 
 @endsection
 
 @section('javascript')
 
-<!-- Incluye Culqi Checkout en tu sitio web-->
-<script src="https://checkout.culqi.com/js/v3"></script>
-
-<script>
-
-    // Configura tu llave pública
-      Culqi.publicKey = 'pk_test_gj4UppEa7dS8f5By';
-    // Configura tu Culqi Checkout
-      Culqi.settings({
-          title: 'Culqi Store',
-          currency: 'PEN',
-          description: 'Polo Culqi lover',
-          amount: 3500,
-          order:"ord_live_0CjjdWhFpEAZlxlz"
-      });
-      // Usa la funcion Culqi.open() en el evento que desees
-      $('#buyButton').on('click', function(e) {
-          // Abre el formulario con las opciones de Culqi.settings
-          Culqi.open();
-
-          e.preventDefault();
-      });
-
-</script>
-<script type="text/javascript">
-
-      function culqi() {
-
-          if (Culqi.token) { // ¡Objeto Token creado exitosamente!
-              var token = Culqi.token.id;
-              console.log('Se ha creado un token:' + token);
-              // Aqui enviar token Id a servidor para crear cargo..
-
-                 tokenLaravel=$("#_token").val();
-                 dataCompra={tokenCukqui:token,compra:'compra'};
-                 rutaPago=$("#_ajaxPago").val();
-
-                 $.ajax({
-                        type: 'POST',
-                        url: rutaPago,
-                        data: dataCompra,
-                       // dataType: 'JSON',
-                       /* async : true,*/
-                        headers:{
-                          'X-CSRF-TOKEN': tokenLaravel,
-                          'Content-Type':'application/json'
-                        },
-                   })
-                   .done(( data, textStatus, jqXHR)=> {
-                         console.log(data);
-                         Culqi.close();
-                   })
-                   .fail(( data, textStatus, jqXHR)=> {
-                     //console.log(data);
-                   })
-                   .always(function() {
-                        console.log("complete");
-                  });
-
-          }
-          else if (Culqi.order) {
-              console.log(Culqi.order)
-
-              console.log('Se ha elegido el metodo de pago en efectivo');
-
-               /* Aqui enviar al servidor el order Id y asociarlo al detalle de tu venta.
-                  Además, tu venta en tu comercio debe quedar estado pendiente.
-                */
-          }
-          else { // ¡Hubo algún problema!
-              // Mostramos JSON de objeto error en consola
-              console.log(Culqi.error);
-            //  console.log(Culqi.error.user_message);
 
 
-                Culqi.close();
-          }
-  };
-</script>
 <script>
       var PlantillaCrearCita = {
               //Variables
@@ -194,6 +119,7 @@
                     PlantillaCrearCita.General();
                     PlantillaCrearCita.btnLugar();
                     PlantillaCrearCita.btnServicio();
+                    PlantillaCrearCita.btnHora();
                 },
                 // Metodos
                 sayMessage: mensaje=> {
@@ -211,13 +137,18 @@
                       PlantillaCrearCita.clean_form_input('#hora');
                       PlantillaCrearCita.form_select_default('#hora');
 
+
                       $('#form').on('submit', function(event){
                           event.preventDefault();
                           if($('#form').parsley().isValid())
                           {
-                            PlantillaCrearCita.dataAjaxhora($("#form").serialize(),3);
+                                 document.getElementById("form").submit();
+                        //  PlantillaCrearCita.dataAjaxhora($("#form").serialize(),3)
+
                           }
                       });
+
+
                    });
                 },
                 toast_notification:(message,data,flag)=>{
@@ -255,7 +186,10 @@
                       clean_form_html:destiny=>{
                           $(destiny).html('');
                       },
-                      hide_form_input:(destiny,property)=>{
+                      form_html:(destiny,value)=>{
+                          $(destiny).html(value);
+                      },
+                       hide_form_input:(destiny,property)=>{
                           $(destiny).attr({
                             style: `display:${property};`
                           });
@@ -279,7 +213,7 @@
                               PlantillaCrearCita.form_select_default('#hora');
                               PlantillaCrearCita.clean_form_input('.selectServicio');
                               PlantillaCrearCita.form_select_default('.selectServicio');
-
+                               PlantillaCrearCita.form_option_disable('#buttonCargar',true);
                               pselectItem=event.target.value;
                               dataJson={"lugar":pselectItem};
                               PlantillaCrearCita.dataAjaxhora(dataJson,2);
@@ -290,13 +224,64 @@
                               PlantillaCrearCita.clean_form_input('#hora');
                               PlantillaCrearCita.form_select_default('#hora');
                               let sede=$(".select").val();
+                               PlantillaCrearCita.form_option_disable('#buttonCargar',true);
 
                               ption=event.target.value;
                               if(ption!=0){
                                 PlantillaCrearCita.date_ajax(ption,sede);
+
                               }
 
                          });
+                      },
+                      btnHora:()=>{
+                        $(document).on("change", "#hora", event=> {
+                              ption=event.target.value;
+                               token=$("#_token").val();
+                              if(ption!=0){
+                                 PlantillaCrearCita.form_option_disable('#buttonCargar',false);
+
+
+                                  data={'servicio': $('select[name=servicio]').val()};
+
+                                 $.ajax({
+                                    type: 'POST',
+                                    url:$("#_ajaxPayuFormulario").val(),
+                                    data: data,
+                                    dataType: 'JSON',
+                                    async : true,
+                                    headers:{'X-CSRF-TOKEN': token},
+                                 })
+                                 .done(function(data, textStatus, jqXHR) {
+                                   console.log(data);
+
+                                   $("#referenceCode").val(data.referenceCode);
+                                   $("#amount").val(data.amount);
+                                   $("#signature").val(data.signature);
+                                   $("#currency").val(data.currency);
+
+                                   $("#merchantId").val(data.merchantId);
+                                   $("#accountId").val(data.accountId);
+                                   $("#description").val(data.description);
+                                   $("#tax").val(data.tax);
+                                   $("#taxReturnBase").val(data.tax);
+
+
+                                 })
+                                 .fail(function() {
+                                   console.log("error");
+                                 })
+                                 .always(function() {
+                                   console.log("complete");
+                                 });
+
+
+                              }else{
+                                 PlantillaCrearCita.form_option_disable('#buttonCargar',true);
+                              }
+
+                         });
+
                       },
                       /*Ajax para buscar horas*/
                       dataAjaxhora:(...conditionValue)=>{
@@ -343,10 +328,13 @@
                                            }else if(data.yeah==1){
                                               PlantillaCrearCita.toast_notification("success",'Se ha registrado satisfactoriamente',2);
 
-                                               setTimeout(function(){
-                                                location = '{{ route('citaprogramada.index') }}'
-                                              },2000)
+                                              document.getElementById("form").submit();
+
+                                              /* setTimeout(function(){
+                                                location = '{ { route('citaprogramada.index') }}'
+                                              },2000)*/
                                            }else if(data.yeah==2) {
+
                                               PlantillaCrearCita.toast_notification("warning",'Aun dispone de una cita activa.',2);
 
                                            }
@@ -405,12 +393,11 @@
                                    if(data.bandera==1){
                                        PlantillaCrearCita.hide_form_input("#display_cita","block");
                                        PlantillaCrearCita.hide_form_input("#display_horario","block");
-                                       PlantillaCrearCita.form_option_disable('#buttonCargar',false);
 
                                    }else{
                                        PlantillaCrearCita.hide_form_input("#display_cita","none");
                                        PlantillaCrearCita.hide_form_input("#display_horario","none");
-                                       PlantillaCrearCita.form_option_disable('#buttonCargar',true);
+
                                    }
 
                                    $("#destiny").html(data.verificacion);
@@ -460,7 +447,7 @@
 
                                             lcugar=$("#lugar").val();
                                             serviValor=$(".selectServicio").val();
-                                            console.log(serviValor);
+
 
                                             dataJson={"data":date ,"lugar":lcugar,'serv':serviValor};
 
@@ -476,7 +463,7 @@
 
 
               $(function() {
-                culqi();
+
                 //arranque de funciones y procesos que estan en el init
                   PlantillaCrearCita.init();
               });

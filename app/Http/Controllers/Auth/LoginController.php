@@ -27,7 +27,7 @@ class LoginController extends Controller {
 	 * @var string
 	 */
 	protected $redirectTo = 'admin/home';
-	protected $redirectToUsuario = 'admin/usuario/crearcita';
+	protected $redirectToUsuario = 'admin/usuario/citaprogramada';
 	protected $redirectToAdmin = 'admin/programarcita';
 	protected $redirectToPaciente = 'admin/verificarcita';
 
