@@ -92,9 +92,10 @@
                 },
                 General:()=>{
 
+                     CKEDITOR.replace('message');
                       $('#men').click(function(event) {
 
-                            alert('hola');
+
                             vurl='{{ url('admin/usuario/cargard') }}';
                                 //vurl = `${vurl}/${url1}`;
 
@@ -103,7 +104,7 @@
                                        "mensaje" : $('#message').val(),
                                      };
 
-                                console.log(vurl);
+
                               $.ajax({
                                 url:   vurl,
                                 data: parametros,
@@ -113,8 +114,7 @@
                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                           } ,
                                 success:  function (data3) {
-                                   console.log('data 6');
-                                   console.log(data3);
+
                                    actualizar = data3;
                                    PlantillaContacto.toast_notification("success",'Guardado Correctaente!!!',2);
                                    setTimeout(
@@ -125,7 +125,7 @@
 
                                 },
                                 error: function (data2) {
-                                   console.log('Error:', data2);
+
                                   },
                                   async: false
                                 });
