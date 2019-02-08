@@ -4,7 +4,7 @@
 
 <meta charset="utf-8">
 <title>
-    Citas
+    Citas - Liga Contra el Cáncer
 </title>
 
 <meta http-equiv="X-UA-Compatible"
@@ -15,53 +15,33 @@
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
 
-
-
     <!-- css -->
-  <link href="{{url('medico/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
-  <link href="{{url('medico/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
-  <link href="{{url('medico/plugins/cubeportfolio/css/cubeportfolio.min.css')}}" rel="stylesheet" type="text/css">
-  <link href="{{url('medico/css/nivo-lightbox.css')}}"  rel="stylesheet" />
-  <link href="{{url('medico/css/nivo-lightbox-theme/default/default.css')}}" rel="stylesheet" type="text/css" />
-  <link href="{{url('medico/css/owl.carousel.css')}}"  rel="stylesheet" media="screen" />
-  <link href="{{url('medico/css/owl.theme.css')}}" rel="stylesheet" media="screen" />
-  <link href="{{url('medico/css/animate.css')}}" rel="stylesheet" />
-  <link href="{{url('medico/css/style.css')}}"  rel="stylesheet">
+  {{ Html::style('medico/css/bootstrap.min.css') }}
+  {{ Html::style('medico/font-awesome/css/font-awesome.min.css') }}
+  {{ Html::style('medico/plugins/cubeportfolio/css/cubeportfolio.min.css') }}
+  {{ Html::style('medico/css/nivo-lightbox.css') }}
+  {{ Html::style('medico/css/nivo-lightbox-theme/default/default.css') }}
+  {{ Html::style('medico/css/owl.carousel.css') }}
+  {{ Html::style('medico/css/owl.theme.css') }}
+  {{ Html::style('medico/css/owl.theme.css') }}
+
+  {{ Html::style('medico/css/animate.css') }}
+  {{ Html::style('medico/css/style.css') }}
 
 
   <!-- template skin -->
-  <link href="{{url('medico/color/default.css')}}" id="t-colors" rel="stylesheet">
+  {{ Html::style('medico/color/default.css') }}
 
 
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-     <link href="{{ asset('js/prettify.css') }}" rel="stylesheet">
-
-     <link rel="stylesheet"
-          href="https://cdn.datatables.net/select/1.2.0/css/select.dataTables.min.css"/>
-     <link rel="stylesheet"
-          href="//cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css"/>
-     <link rel="stylesheet" type="text/css" href="{{url('health/styles/fullcalendar.print.min.css')}}">
-     <link rel="stylesheet" type="text/css" href="{{url('health/styles/fullcalendar.min.css')}}">
+  {{ Html::style('css/app.css') }}
+  {{ Html::style('medico/css/prettify.css') }}
+  {{ Html::style('medico/css/style.css') }}
+  {{ Html::style('medico/css/bootstrap-datepicker.css') }}
 
 
-
-
-      <link rel="stylesheet" type="text/css" href="{{url('health/styles/bootstrap-datepicker.css')}}">
-
-
-
-
-     <link rel="stylesheet" type="text/css" href="{{url('health/styles/bootstrap-datepicker.css')}}">
-
-
-
-
- <!-- <script src="{ {asset('js/jquery.min.js')}}"></script>
+  <!-- <script src="{ {asset('js/jquery.min.js')}}"></script>
   <script src="{ asset('js/app.js')}}"></script> -->
-
-
   <style>
-
            html, body {
                 background-color: #fff;
                 color: #636b6f;
