@@ -17,7 +17,7 @@
 
     <div class="row">
       <div class="container">
-          <table id="Mytable"  class="" style="width:100%">
+          <table id="Mytable" class="table table-striped table-bordered nowrap" style="width:100%">
               <thead>
                   <tr>
                       <th>N°</th>
@@ -96,10 +96,18 @@
                       $(document).ready(function() {
                         $('#example').DataTable( {
                             responsive: {
-                                details: {
-                                    type: 'column'
-                                }
-                            },
+                                            details: {
+                                                display: $.fn.dataTable.Responsive.display.modal( {
+                                                    header: function ( row ) {
+                                                        var data = row.data();
+                                                        return 'Servicio';
+                                                    }
+                                                } ),
+                                                renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                                                    tableClass: 'table'
+                                                } )
+                                            }
+                                        },
                             columnDefs: [ {
                                 className: 'control',
                                 orderable: false,

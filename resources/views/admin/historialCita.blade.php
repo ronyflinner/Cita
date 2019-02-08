@@ -61,7 +61,7 @@
 
 
      <div class="container" id="No">
-            <table class='table table-bordered' id='Na'>
+            <table class="table table-striped table-bordered nowrap" style="width:100%" id='Na'>
                <thead>
                   <tr>
                      <th>N°</th>
@@ -126,6 +126,19 @@
                                 //$(location).attr('href',vurl);
 
                                itable = $('#Na').DataTable({
+                                        responsive: {
+                                            details: {
+                                                display: $.fn.dataTable.Responsive.display.modal( {
+                                                    header: function ( row ) {
+                                                        var data = row.data();
+                                                        return 'Servicio';
+                                                    }
+                                                } ),
+                                                renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                                                    tableClass: 'table'
+                                                } )
+                                            }
+                                        },
                                         processing: true,
                                         serverSide: true,
                                         ajax:{
@@ -246,7 +259,7 @@
     $('#bun').on('click',function(){
               $('#Na_wrapper').remove();
               $('#Na').remove();
-              $('#No').append("<table class='table table-bordered' id='Na'><thead><tr><th>N°</th><th>Id Cita</th><th>Servicio</th><th>Id Paciente</th><th>Hora</th><th>Nombre de Paciente</th><th>Asistencia</th><th>Reprogramación</th></tr></thead></table>");
+              $('#No').append("<table class='table table-bordered' class='table table-striped table-bordered nowrap' style='width:100%' id='Na'><thead><tr><th>N°</th><th>Id Cita</th><th>Servicio</th><th>Id Paciente</th><th>Hora</th><th>Nombre de Paciente</th><th>Asistencia</th><th>Reprogramación</th></tr></thead></table>");
               var promise = promesa3();
               obtener_habilitar("#Na tbody",itable,"button.editar");
     });

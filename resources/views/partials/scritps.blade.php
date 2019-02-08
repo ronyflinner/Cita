@@ -10,6 +10,14 @@
 {{ Html::script('medico/js/i18n/es.js') }}
 {{ Html::script('medico/js/moment.min.js') }}
 
+<!-- Datatable-->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
 
 <!-- Efectos -->
 {{ Html::script('medico/js/wow.min.js') }}
@@ -51,10 +59,5 @@
 {{ Html::style('https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css') }}
 {{ Html::script('https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js') }}
 
-<!-- Datatable-->
-{{ Html::style('medico/css/jquery.dataTables.min.css') }}
-{{ Html::script('//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js') }}
-{{ Html::script('//cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js') }}
-{{ Html::script('medico/js/jquery.dataTables.min.js') }}
 
 @yield('javascript')

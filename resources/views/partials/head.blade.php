@@ -15,8 +15,10 @@
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
 
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
     <!-- css -->
-  {{ Html::style('medico/css/bootstrap.min.css') }}
+
   {{ Html::style('medico/font-awesome/css/font-awesome.min.css') }}
   {{ Html::style('medico/plugins/cubeportfolio/css/cubeportfolio.min.css') }}
   {{ Html::style('medico/css/nivo-lightbox.css') }}

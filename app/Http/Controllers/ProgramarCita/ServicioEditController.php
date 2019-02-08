@@ -38,19 +38,35 @@ class ServicioEditController extends Controller {
 	public function mostrarServicio(Request $request) {
 
 		$enviar = Servicio::all();
-		return $enviar;
+
 		$con = 1;
+		return Datatables($enviar)
+			->addColumn('id', function ($val) use (&$r) {
+				return ++$r;
+			})
+			->addColumn('nombre', function ($val) {
+				return $val->nombre;
+			})
+			->addColumn('costo', function ($val) {
+				return $val->costo;
+
+			})->make(true);
+	}
+
+	public function buscarServicio(Request $request) {
+		$enviar = Servicio::all();
+		$con = 1;
+
+		return "hola";
 		return datatables($enviar)
 			->addColumn('id', function ($val) use (&$con) {
 				return $con++;
 			})->addColumn('nombre', function ($val) {
 			return $val->nombre;
 		})->addColumn('costo', function ($val) {
-			return $val->costo;
-		});
-
-		return " ";
-
+			return "hola";
+		})->rawColumns(['costo'])->make(true);
+		//return response()->json('holas');
 	}
 	/**
 	 * Store a newly created resource in storage.

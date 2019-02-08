@@ -324,12 +324,9 @@
                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                           } ,
                                 success:  function (data) {
-
                                     fecha = data['fecha'];
-
                                     for(var i in fecha){
                                       $("#fec1").append("<option value='"+fecha[i]['f_fecha']+"'>"+fecha[i]['f_fecha']+"</option>");
-
                                     }
 
                                     hora = data['hora'];
@@ -386,7 +383,6 @@
                                               for(var i in hora){
                                             $("#fec2").append("<label class='customcheck'>"+hora[i]['r_hora']+"<input type='checkbox'  class='che' value='"+hora[i]['r_hora']+"'><span class='checkmark'></span></label>");
                                           }
-
 
                                         }else{
                                           actualizar = 0 ; // actualizar
@@ -469,12 +465,15 @@
                                 success:  function (data3) {
                                    console.log('data 6');
                                    console.log(data3);
-
+                                    console.log("lallal");
                                    if(data3 == 9){
                                     PlantillaContacto.toast_notification("warning","Ya existe un horario asignado",2);
 
-                                   }else{
-                                    console.log('data 6jdkjlk');
+                                   }else if(data3 == 0){
+                                    PlantillaContacto.toast_notification("success","Horario asignado",2);
+                                    actualizar = data3;
+                                   }else if(data3 == 1){
+                                    PlantillaContacto.toast_notification("success","Cambio realizado",2);
                                     actualizar = data3;
                                    }
 
@@ -611,13 +610,6 @@
              if($("#fecc").val() == "Todo") {
                     $(".che").each(function(){
                     h = $(this).attr('value');
-
-
-
-
-
-
-
                       var promise = promesa5();
 
                       if(actualizar == 0){

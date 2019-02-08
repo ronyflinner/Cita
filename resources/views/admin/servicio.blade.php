@@ -34,7 +34,7 @@
    </div>
 
    <div class="container" id="No">
-            <table class='table table-bordered' id='Na'>
+            <table class="table table-striped table-bordered nowrap" style="width:100%" id='Na'>
                <thead>
                   <tr>
                      <th>N°</th>
@@ -43,7 +43,11 @@
                   </tr>
                </thead>
             </table>
-        </div>
+
+    </div>
+
+
+
 
 
 
@@ -57,8 +61,7 @@
 
 @section('javascript')
 <script>
-
-            var PlantillaGuardaCita = {
+        var PlantillaGuardaCita = {
               //Variables
                 MesajeSaludo:'HelloWord',
                 init : ()=> {
@@ -70,9 +73,8 @@
                   alert("Hola como estas!!!");
                 },
                 General:()=>{
-                   $(function() {
-                      /*Funcionnes Genericas*/
-                     $('#bu').click(function(){
+
+                      $('#bu').click(function(){
                          vurl='{{ url('admin/editarServicio') }}';
                                 //vurl = `${vurl}/${url1}`;
 
@@ -98,6 +100,7 @@
                                    console.log('data 6');
                                    console.log(data3);
                                    actualizar = data3;
+                                   location.reload();
 
                                 },
                                 error: function (data2) {
@@ -106,40 +109,57 @@
                                   async: false
                                 });
                      })
+                     var vurl='{{ url('admin/mostrarServicio') }}';
+                                //vurl = `${vurl}/${url1}`;
 
-
-                  vurl='{{ url('admin/mostrarServicio') }}';
-                  //vurl = `${vurl}/${url1}`;
-                  //(Location).load(vurl, { id: url1 });
+                               //(Location).load(vurl, { id: url1 });
                                var parametros = {
-                                       "nombre" : $('#servicio').val(),
-                                       "costo"  : $("#costo").val()
+                                       "lugar" : 0
                                     };
 
-                                console.log(vurl);
+                              console.log();
                                 //$(location).attr('href',vurl);
+                              itable = $('#Na').DataTable({
+                                        responsive: {
+                                            details: {
+                                                display: $.fn.dataTable.Responsive.display.modal( {
+                                                    header: function ( row ) {
+                                                        var data = row.data();
+                                                        return 'Servicio';
+                                                    }
+                                                } ),
+                                                renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                                                    tableClass: 'table'
+                                                } )
+                                            }
+                                        },
+                                        processing: true,
+                                        serverSide: true,
+                                        ajax:{
+                                            url:   vurl,
+                                            data: parametros,
+                                            type:  'GET', //método de envio
+                                            dataType : 'json',
+                                            headers: {
+                                                       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                      } ,
+                                        } ,
+                                         language: {
+                                            url: '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json'
+                                         },
+                                        columns: [
+                                            {data: 'id', name:'id','orderable': false},
+                                            {data: 'nombre', name:'nombre'},
+                                             {data: 'costo', name:'costo'},
 
-                               // var doc = 'statusEdit';
-                                $.ajax({
-                                url:   vurl,
-                                data: parametros,
-                                type:  'GET', //método de envio
-                                dataType : 'json',
-                                headers: {
-                                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                          } ,
-                                success:  function (data3) {
-                                   console.log('data 09999');
-                                   console.log(data3);
-                                   actualizar = data3;
+                                        ],
 
-                                },
-                                error: function (data2) {
-                                   console.log('Error:', data2);
-                                  },
-                                  async: false
-                                });
-                               });
+
+                                    });
+
+
+
+
 
                 },
                 toast_notification:(message,data,flag)=>{
@@ -208,35 +228,6 @@
 
                           console.log(`Hola mundo, soy el numero ${change_close_id}`);
                          });
-                      },
-                      datatable:()=>{
-
-                         $('#Mytable').DataTable({
-                                      responsive: true,
-                                      processing: true,
-                                      serverSide: true,
-                                        ajax:{
-                                            url: '{{route("admin.ajax.CitaProgramdas")}}',
-                                            type:'get',
-                                          } ,
-                                          language: {
-                                                    url:  "{{asset('health/js/datatable_spanish.js')}}"
-                                                   },
-                                          columns: [
-                                              {data: 'n', name:'n','orderable': false},
-                                              {data: 'fecha', name:'fecha'},
-                                              {data: 'hora', name:'hora'},
-                                              {data: 'lugar', name:'lugar'},
-                                              {data: 'status', name:'status'},
-                                              {data: 'action', name:'action'},
-
-                                          ],
-                                           bAutoWidth: false,
-                                            order: [[0, "desc"]],
-                                            "aaSorting": [],
-
-                                    });
-
                       }
 
               };
@@ -250,53 +241,6 @@
         });
 
 
-    // ajax que retorne la fechas disponibles
-  /*itable = $('#Na').DataTable({
-              processing: true,
-              serverSide: true,
-              ajax:{
-                  url:   vurl,
-                  data: parametros,
-                  type:  'GET', //método de envio
-                  dataType : 'json',
-                  headers: {
-                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            } ,
-                 dataSrc: function(json){
-
-                           if(Object.keys(json.data).length != 0){
-                                   $('#pdf').css('display', 'block');
-
-
-                           }else{
-                                   $('#pdf').css('display', 'none');
-                           }
-                           return json.data;
-                 }
-              } ,
-               language: {
-                  url: '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json'
-               },
-              columns: [
-                  {data: 'id', name:'id','orderable': false},
-                  {data: 'idcita', name:'idcita'},
-                  {data: 'idU', name:'idU'},
-                  {data: 'hora', name:'hora'},
-                  {data: 'nombre', name:'nombre'},
-                  {data: 'asistencia', name:'asistencia'},
-                  {data: 'reprogramar' , name:'reprogramar'},
-
-              ],
-              bAutoWidth: false,
-              order: [[0, 'asc']],
-              'aaSorting': [],
-              paging: true,
-              searching: false,
-              columnDefs: [
-                    { width: 20, height: 100,  targets: 0 }
-                ],
-               fixedColumns: true,
-    }); */
 
 
 </script>

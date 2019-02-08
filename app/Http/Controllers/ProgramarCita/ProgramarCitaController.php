@@ -4,7 +4,6 @@ namespace App\Http\Controllers\ProgramarCita;
 
 use App\Http\Controllers\Controller;
 use App\Model\Disponibilidad;
-use App\Model\Doctor_Servicio;
 use App\Model\Fecha;
 use App\Model\Hora;
 use App\Model\Locacion\Lugar;
@@ -136,7 +135,7 @@ class ProgramarCitaController extends Controller {
 		$lugar = $request->lugar;
 		$hora = $request->hora;
 		$doctor = $request->doctor;
-		$servicio = $request->servicio;
+		$servicio = $request->servicio + 1;
 
 		$actualizar = $request->actualizar;
 		$slug = str_random(180);
@@ -146,49 +145,80 @@ class ProgramarCitaController extends Controller {
 
 		$o_hora = Hora::where('r_hora', $hora)->get();
 		$hora = $o_hora[0]->id;
-		//return response()->json($o_hora[0]->id);
 
-		$dispo = Disponibilidad::where('fecha_id', $fecha)->where('lugar_id', $lugar)->where('doctor_id', $doctor)->where('hora_id', $hora)->get();
-
+		/*	$doctor2 = Doctor_Servicio::where('id', $doctor)->get();
+		$dispo = Disponibilidad::where('fecha_id', $fecha)->where('lugar_id', $lugar)->where('doctor_id', $doctor2[0]->doctor_id)->where('hora_id', $hora)->get(); // si existe registro*/
+		//return response()->json($dispo[0]->id);
 		// debo buscar para ese doctor si tiene otro sercivio con la misma fecha
-		$iddo = Doctor_Servicio::where('id', $doctor)->get();
+
 		//return response()->json($iddo);
 		$enviar2 = DB::table('doctor__servicios')
 			->join('disponibilidads', 'doctor__servicios.id', '=', 'disponibilidads.doctor_id')
 			->join('servicios', 'doctor__servicios.servicio_id', '=', 'servicios.id')
 			->where('disponibilidads.hora_id', $hora)
 			->where('disponibilidads.doctor_id', $doctor)
-			->select('servicios.id', 'disponibilidads.lugar_id')->get();
-		//return response()->json($servicio);
-		if (sizeof($enviar2) == 1) {
+			->where('disponibilidads.fecha_id', $fecha)
+			->select('disponibilidads.status', 'servicios.id', 'disponibilidads.lugar_id', 'disponibilidads.id AS iddis')->get(); // solo deberia botar uno o nada .
 
-			foreach ($enviar2 as $val) {
-				if ($val->id != $servicio && $val->lugar_id != $lugar) {
-					return response()->json(9);
-				}
+		if (sizeof($enviar2) == 1) {
+			//return response()->json($enviar2[0]->id . " " . $servicio);
+			// si es el mismo
+			if ($enviar2[0]->lugar_id == $lugar && $enviar2[0]->id == $servicio) {
+				//return response()->json('hola');
+				$pres = Disponibilidad::where('id', $enviar2[0]->iddis)->first();
+				$pres->delete();
+				return response()->json(1);
+			} else {
+				return response()->json(9);
 			}
 
-		}
-
-		if (count($dispo) == 0) {
-			// inserto
+		} else {
 			$actualizar = 0;
 			//return response()->json("hoi");
 			$insertid = \DB::table('disponibilidads')->insertGetId(
 				['fecha_id' => $fecha, 'lugar_id' => $lugar, 'hora_id' => $hora, 'cantPaciente' => 5, 'slug' => $slug, 'status' => 1, 'doctor_id' => $doctor]);
-		} else {
-			//return response()->json($o_hora[0]->id);
-			// edito
-			$cam = 1;
-			$actualizar = $dispo[0]->status;
-			if ($dispo[0]->status == 1) {
-				$cam = 0;
-			} else {
-				$cam = 1;
-			}
-			$pres = Disponibilidad::where('id', $dispo[0]->id)->update(['status' => $cam]);
+			return response()->json(0);
 		}
-		return response()->json($actualizar);
+		/*	if (count($dispo) == 0) {
+				$actualizar = 0;
+				//return response()->json("hoi");
+				$insertid = \DB::table('disponibilidads')->insertGetId(
+					['fecha_id' => $fecha, 'lugar_id' => $lugar, 'hora_id' => $hora, 'cantPaciente' => 5, 'slug' => $slug, 'status' => 1, 'doctor_id' => $doctor]);
+				return response()->json(0);
+			} else {
+				//return response()->json($o_hora[0]->id);
+				// edito
+				if (sizeof($enviar2) == 1) {
+					$aux = 9;
+					if ($enviar2[0]->iddis == $dispo[0]->id) {
+						$aux = 0;
+					}
+					/* nooo $aux = 0;
+						foreach ($enviar2 as $val) {
+							if ($val->iddis == $dispo[0]->id) {
+								$aux = 0;
+							} else if ($val->id != $servicio && $val->lugar_id != $lugar) {
+								$aux = 9;
+							}
+		*/
+		/*	if ($aux == 9) {
+					return response()->json(9);
+				} else {
+					$cam = 1;
+					$actualizar = $dispo[0]->status;
+					if ($dispo[0]->status == 1) {
+						$cam = 0;
+					} else {
+						$cam = 1;
+					}
+					$pres = Disponibilidad::where('id', $dispo[0]->id)->update(['status' => $cam]);
+					return response()->json(1);
+				}
+
+			}
+
+		} */
+
 	}
 
 	public function editarDispon2(Request $request) {
