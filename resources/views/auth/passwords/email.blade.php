@@ -1,6 +1,6 @@
 @extends('layouts.principal')
 @section('navT')
-      @include('partials.nav1') <br>
+      @include('partials.nav1')<br>
       <br>
       <br>
       <br>

@@ -22,9 +22,7 @@
 			                <p>
 			                  Haz clic en el botón "Ingresa" y coloca tus datos para generar la cita.
 			                </p>
-			                <a href="{{ route('crearcita.index') }}"> <button type="submit" class="btn btn-primary">
-                                    Ingresar
-                                </button></a>
+
 			              </div>
 
 			            </div>
@@ -38,11 +36,7 @@
 			                <p>
 			                  Solo de uso para el personal autorizado de la institución.
 			                </p>
-                         <a href="{{ route('programarcita.index') }}">
-                            <button type="submit" class="btn btn-primary">
-                                    Ingresar
-                            </button>
-                          </a>
+
 			              </div>
 			            </div>
                 	</div>
@@ -57,10 +51,6 @@
                         Solo de uso para el personal autorizado de la institución.
                       </p>
 
-
-                               <a href="{{ route('verificarcita.index') }}"> <button type="submit" class="btn btn-primary">
-                                    Ingresar
-                                </button></a>
 
                     </div>
                   </div>
