@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -34,5 +35,15 @@ class User extends Authenticatable {
 
 	public function getNombreCompletoAttribute() {
 		return ucfirst($this->name) . ' ' . ucfirst($this->apellidoP);
+	}
+
+	/**
+	 * Send the password reset notification.
+	 *
+	 * @param  string  $token
+	 * @return void
+	 */
+	public function sendPasswordResetNotification($token) {
+		$this->notify(new ResetPasswordNotification($token));
 	}
 }
