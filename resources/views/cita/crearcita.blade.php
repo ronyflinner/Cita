@@ -101,8 +101,6 @@
 <input type="hidden" name="_ajaxPagoPayuFormulario" id="_ajaxPayuFormulario" value="{{route('admin.ajax.ajaxPayuFormulario')}}">
 
 
-<
-
 
 @endsection
 
