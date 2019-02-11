@@ -5,6 +5,8 @@
 @endsection
 @section('seccion_c')
 
+
+
  <div class="container">
     <div class="form-wrapper">
                 <div class="wow fadeInRight" data-wow-duration="2s" data-wow-delay="0.2s">
@@ -19,14 +21,15 @@
 
                       <form action="" method="post" role="form" class="contactForm lead">
                         <div class="row">
-                          <div class="col-xs-6 col-sm-6 col-md-6">
+
+                          <div class="col-xs-4 col-sm-4 col-md-4">
                             <div class="form-group">
                               <label>Codigo de cita</label>
                               <input type="text" name="first_name" id="codigo_cita" class="form-control input-md" data-rule="minlen:3" data-msg="Please enter at least 3 chars">
                               <div class="validation"></div>
                             </div>
                           </div>
-                          <div class="col-xs-6 col-sm-6 col-md-6">
+                          <div class="col-xs-4 col-sm-4 col-md-4">
                             <div class="form-group">
                               <br>
                              <button type="button" id="buscar" class="btn btn-primary">Buscar</button>
@@ -34,7 +37,7 @@
                           </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row" style="display: none;" id="f_pago">
                           <div class="col-xs-2 col-sm-2 col-md-2">
                             <div class="form-group">
                               <label>Nombre</label>
@@ -114,6 +117,7 @@
                                           } ,
                                 success:  function (data) {
                                     console.log(data['nombre']);
+                                    $("#f_pago").css("display","block")
                                     $('#nombre').empty();
                                     $('#dni').empty();
                                     $('#asistio').empty();
@@ -123,15 +127,19 @@
                                     $('#dni').append(data['dni']);
 
                                     if(data['status_asistio'] == 1){
-                                      $('#asistio').append('No');
+                                      $('#asistio').append('<font color=red align=justify><i class="fas fa-check-circle"></i></font>');
+                                      $('#asistio').val('No');
                                     }else{
-                                      $('#asistio').append('Sí');
+                                      $('#asistio').append('<font color=green align=justify><i class="fas fa-check-circle"></i></font>');
+                                      $('#asistio').val('Sí');
                                     }
 
                                     if(data['status_pago'] == 1){
-                                      $('#pago').append("Sí");
+                                      $('#pago').append('<font color=green align=justify><i class="fas fa-check-circle"></i></font>');
+                                      $('#pago').val('Sí');
                                     }else{
-                                      $('#pago').append("No");
+                                      $('#pago').append('<font color=red align=justify><i class="fas fa-check-circle"></i></font>');
+                                      $('#pago').val('No');
                                     }
                                 },
                                 error: function (data) {
@@ -139,7 +147,7 @@
                                     $('#dni').empty();
                                     $('#asistio').empty();
                                     $('#pago').empty();
-                                    PlantillaContacto.toast_notification("warning",'Ingrese codigo de la cita',2);
+                                    PlantillaContacto.toast_notification("warning",'Ingrese un código valido',2);
                                    console.log('Error:', data);
                                   },
                                   async: false
@@ -148,7 +156,7 @@
 
 
                     $('#asistencia').click(function(){
-                      if($('#pago').html() == "Sí" && $('#asistio').html() == "No")
+                      if($('#pago').val() == "Sí" && $('#asistio').val() == "No")
                        {
 
                          vurl='{{ url('admin/asistenciab') }}';
@@ -168,7 +176,8 @@
                                 success:  function (data) {
                                     $('#pago').empty();
                                     PlantillaContacto.toast_notification("success",'Se verifico la asistencia!!!',2);
-                                    $('#pago').append("Sí");
+                                    $('#pago').append('<font color=green align=justify><i class="fas fa-check-circle"></i></font>');
+                                      $('#pago').val('Sí');
                                 },
                                 error: function (data) {
                                     $('#nombre').empty();
@@ -180,7 +189,10 @@
                                   },
                                   async: false
                                 });
-                       }else{
+                       }else if($('#pago').val() == "Sí" && $('#asistio').val() == "Sí"){
+                           PlantillaContacto.toast_notification("warning",'Ya ha asistido',2);
+                       }
+                       else{
                           PlantillaContacto.toast_notification("warning",'No puede asistir sino ha pagado',2);
                        }
                     });

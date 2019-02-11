@@ -35,6 +35,14 @@ class ServicioEditController extends Controller {
 		return response()->json($insertid);
 	}
 
+	public function editarServicio2(Request $request) {
+
+		$costo = (float) $request->costo;
+
+		$pres = Servicio::where('id', $request->id)->update(['costo' => $costo, 'nombre' => $request->nombre]);
+		return response()->json($pres);
+	}
+
 	public function mostrarServicio(Request $request) {
 
 		$enviar = Servicio::all();
@@ -42,7 +50,7 @@ class ServicioEditController extends Controller {
 		$con = 1;
 		return Datatables($enviar)
 			->addColumn('id', function ($val) use (&$r) {
-				return ++$r;
+				return $val->id;
 			})
 			->addColumn('nombre', function ($val) {
 				return $val->nombre;
@@ -50,7 +58,10 @@ class ServicioEditController extends Controller {
 			->addColumn('costo', function ($val) {
 				return $val->costo;
 
-			})->make(true);
+			})->addColumn('editar', function ($val) {
+			return "<button type='button'  class='editar btn btn-primary'><i class='fa fa-pencil-square-o'></i></button> ";
+
+		})->rawColumns(['editar'])->make(true);
 	}
 
 	public function buscarServicio(Request $request) {

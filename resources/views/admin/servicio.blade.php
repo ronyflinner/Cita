@@ -10,7 +10,13 @@
 <div class="container">
 
    <div >
-      <h3>Crear Servicio</h3>
+      <div class="crear">
+          <h3>Crear Servicio</h3>
+      </div>
+
+    <div class="editar" style="display:none;">
+        <h3>Editar Servicio</h3>
+    </div>
      <div class="row">
        <div class="col-md-4">
          <div class="form-group">
@@ -29,6 +35,10 @@
             <br>
             <button type="button" class="btn btn-primary" id='bu'>Aceptar</button>
          </div>
+         <div class="form-group">
+            <br>
+            <button type="button" class="btn btn-primary" id='editar2' style="display:none;">Editar</button>
+         </div>
        </div>
      </div>
    </div>
@@ -40,6 +50,7 @@
                      <th>N°</th>
                      <th>Nombre</th>
                      <th>Costo</th>
+                     <th>Editar</th>
                   </tr>
                </thead>
             </table>
@@ -100,6 +111,7 @@
                                    console.log('data 6');
                                    console.log(data3);
                                    actualizar = data3;
+
                                    location.reload();
 
                                 },
@@ -151,6 +163,7 @@
                                             {data: 'id', name:'id','orderable': false},
                                             {data: 'nombre', name:'nombre'},
                                              {data: 'costo', name:'costo'},
+                                             {data: 'editar', name:'editar'},
 
                                         ],
 
@@ -158,7 +171,58 @@
                                     });
 
 
+               var obtener_habilitar = function(tbody,table,bt){
+                  $(tbody).on("click",bt,function(){
+                    $('#editar').css("display","block");
+                    $('#crear').css("display","none");
 
+                    $('#editar2').css("display","block");
+                    $('#bu').css("display","none");
+                    var data = table.row($(this).parents("tr")).data();
+                    console.log(data.nombre);
+                    $('#No').fadeOut();
+                    $('#servicio').val(data.nombre);
+                    $('#costo').val(data.costo);
+
+                    $('#editar2').click(function(){
+                         vurl='{{ url('admin/editarServicio2') }}';
+                                //vurl = `${vurl}/${url1}`;
+
+                               //(Location).load(vurl, { id: url1 });
+                               var parametros = {
+                                       "nombre" : $('#servicio').val(),
+                                       "costo"  : $("#costo").val(),
+                                       "id" : data.id
+                                    };
+
+                                console.log(vurl);
+                                //$(location).attr('href',vurl);
+
+                               // var doc = 'statusEdit';
+                                $.ajax({
+                                url:   vurl,
+                                data: parametros,
+                                type:  'GET', //método de envio
+                                dataType : 'json',
+                                headers: {
+                                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                          } ,
+                                success:  function (data3) {
+                                   console.log('data 6');
+                                   console.log(data3);
+                                   actualizar = data3;
+                                   location.reload();
+
+                                },
+                                error: function (data2) {
+                                   console.log('Error:', data2);
+                                  },
+                                  async: false
+                                });
+                     })
+                })}
+
+                       obtener_habilitar("#Na tbody",itable,"button.editar");
 
 
                 },

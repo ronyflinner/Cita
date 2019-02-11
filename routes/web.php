@@ -86,6 +86,7 @@ Route::prefix('admin')->group(function () {
 	Route::get('asistenciab/{id?}', 'Asistencia\VerificadorController@asistencia')->name('asistenciab.index');
 
 	Route::resource('verificarcita', 'Asistencia\VerificadorController');
+	Route::resource('crearcitaA', 'Asistencia\CrearCitaAController');
 
 	Route::resource('historialcita', 'CrearCita\HistorialCitaController');
 
@@ -110,6 +111,7 @@ Route::prefix('admin')->group(function () {
 	Route::resource('contraseñaP', 'ProgramarCita\ContraseñaController');
 
 	Route::get('editarServicio', 'ProgramarCita\ServicioEditController@editarServicio')->name('editarServicio.index');
+	Route::get('editarServicio2', 'ProgramarCita\ServicioEditController@editarServicio2')->name('editarServicio2.index');
 	Route::get('mostrarServicio', 'ProgramarCita\ServicioEditController@mostrarServicio')->name('mostrarServicio.index');
 
 	Route::resource('servicioedit', 'ProgramarCita\ServicioEditController');
