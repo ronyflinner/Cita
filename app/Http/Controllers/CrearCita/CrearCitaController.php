@@ -12,6 +12,7 @@ use App\Model\Locacion\Lugar;
 use App\Model\Servicio;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -164,22 +165,52 @@ class CrearCitaController extends Controller {
 		}
 	}
 
-	public function testeo(request $request) {
+	public function response(request $request) {
 		Log::info('Aprobado');
-
-		$request->referenceCode; // Codigo de referencia
-
+		$pagoProcesado = array();
 		$request->processingDate; //fecha
+		$pagoProcesado = Arr::add($pagoProcesado, 'processingDate', $request->processingDate);
+
 		$request->buyerEmail;
+		$pagoProcesado = Arr::add($pagoProcesado, 'buyerEmail', $request->buyerEmail);
 		$request->transactionId; //Transacion ID
+		$pagoProcesado = Arr::add($pagoProcesado, 'transactionId', $request->transactionId);
 		$request->reference_pol; //referencia de pago
+		$pagoProcesado = Arr::add($pagoProcesado, 'reference_pol', $request->reference_pol);
+
 		$request->message; // Mensaje de aprobacion
+		$pagoProcesado = Arr::add($pagoProcesado, 'message', $request->message);
+
+		/*TIPO DE PAGO*/
+		$request->lapPaymentMethod; // TIPO VISA
+		$pagoProcesado = Arr::add($pagoProcesado, 'lapPaymentMethod', $request->lapPaymentMethod);
+
+		$request->lapPaymentMethodType; // TIPO DE MEDIO
+		$pagoProcesado = Arr::add($pagoProcesado, 'lapPaymentMethodType', $request->lapPaymentMethodType);
 
 		/*Estado transacion*/
 		$request->transactionState;
+		$pagoProcesado = Arr::add($pagoProcesado, 'transactionState', $request->transactionState);
+
 		$request->lapTransactionState;
-		//return self::index();
-		return $Value = $request->all();
+		$pagoProcesado = Arr::add($pagoProcesado, 'lapTransactionState', $request->lapTransactionState);
+
+		/*Diferenciar Estado*/
+		if ($request->message == 'APPROVED') {
+			$pagoProcesado = Arr::add($pagoProcesado, 'status_pago', 1);
+		} else if ($request->message == 'REJECTED') {
+			$pagoProcesado = Arr::add($pagoProcesado, 'status_pago', 2);
+		} else if ($request->message == 'PENDING') {
+			$pagoProcesado = Arr::add($pagoProcesado, 'status_pago', 3);
+		}
+
+		$request->referenceCode; // Codigo de referencia CREADO por el Sistema
+
+		//return $request->all();
+		Cita::where('referenceCode', $request->referenceCode)
+			->update($pagoProcesado);
+
+		return view('cita.citaprogramada');
 
 	}
 	public function confirmation(request $request) {
@@ -243,6 +274,8 @@ class CrearCitaController extends Controller {
 						'disponibilidad_id' => $value->id,
 						'paciente_id' => Auth::id(),
 						'status_asistio' => 1,
+						'referenceCode' => $request->referenceCode,
+						'status_pago' => 3, //1- Aprobado  2- Rechazad 3- Pendiente
 						'status' => 1, //cita activa
 						'slug' => str_random(120)]);
 					$mensaje = 1; // Su cita fue correctamente creada */
@@ -275,13 +308,16 @@ class CrearCitaController extends Controller {
 			$tax = 0;
 
 			/*000+DNI+ID CITA*/
+			$referenceCODE = "0" . Auth::id() . Date::now()->format('Yhis');
 
-			$valores = $ApiKey . '~' . $merchantId . '~' . $referenceCode . '~' . $amount . '~' . $currency;
+			$valores = $ApiKey . '~' . $merchantId . '~' . $referenceCODE . '~' . $amount . '~' . $currency;
+
+			$referenceCODE = "0" . Auth::id() . Date::now()->format('Yhis');
 
 			$signature = md5($valores);
 
 			$data = [
-				'referenceCode' => $referenceCode,
+				'referenceCode' => $referenceCODE,
 				'amount' => $amount,
 				'signature' => $signature,
 				'currency' => $currency,

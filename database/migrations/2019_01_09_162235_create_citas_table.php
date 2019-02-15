@@ -30,7 +30,7 @@ class CreateCitasTable extends Migration {
 
 			/*Tipo de pago*/
 			$table->string('lapPaymentMethod')->nullable(true);
-			$table->string('lapPaymentMethodTyp')->nullable(true);
+			$table->string('lapPaymentMethodType')->nullable(true);
 
 			/*Estados de la transferecnia*/
 			$table->string('message')->nullable(true);

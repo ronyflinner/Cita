@@ -76,6 +76,7 @@ class RegisterController extends Controller {
 			'dni' => $data['tipo'] . '-' . $data['numero'],
 			'numero' => $data['telefono'],
 			'slug' => str_random(150),
+			'status' => 1,
 			'tipo' => 2,
 		]);
 		$user->assignRole('Paciente');

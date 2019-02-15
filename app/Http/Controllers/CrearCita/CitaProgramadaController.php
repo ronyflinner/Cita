@@ -15,6 +15,7 @@ class CitaProgramadaController extends Controller {
 	private $btnView;
 	private $btnPdf;
 	private $btnBaged;
+	private $btnStatusPago;
 
 	/**
 	 * Display a listing of the resource.
@@ -58,20 +59,38 @@ class CitaProgramadaController extends Controller {
 
 					switch ($val->status_asistio) {
 					case 1:
-						$buttonBaged = "<h5><span class='badge badge-secondary'>Programada</span></h5>";
+						$this->btnBaged = "<h5><span class='badge badge-secondary'>Programada</span></h5>";
 						break;
 					case 2:
-						$buttonBaged = "<h5><span class='badge badge-secondary'>Asistió</span></h5>";
+						$this->btnBaged = "<h5><span class='badge badge-secondary'>Asistió</span></h5>";
 						break;
 					case 3:
-						$buttonBaged = "<h5><span class='badge badge-secondary'>Reprogramada</span></h5>";
+						$this->btnBaged = "<h5><span class='badge badge-secondary'>Reprogramada</span></h5>";
 						break;
 					default:
-						$buttonBaged = "<h5><span class='badge badge-secondary'>No asistió</span></h5>";
+						$this->btnBaged = "<h5><span class='badge badge-secondary'>No asistió</span></h5>";
 						break;
 					}
 
-					return $buttonBaged;
+					return $this->btnBaged;
+				})
+				->addColumn('status_pago', function ($val) {
+
+					//$btnStatusPago
+					switch ($val->status_pago) {
+					case 1:
+						$this->btnStatusPago = "<h5><span class='badge badge-secondary'>Aprobado</span></h5>";
+						break;
+					case 2:
+						$this->btnStatusPago = "<h5><span class='badge badge-secondary'>Rechazado</span></h5>";
+						break;
+
+					case 3:
+						$this->btnStatusPago = "<h5><span class='badge badge-secondary'>Pendiente</span></h5>";
+						break;
+					}
+					return $this->btnStatusPago;
+
 				})
 
 				->addColumn('action', function ($val) {
@@ -89,7 +108,7 @@ class CitaProgramadaController extends Controller {
 
 					return $this->btnView . $this->btnPdf;
 				})
-				->rawColumns(['status', 'action'])
+				->rawColumns(['status', 'action', 'status_pago'])
 
 				->make(true);
 		}
@@ -100,13 +119,26 @@ class CitaProgramadaController extends Controller {
 
 		//	return view('reports.reciboPdf');
 		$cita = Cita::where('slug', $slug)->get();
+		//paciente_link
+		//disponibilidad_link doctor_servicio_link
 
-		$pdf = PDF::loadView('reports.reciboPdf', compact('cita'));
+		$documento = exploid_blade($cita[0]->paciente_link->dni, 1);
+
+		if ($documento[0] == 1) {
+			$nombreDocumento = "DNI";
+		} else if ($documento[0] == 2) {
+			$nombreDocumento = "Pasaporte";
+		} else {
+			$nombreDocumento = "Carnet Extranjería";
+		}
+
+		$pdf = PDF::loadView('reports.reciboPdf', ['cita' => $cita,
+			'nombreDocumento' => $nombreDocumento,
+			'numeroDocumento' => $documento[1]]);
 
 		$pdf->setPaper('a4', 'portrait')
 			->setWarnings(false)
-			->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true]);
-		//$pdf->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+			->setOptions(['isHtml5ParserEnabled' => true, 'is$documentoserif']);
 
 		$date_structs = Date::now()->format('Ymdhis');
 		$recibo = "Recibo" . $date_structs . $cita[0]->paciente_link->name . ".pdf";

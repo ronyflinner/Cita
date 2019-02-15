@@ -140,8 +140,8 @@
                           event.preventDefault();
                           if($('#form').parsley().isValid())
                           {
-                                 document.getElementById("form").submit();
-                        //  PlantillaCrearCita.dataAjaxhora($("#form").serialize(),3)
+                              //  document.getElementById("form").submit();
+                              PlantillaCrearCita.dataAjaxhora($("#form").serialize(),3)
 
                           }
                       });
@@ -251,7 +251,7 @@
                                     headers:{'X-CSRF-TOKEN': token},
                                  })
                                  .done(function(data, textStatus, jqXHR) {
-                                   console.log(data);
+                                 //  console.log(data);
 
                                    $("#referenceCode").val(data.referenceCode);
                                    $("#amount").val(data.amount);
@@ -326,7 +326,7 @@
                                            }else if(data.yeah==1){
                                               PlantillaCrearCita.toast_notification("success",'Se ha registrado satisfactoriamente',2);
 
-                                              document.getElementById("form").submit();
+                                          document.getElementById("form").submit();
 
                                               /* setTimeout(function(){
                                                 location = '{ { route('citaprogramada.index') }}'

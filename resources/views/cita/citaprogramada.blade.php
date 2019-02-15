@@ -26,6 +26,7 @@
                       <th>Centro de Prevención</th>
                       <th>Atendido</th>
                       <th>Estado de Cita</th>
+                      <th>Estado de Pago</th>
                       <th>Ticket de Atención</th>
                   </tr>
               </thead>
@@ -40,6 +41,7 @@
                       <th>Centro de Prevención</th>
                       <th>Atendido</th>
                       <th>Estado de Cita</th>
+                      <th>Estado de Pago</th>
                       <th>Ticket de Atención</th>
                   </tr>
               </tfoot>
@@ -217,6 +219,7 @@
                                               {data: 'lugar', name:'lugar'},
                                               {data: 'doctor', name:'doctor'},
                                               {data: 'status', name:'status'},
+                                              {data: 'status_pago', name:'status_pago'},
                                               {data: 'action', name:'action'},
 
                                           ],
