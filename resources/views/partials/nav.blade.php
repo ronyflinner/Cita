@@ -103,7 +103,7 @@
                   <li><a href="{{ route('verificarcita.index') }}">Verificar Asistencia</a></li>
                 @endcan
                 @can('ver crear asistencia manual')
-                  <li><a href="{{ route('historialCitaP.index') }}">Crear Cita</a></li>
+                  <li><a href="{{ route('crearcitaA.index') }}">Crear Cita</a></li>
                 @endcan
             <!-- Fin asistente-->
             @endhasrole

@@ -18,8 +18,6 @@
                </thead>
             </table>
         </div>
-    <a href="mailto:name@email.com">Link text</a>
-
 @endsection
 
 @section('javascript')
@@ -55,12 +53,12 @@
                               itable = $('#Na').DataTable({
                                         responsive: {
                                             details: {
-                                                display: $.fn.dataTable.Responsive.display.modal( {
+                                              display: $.fn.dataTable.Responsive.display.modal( {
                                                     header: function ( row ) {
                                                         var data = row.data();
                                                         return 'Servicio';
                                                     }
-                                                } ),
+                                                }),
                                                 renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
                                                     tableClass: 'table'
                                                 } )
