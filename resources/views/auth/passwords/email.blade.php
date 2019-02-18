@@ -11,8 +11,10 @@
            <div class="container">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Olvido Contraseña</div>
+                    <div class="panel panel-skin">
+                        <div class="panel-heading">
+                                 <h3 class="panel-title"><span class="fa fa-pencil-square-o"></span> Olvido Contraseña</h3>
+                        </div>
 
                         <div class="panel-body">
                             @if (session('status'))

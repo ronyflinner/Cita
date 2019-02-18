@@ -24,7 +24,7 @@ class Cita extends Model {
 	}
 
 	public function getCreatedAtAttribute($data) {
-		return new Date($data);
+		return new Date($data); // Traducir Fechas
 	}
 
 }

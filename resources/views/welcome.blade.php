@@ -21,7 +21,7 @@
                   <ul class="lead-list">
                     <li><span class="fa fa-check fa-2x icon-success"></span> <span class="list"><strong>Agenda tu cita a las 24 horas</strong><br />Lorem ipsum dolor sit amet, in verterem persecuti vix, sit te meis</span></li>
                     <li><span class="fa fa-check fa-2x icon-success"></span> <span class="list"><strong>Escoge el horario que más te guste</strong><br />Lorem ipsum dolor sit amet, in verterem persecuti vix, sit te meis</span></li>
-                    <li><span class="fa fa-check fa-2x icon-success"></span> <span class="list"><strong>Only use friendly environment</strong><br />Lorem ipsum dolor sit amet, in verterem persecuti vix, sit te meis</span></li>
+                    <li><span class="fa fa-check fa-2x icon-success"></span> <span class="list"><strong>Asegura tu cita cancelando al instante</strong><br />Lorem ipsum dolor sit amet, in verterem persecuti vix, sit te meis</span></li>
                   </ul>
 
                     @if (Route::has('login'))

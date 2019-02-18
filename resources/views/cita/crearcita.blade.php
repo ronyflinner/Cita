@@ -61,7 +61,7 @@
                 <input name='buyerEmail'    type='hidden'  value='luiskaco@gmail.com' >
                 <input name='test'          type='hidden'  value='1' >
                 <input name='responseUrl'    type='hidden'  value='{{ url('')."/admin/usuario/response" }}' >
-                <input name='confirmationUrl' type='hidden' value='{{ route('confirmation') }}'>
+                <input name='confirmationUrl' type='hidden' value='http://localhost/Cita/public/confirmacionPayu.php'>
 
             <div class="row">
               <div class="col text-center">

@@ -92,7 +92,7 @@
 </style>
 
  <img src="{{ url('medico/img/lcc.png') }}" alt="" width="140px" height="60px">
-
+{{ url('medico/img/lcc.png') }}
  <div class="container">
   <div class="row">
 

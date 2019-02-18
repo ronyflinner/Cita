@@ -28,7 +28,7 @@
                     <i class="fa fa-bars"></i>
                 </button>
           <a class="navbar-brand" href="{{ route('home') }}">
-                    <img src="{{ url('health/images/lcc.png') }}" alt="" width="100" height="40" />
+                    <img src="{{ url('medico/img/lcc.png') }}" alt="" width="100" height="40" />
           </a>
         </div>
 

@@ -1990,8 +1990,8 @@ a.btn:focus{
 	}
 	
 	.navbar-header button {
-		border-color: #ccc;
-		background-color: #eee;
+		border-color: #e6d5d5;
+		background-color: #fff;
 		padding: 5px 20px;
 	}
 	.navbar-header i{

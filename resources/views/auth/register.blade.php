@@ -2,40 +2,31 @@
 @section('navT')
         @include('partials.nav1')
 
-
-
  <section id="intro" class="intro">
-      <div class="intro-content">
+ <div class="intro-content">
         <div class="container">
              <div class="info">
-        <div class="container">
-    <div class="form-wrapper">
-                <div class="wow fadeInRight" data-wow-duration="2s" data-wow-delay="0.2s">
 
-                  <div class="panel panel-skin">
-                    <div class="panel-heading">
-                      <h3 class="panel-title"><span class="fa fa-pencil-square-o"></span><h3> Registro al Sistema de Citas</h3>
-                    </div>
-                    <div class="panel-body">
-                      <div id="sendmessage">Your message has been sent. Thank you!</div>
-                      <div id="errormessage"></div>
+                 <div class="form-wrapper">
+                    <div class="col-md-8 col-md-offset-2">
+                     <div class="wow fadeInRight" data-wow-duration="2s" data-wow-delay="0.2s">
 
-        <div class="home_container">
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <div class="home_content">
-   <div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2 ">
-                    <form class="form-horizontal" method="POST" action="{{ route('register') }}">
+                      <div class="panel panel-skin">
+                        <div class="panel-heading">
+                          <h3 class="panel-title"><span class="fa fa-pencil-square-o"></span> Registrar Usuarios</h3>
+                        </div>
+                        <div class="panel-body">
+                          <div id="sendmessage">Your message has been sent. Thank you!</div>
+                          <div id="errormessage"></div>
+
+                           <form class="form-horizontal" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
 
                          <div class="form-group{{ $errors->has('tipo') ? ' has-error' : '' }}">
                              {{ Form::label('tipoDocumento', 'Tipo de Documento',['class'=>'col-md-4 control-label']) }}
 
                             <div class="col-md-6">
-                                {!! Form::select('tipo',$tipoDocumento, '', ['class'=>'form-control form-control', 'required', 'id'=>'tipo'
+                                {!! Form::select('tipo',$tipoDocumento, '', ['class'=>'form-control form-control single', 'required', 'id'=>'tipo'
                                   ]) !!}
                                 @if ($errors->has('tipo'))
                                     <span class="help-block">
@@ -177,32 +168,18 @@
                             </div>
                         </div>
                     </form>
-
-
-        </div>
-    </div>
-</div>
-
-
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                      </div>
 
                     </div>
-                  </div>
 
                 </div>
               </div>
-</div>
-    </div>
-            <div class="col-lg-6">
-
-          </div>
-        </div>
+            </div>
+         </div>
       </div>
-    </section>
+
+ </section>
 
 
 @endsection
@@ -212,6 +189,7 @@
                 //arranque de funciones y procesos que estan en el init
               $('.dni').mask('000000000');
               $('#telefono').mask('(51)000000000');
+              $('.single').select2();
         });
 </script>
 @endsection

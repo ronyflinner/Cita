@@ -166,7 +166,7 @@ class CrearCitaController extends Controller {
 	}
 
 	public function response(request $request) {
-		Log::info('Aprobado');
+		Log::info('Respuesta Aprobado');
 		$pagoProcesado = array();
 		$request->processingDate; //fecha
 		$pagoProcesado = Arr::add($pagoProcesado, 'processingDate', $request->processingDate);
