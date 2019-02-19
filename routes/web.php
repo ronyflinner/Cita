@@ -12,24 +12,19 @@
  */
 /*Webhood*/
 
-Route::post('webhook', 'WebhookController@handle');
-Route::post('confirmation', 'CrearCita\CrearCitaController@testeo')->name('confirmation');
+//Route::post('webhook', 'WebhookController@handle');
+
+//Route::post('confirmation', 'CrearCita\CrearCitaController@testeo')->name('confirmation');
 
 Route::prefix('admin')->group(function () {
 	Route::get('/home', 'HomeController@index')->name('home');
 
 	/*citas*/
-
 	Route::group(['prefix' => 'usuario'], function () {
-
 		/*AJAX*/
-
 		Route::get('response', 'CrearCita\CrearCitaController@response')->name('roteo');
-
 		Route::get('/crearcita/ajaxCrear/{id?}/{servicio?}', 'CrearCita\CrearCitaController@ajaxCrearCitaFecha')->name('admin.ajax.crearCita');
-
 		Route::post('/crearcita/ajaxBuscar', 'CrearCita\CrearCitaController@ajaxBuscarHora')->name('admin.ajax.buscarCita');
-
 		Route::post('/crearcita/ajaxSelecionarBuscar', 'CrearCita\CrearCitaController@ajaxSelecionarBuscar')->name('admin.ajax.selecionarbuscar');
 
 		Route::post('/crearcita/ajaxPayuFormulario', 'CrearCita\CrearCitaController@ajaxPayuFormulario')->name('admin.ajax.ajaxPayuFormulario');
@@ -120,10 +115,12 @@ Route::prefix('admin')->group(function () {
 
 });
 
-Route::get('/', function () {
+/*Entrada al Sistema*/
+Route::get('/agenda', function () {
 	return view('welcome');
 });
 
+/*Rutas Login*/
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
@@ -139,3 +136,41 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 //Auth::routes();
+
+/*RUTAS LCC*/
+
+Route::get('/', function () {
+	return view('frontend.liga.index');
+});
+
+Route::get('nosotros/quienesSomos', 'Liga\LccController@vista_quienes')->name('quienesSomos');
+Route::get('nosotros/queHacemos', 'Liga\LccController@vista_queHacemos')->name('queHacemos');
+
+Route::get('nosotros/centroDeteccion', 'Liga\LccController@vista_centroDetection')->name('centroDeteccion');
+
+Route::get('nosotros/staffMedico', 'Liga\LccController@vista_staff')->name('staffMedico');
+Route::get('servicios/especialidades', 'Liga\LccController@vista_especialidades')->name('especialidades');
+
+Route::get('servicios/servicio', 'Liga\LccController@vista_servicio')->name('servicio');
+
+Route::get('colectaPublica/formaDonacion', 'Liga\LccController@vista_formaDonacion')->name('donaciones');
+
+Route::get('colectaPublica/campanaPublicitaria', 'Liga\LccController@vista_campanaPublicitaria')->name('campanaPublicitaria');
+
+Route::get('colectaPublica/resultadoColecta', 'Liga\LccController@vista_resultadoColecta')->name('resultadoColecta');
+
+Route::get('aliados/benefactor', 'Liga\LccController@vista_benefactor')->name('benefactor');
+
+Route::get('aliados/marcas', 'Liga\LccController@vista_marcas')->name('marcas');
+
+Route::get('campana/pancreas', 'Liga\LccController@vista_pancreas')->name('pancreas');
+
+Route::get('campana/piel', 'Liga\LccController@vista_piel')->name('piel');
+
+Route::get('campana/cuellouterino', 'Liga\LccController@vista_cuellouterino')->name('cuello');
+
+Route::get('campana/mama', 'Liga\LccController@vista_mama')->name('mama');
+
+Route::get('campana/varones', 'Liga\LccController@vista_amomibolas')->name('bolas');
+
+Route::get('campana/diaContraElCancer', 'Liga\LccController@vista_diaContraElCancer')->name('diaContraElCancer');

@@ -182,11 +182,17 @@
             	 						let token=$("#_token").val();
             	 						let dDrop=$("#_delete").val();
 
-            	 						completrDrop=dDrop.replace(":id", $(this).attr('data-id'));
+                          var result = confirm("¿Seguro de realizar esta acción?");
+                          if (result) {
+                            completrDrop=dDrop.replace(":id", $(this).attr('data-id'));
 
-            	 						data={'data':$(this).attr('data-id')};
+                            data={'data':$(this).attr('data-id')};
 
-            							PlantillaRoles.ajaxDelete(data,completrDrop,token);
+                            PlantillaRoles.ajaxDelete(data,completrDrop,token);
+
+                          }
+
+
                    					});
                       },
                        datatable:()=>{

@@ -155,8 +155,13 @@
                             let path_val=$("#_path").val();
                             let token=$("#_token").val();
 
-                            data={'data':change_close_id};
-                            PlantillaUsuarios.ajaxSave(data,path_val,token);
+                            var result = confirm("¿Seguro de realizar esta acción?");
+                            if (result) {
+                                 data={'data':change_close_id};
+                                 PlantillaUsuarios.ajaxSave(data,path_val,token);
+                            }
+
+
                         });
                       },
                       ajaxSave:(data,vurl,token)=>{

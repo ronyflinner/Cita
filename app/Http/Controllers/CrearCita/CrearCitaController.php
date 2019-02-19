@@ -9,6 +9,7 @@ use App\Model\Disponibilidad;
 use App\Model\Fecha;
 use App\Model\Hora;
 use App\Model\Locacion\Lugar;
+use App\Model\Locacion\Provincia;
 use App\Model\Servicio;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -216,6 +217,12 @@ class CrearCitaController extends Controller {
 	public function confirmation(request $request) {
 		Log::info($request->all());
 		return $Value = $request->all();
+
+	}
+	public function paymentPayUConfirm($pago = null) {
+
+		$slug = str_random(180);
+		Provincia::create(['nombre' => 'hola']);
 
 	}
 	/**
