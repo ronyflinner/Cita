@@ -60,8 +60,8 @@
                 <input name='signature'    id="signature" type='hidden'  value=''  >
                 <input name='buyerEmail'    type='hidden'  value='luiskaco@gmail.com' >
                 <input name='test'          type='hidden'  value='1' >
-                <input name='responseUrl'    type='hidden'  value='{{ url('')."/admin/usuario/response" }}' >
-                <input name='confirmationUrl' type='hidden' value='http://localhost/Cita/public/confirmacionPayu.php'>
+                <input name='responseUrl'    type='hidden'  value='{{ url('/admin/usuario/response') }}' >
+                <input name='confirmationUrl' type='hidden' value='https://www.ligacancer.org.pe/confirmacionPayu.php'>
 
             <div class="row">
               <div class="col text-center">
@@ -145,6 +145,8 @@
 
                           }
                       });
+
+
 
 
                    });
@@ -326,7 +328,7 @@
                                            }else if(data.yeah==1){
                                               PlantillaCrearCita.toast_notification("success",'Se ha registrado satisfactoriamente',2);
 
-                                          document.getElementById("form").submit();
+                                            document.getElementById("form").submit();
 
                                               /* setTimeout(function(){
                                                 location = '{ { route('citaprogramada.index') }}'
@@ -403,10 +405,23 @@
                                     /*$("#_array_data_2").val(fechas_array);
                                     console.log($("#_array_data_2").val());
                                     agua=$("#_array_data_2").val();*/
-                                    $('#datepicker').datepicker('destroy');
+                                    $('#datepicker').datepicker('remove');
+
+                                    $.fn.datepicker.dates['es'] = {
+                                        days: ["Sunday2", "Monday2", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                                        daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+                                        daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+                                        months: ["January5", "February5", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                                        monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                                        today: "Today",
+                                        clear: "Clear",
+                                        format: "mm/dd/yyyy",
+                                        titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
+                                        weekStart: 0
+                                    };
 
                                     $('#datepicker').datepicker({
-                                      language: "es",
+                                       language: "es",
                                        format: 'yyyy-mm-dd',
                                        orientation: "bottom",
                                        minDate: new Date(),

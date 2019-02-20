@@ -36,7 +36,7 @@ class CrearCitaController extends Controller {
 		return view('cita.crearcita', ['lugar' => array_add(Lugar::all()->pluck('nombre', 'id'), '', 'Selecionar')]);
 	}
 	/*Crear Cita*/
-	public function ajaxSelecionarBuscar(request $request) {
+	public function ajaxSelecionarBuscar(Request $request) {
 		$disponibilidad = Disponibilidad::where('lugar_id', $request->lugar)->where('status', 1)->get();
 
 		$seleccionar = array();
@@ -53,7 +53,7 @@ class CrearCitaController extends Controller {
 		return response()->json(['validar' => $oh, 'selecionar' => $seleccionar, 'switch' => 1]);
 	}
 
-	public function ajaxCrearCitaFecha(request $request, $lugar_id = null, $servicio = null) {
+	public function ajaxCrearCitaFecha(Request $request, $lugar_id = null, $servicio = null) {
 		if ($request->ajax()) {
 
 			$contenedor_fecha = array();
@@ -126,7 +126,7 @@ class CrearCitaController extends Controller {
 		}
 	}
 
-	public function ajaxBuscarHora(request $request) {
+	public function ajaxBuscarHora(Request $request) {
 
 		if ($request->ajax()) {
 			$Disponibilidad = array();
@@ -214,15 +214,15 @@ class CrearCitaController extends Controller {
 		return view('cita.citaprogramada');
 
 	}
-	public function confirmation(request $request) {
+	public function confirmation(Request $request) {
 		Log::info($request->all());
 		return $Value = $request->all();
 
 	}
-	public function paymentPayUConfirm($pago = null) {
+	public function paymentPayUConfirm() {
 
 		$slug = str_random(180);
-		Provincia::create(['nombre' => 'hola']);
+		Provincia::create(['nombre' => 'confirmacion']);
 
 	}
 	/**
