@@ -68,6 +68,7 @@
 
 @section('javascript')
 
+
 <script>
 
          var PlantillaGuardaCita = {
@@ -325,8 +326,25 @@
 
                             id || (id = ' 0');
                             $.get(route, { id: id }, function (htmlexterno) {
-                                //console.log(htmlexterno);
-                                $(destiny).html(htmlexterno);
+                                console.log(htmlexterno);
+
+                                 $("#referenceCode").val(htmlexterno.data.referenceCode);
+                                 $("#amount").val(htmlexterno.data.amount);
+                                 $("#signature").val(htmlexterno.data.signature);
+                                 $("#currency").val(htmlexterno.data.currency);
+
+                                 $("#merchantId").val(htmlexterno.data.merchantId);
+                                 $("#accountId").val(htmlexterno.data.accountId);
+                                 $("#description").val(htmlexterno.data.description);
+                                 $("#tax").val(htmlexterno.data.tax);
+                                 $("#taxReturnBase").val(htmlexterno.data.tax);
+                                 $("#buyeEmail").val(htmlexterno.data.buyeEmail);
+
+
+                                $(destiny).html(htmlexterno.template);
+
+
+
                             });
                             return true;
                         },

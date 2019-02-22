@@ -19,6 +19,11 @@
 Route::prefix('admin')->group(function () {
 	Route::get('/home', 'HomeController@index')->name('home');
 
+	Route::group(['prefix' => 'asistente'], function () {
+		Route::get('crearcita', 'CrearCita\CrearCitaController@crearmanual_index')->name('admin.crearManualCita');
+		Route::post('storeCrearcita', 'CrearCita\CrearCitaController@storemanual_index')->name('admin.storeManualCita');
+	});
+
 	/*citas*/
 	Route::group(['prefix' => 'usuario'], function () {
 		/*AJAX*/

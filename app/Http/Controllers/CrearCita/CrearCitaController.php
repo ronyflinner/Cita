@@ -10,6 +10,7 @@ use App\Model\Fecha;
 use App\Model\Hora;
 use App\Model\Locacion\Lugar;
 use App\Model\Servicio;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -365,6 +366,54 @@ class CrearCitaController extends Controller {
 
 		}
 
+	}
+
+	// CREAR CITA MANUAL
+
+	public function crearmanual_index() {
+
+		$tipoDocumento = ['' => 'Selecionar', '1' => 'DNI', '2' => 'Pasaporte', '3' => 'Carnet de Extranjeria'];
+
+		return view('asistente.CrearCitaManual', ['lugar' => array_add(Lugar::all()->pluck('nombre', 'id'), '', 'Selecionar'), 'tipoDocumento' => $tipoDocumento]);
+	}
+
+	public function storemanual_index(Request $request) {
+
+		$documento = $request->tipo . '-' . $request->numero;
+
+		$user = User::where('dni', $documento)->get();
+
+		if (count($user) > 0) {
+
+		}
+
+		$formulario = "<div class='col-md-6'>
+                                <div class='form-group'>
+                                  <label for='sel1'>Seleccionar Centro de Prevención:</label>
+								  <select class='form-control'>
+									  <option value='volvo'>Volvo</option>
+									  <option value='saab'>Saab</option>
+									  <option value='mercedes'>Mercedes</option>
+									  <option value='audi'>Audi</option>
+									</select>
+                                </div>
+                                 <div class='form-group'>
+                                  <label for='sel1'>Seleccionar Servicio:</label>
+                                </div>
+                                <div class='form-group' id='display_cita' style='display: none;'>
+                                  <label for='sel1'>Seleccionar Fecha de Cita:</label>
+                                </div>
+                                 <div class='form-group' id='display_horario' style='display: none;'>
+                                  <label for='sel1'>Seleccionar Horario:</label>
+                                </div>
+                                 <div id='destiny' >
+                              </div>
+                            </div>
+                            <div class='class-md-6'>
+                              <img src='" . url('medico/img/infografia.jpg') . "' alt='instruitivo' height='300px' >;
+                            </div>";
+
+		return response()->json(['formulario' => $formulario]);
 	}
 
 	/**

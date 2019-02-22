@@ -21,6 +21,12 @@
         <div class="container">
           <div class="row">
             <div class="col-sm-6 col-md-6">
+               <p class="bold ">
+                <marquee behavior="" direction="">
+                  <p>Bienvenido al Sistema de Cita - Versión Beta-1.8   {{verificarEstadoUsuario()}}</p>
+
+
+               </marquee>                       </p>
 
             </div>
             <div class="col-sm-6 col-md-6">
@@ -97,13 +103,12 @@
             @endhasrole
             @hasrole('Asistente')
 
-
             <!-- Asistente -->
                 @can('ver asistencia')
                   <li><a href="{{ route('verificarcita.index') }}">Verificar Asistencia</a></li>
                 @endcan
                 @can('ver crear asistencia manual')
-                  <li><a href="{{ route('crearcitaA.index') }}">Crear Cita</a></li>
+                  <li><a href="{{ route('admin.crearManualCita') }}">Crear Cita</a></li>
                 @endcan
             <!-- Fin asistente-->
             @endhasrole

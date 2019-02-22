@@ -4,7 +4,6 @@ namespace App\Http\Controllers\traitsGeneral;
 use App\Model\Disponibilidad;
 use App\Model\Fecha;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Jenssegers\Date\Date;
 
@@ -115,18 +114,19 @@ trait principal {
 		$description = 'Donativo';
 		$accountId = '512323';
 		$tax = 0;
+		$referenceCODE = $referenceCODE;
 
 		/*000+DNI+ID CITA*/
 
-		if (!empty($referenceCODE)) {
-			$referenceCODE = $referenceCODE;
-		} else {
-			$referenceCODE = "0" . Auth::id() . Date::now()->format('Yhis');
-		}
+		/*if ($condition == 1) {
+				$referenceCODE = $referenceCODE;
+			} else {
+				$referenceCODE = "0" . Auth::id() . Date::now()->format('Yhis');
+		*/
 
 		$valores = $ApiKey . '~' . $merchantId . '~' . $referenceCODE . '~' . $amount . '~' . $currency;
 
-		$referenceCODE = "0" . Auth::id() . Date::now()->format('Yhis');
+		//$referenceCODE = "0" . Auth::id() . Date::now()->format('Yhis');
 
 		$signature = md5($valores);
 

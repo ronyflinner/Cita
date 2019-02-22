@@ -19,7 +19,6 @@
 
     <!-- css -->
 
-  {{ Html::style('medico/font-awesome/css/font-awesome.min.css') }}
   {{ Html::style('medico/plugins/cubeportfolio/css/cubeportfolio.min.css') }}
   {{ Html::style('medico/css/nivo-lightbox.css') }}
   {{ Html::style('medico/css/nivo-lightbox-theme/default/default.css') }}
@@ -39,6 +38,9 @@
   {{ Html::style('medico/css/prettify.css') }}
   {{ Html::style('medico/css/style.css') }}
   {{ Html::style('medico/css/bootstrap-datepicker.css') }}
+
+
+
 
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
@@ -142,4 +144,7 @@
               opacity: 1;
             }
         </style>
+
+
+          {{ Html::style('medico/font-awesome/css/font-awesome.min.css') }}
     </head>

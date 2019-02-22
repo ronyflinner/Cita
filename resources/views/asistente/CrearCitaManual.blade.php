@@ -1,86 +1,66 @@
 @extends('layouts.principal')
+
 @section('navT')
-        @include('partials.nav')
+       @include('partials.nav')
 @endsection
 @section('seccion_c')
 
-<div class="container">
-	<br><br>
-	 <div class="row">
-      <div class=" text-center ">
-        <div class="section_title">Crear Usuario</div>
-      </div>
-    </div>
-	<br><br>
-
 		<div class="container">
-			<div class="col-md-12 ">
-				 {!! Form::open(['route'=>'usuario.store','name'=>'form', 'method'=>'POST',"class"=>"form ",'files' => false, 'id'=>'form']) !!}
+		    <br><br>
+		    <div class="row">
+		      <div class="col text-center mt-3">
+		        <div class="section_title"><h3>Consultar Información</h3></div>
+		      </div>
+		    </div>
+		    <br><br>
 
-						{{ Form::token() }}
-            <div class="form-group">
-              {{ Form::label('tipoDocumento', 'Tipo de Documento') }}
-              {!! Form::select('tipo',$tipoDocumento, '', ['class'=>'form-control form-control-lg single1 select', 'data-parsley-required', 'id'=>'tipo'
+			<div class="container">
+		      <div class="row">
+
+		      	{!! Form::open(['route'=>'admin.storeManualCita','name'=>'form', 'method'=>'POST',"class"=>"form ",'files' => false, 'id'=>'form']) !!}
+
+		      	 <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="form-group">
+                      {{ Form::label('tipoDocumento', 'Tipo de Documento') }}
+            		  {!! Form::select('tipo',$tipoDocumento, '', ['class'=>'form-control form-control-lg single select', 'data-parsley-required', 'id'=>'tipo'
                                   ]) !!}
-            </div>
-						<div class="form-group">
-					    {{ Form::label('numero_documento', 'Número de Documento') }}
+                      <div class="validation"></div>
+                    </div>
+                  </div>
+				 <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="form-group">
+                      {{ Form::label('numero_documento', 'N° de Documento') }}
 					    {{ Form::text('numero', null,['class'=>'form-control dni','data-parsley-required  ','id'=>'dni']) }}
-					  </div>
-					  <div class="form-group">
-						{{ Form::label('email', 'Correo') }}
-					    {{ Form::email('email', null,  ['class'=>'form-control', 'data-parsley-type="email" data-parsley-required','id'=>'correo']) }}
-					  </div>
-					  <div class="form-group">
-						{{ Form::label('nombre', 'Nombre') }}
-					    {{ Form::text('nombre', null,['class'=>'form-control','data-parsley-required','id'=>'nombre']) }}
-					  </div>
-					   <div class="form-group">
-					   	{{ Form::label('apellidoP', 'Apellido Paterno') }}
-					    {{ Form::text('apellido_paterno', null,['class'=>'form-control','data-parsley-required','id'=>'apellidoP']) }}
-					  </div>
-             <div class="form-group">
-              {{ Form::label('apellidoM', 'Apellido Materno') }}
-              {{ Form::text('apellido_materno', null,['class'=>'form-control','data-parsley-required','id'=>'apellidoM']) }}
-            </div>
-            <div class="form-group">
-              {{ Form::label('telefono', 'Telefóno') }}
-              {{ Form::text('telefono', null,['class'=>'form-control','data-parsley-required','id'=>'telefono']) }}
-            </div>
-					  <div class="form-group">
-					    {{ Form::label('clave', 'Clave') }}
-					    {{ Form::password('clave', ['class' => 'form-control','data-parsley-required data-parsley-equalto="#repetir-clave"','id'=>'clave']) }}
-					  </div>
-					    <div class="form-group">
-					    {{ Form::label('repetir-clave', 'Clave') }}
-					    {{ Form::password('repetir-clave', ['class' => 'form-control','data-parsley-required data-parsley-equalto="#clave"','id'=>'repetir-clave']) }}
-					  </div>
-              <div class="form-group">
-              {{ Form::label('tipo', 'Tipo') }}
-              {!! Form::select('tipoUsuario',[''=>'Selecionar','2'=>'Usuario','3'=>'Doctor',''], '', ['class'=>'form-control form-control-lg single select', 'data-parsley-required', 'id'=>'role'
-                                  ]) !!}
-            </div>
-					  <div class="form-group">
-					    {{ Form::label('role', 'Role') }}
-					   	{!! Form::select('role',$role, '', ['class'=>'form-control form-control-lg single select', 'data-parsley-required', 'id'=>'role'
-                                  ]) !!}
-					  </div>
-					  <br>
-					  <button type="submit" class="btn btn-primary">Enviar</button>
-					  <a href="{{ route('usuario.index') }}" class="btn btn-warning">Regresar</a>
-				    {!! Form::close() !!}
+                      <div class="validation"></div>
+                    </div>
+                  </div>
+                  <div class="col-xs-4 col-sm-4 col-md-4">
+                    <div class="form-group">
+                      <br>
+                     <button type="submit" class="btn btn-primary">Buscar</button>
+                    </div>
+                  </div>
+		      </div>
 
-			</div>
+		    </div>
 
+		    <div class="container">
+		    	<div class="row">
+		    		<div id="destinyManual" class="destinyManual">
 
-		</div>
+		    		</div>
+		    	</div>
+		    </div>
 
-</div>
+		    {!! Form::close() !!}
 
-<!-- Token -->
+		<br><br>
+	<!-- Token -->
 <input type="hidden" name="_token" id="_token" value="{{csrf_token()}}">
 
 
+
+</div>
 
 @endsection
 
@@ -111,12 +91,14 @@
                           event.preventDefault();
                           form_to=$(this);
 
+
                           if($('#form').parsley().isValid())
                           {
+
                             formSerialize=form_to.attr('action');
                             dataSerialize=form_to.serialize();
                             tokenUser=$("#_token").val();
-
+                            //console.log(dataSerialize);
                             PlantillaRoles.ajaxSave(dataSerialize,formSerialize,tokenUser);
                           }
                       });
@@ -188,12 +170,11 @@
                                   headers:{'X-CSRF-TOKEN': token},
                              })
                              .done(( data, textStatus, jqXHR)=> {
+                             		console.log(data);
 
                                 	PlantillaRoles.toast_notification("success",'Guardado Correctaente!!!',2);
 
-                                    setTimeout(function(){
-                                      location = '{{ route('usuario.index') }}'
-                                    },2000)
+                                	$("#destinyManual").html(data.formulario);
 
                              })
                              .fail(( data, textStatus, jqXHR)=> {
@@ -216,4 +197,5 @@
               });
 
 	</script>
+
 @endsection
