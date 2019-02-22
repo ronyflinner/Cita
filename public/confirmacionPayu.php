@@ -61,4 +61,4 @@ Log::info('Confirmación de Aprobación');
 
 $test = new App\Http\Controllers\CrearCita\CrearCitaController();
 //acesso a las funciones
-$test->paymentPayUConfirm(); //$_POST
+$test->paymentPayUConfirm($_POST); //$_POST

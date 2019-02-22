@@ -50,8 +50,16 @@
       </div>
     </div>
 
+    @include('frontend.layout.modal')
 
 <br><br>
+<!-- Token -->
+<input type="hidden" name="_token" id="_token" value="{{csrf_token()}}">
+<!-- Url-->
+<input type="hidden" name="_delete" id="_delete" value="{{route('citaprogramada.destroy',':id')}}">
+
+<!--categorie Proyecto buscar-->
+  <input type="hidden" name="_modal_PagoAjax" id="_modal_PagoAjax" value="{{route("admin.ajax.pagoCitaProgramada",':id')}}">
 
 </div>
 
@@ -70,6 +78,8 @@
                     PlantillaGuardaCita.General();
                     PlantillaGuardaCita.btnPdf();
                     PlantillaGuardaCita.btnView();
+                    PlantillaGuardaCita.btnDel();
+                    PlantillaGuardaCita.btnPay();
                 },
                 // Metodos
                 sayMessage: mensaje=> {
@@ -180,19 +190,90 @@
                          $(document).on("click", ".btnView", function (event) {
                            let change_close_id =$(this).data('id');
 
-                           console.log(`Hola mundo, soy el numero ${change_close_id}`);
+                       //    console.log(`Hola mundo, soy el numero ${change_close_id}`);
                          });
                       },
                       btnPdf:()=>{
                         $(document).on("click", ".btnPdf", function (event) {
                            let change_close_id =$(this).data('id');
 
-                          console.log(`Hola mundo, soy el numero ${change_close_id}`);
+                     //     console.log(`Hola mundo, soy el numero ${change_close_id}`);
                          });
                       },
+                      btnDel:()=>{
+                        $(document).on("click", ".btnDel", function (event) {
+                            event.preventDefault();
+                            let token=$("#_token").val();
+                            let dDrop=$("#_delete").val();
+
+                            var result = confirm("¿Seguro de realizar esta acción?");
+                            if (result) {
+                              completrDrop=dDrop.replace(":id", $(this).attr('data-id'));
+
+                              data={'data':$(this).attr('data-id')};
+
+                              PlantillaGuardaCita.ajaxDelete(data,completrDrop,token);
+
+                            }
+
+
+                          });
+                      },
+                       btnPay:()=>{
+                         $(document).on("click", ".btnPay", function (event) {
+                            event.preventDefault();
+
+                            let pathBT=`${$("#_modal_PagoAjax").val()}`;
+
+
+                            completo=pathBT.replace(":id", $(this).data('id'));
+                            PlantillaGuardaCita.viewajax('#idcontainer',completo , `Pagar Cita N° ${$(this).data('code')}`,id=null,4);
+                          });
+                      },
+
+
+                      /*AJAX*/
+                       ajaxDelete:(data,vurl,token)=>{
+
+                     //   console.log(`${data}  ${vurl}  ${token}`);
+                          $.ajax({
+                                  type: 'DELETE',
+                                  url: vurl,
+                                  data: data,
+                                  dataType: 'JSON',
+                                  async : true,
+                                  headers:{'X-CSRF-TOKEN': token},
+                             })
+                             .done(( data, textStatus, jqXHR)=> {
+                              // console.log(data);
+
+                                if(data.data==1){
+                                  PlantillaGuardaCita.toast_notification("success",'Eliminado Correctamente!!!',2);
+
+                                    otable.ajax.reload();
+
+                                  $("#role").val("");
+
+
+                              }else if(data.data==2){
+                                  PlantillaGuardaCita.toast_notification("info",'Ya tenemos registrado un pago para esta Cita!!!',2);
+
+                                    otable.ajax.reload();
+
+
+                              }else{
+                                PlantillaGuardaCita.toast_notification("error",'No fue posible guardar los datos',2);
+                              }
+
+                             })
+                             .fail(( data, textStatus, jqXHR)=> {
+                               //console.log(data);
+                             });
+                      },
+
                       datatable:()=>{
 
-                         $('#Mytable').DataTable({
+                         otable=  $('#Mytable').DataTable({
                                       responsive: {
                                           details: {
                                               type: 'column'
@@ -210,7 +291,7 @@
                                             type:'get',
                                           } ,
                                           language: {
-                                                    url:  "{{asset('health/js/datatable_spanish.js')}}"
+                                                    url:  "{{asset('medico/js/datatable_spanish.js')}}"
                                                    },
                                           columns: [
                                               {data: 'n', name:'n','orderable': false},
@@ -229,7 +310,27 @@
 
                                     });
 
-                      }
+                      },
+                      viewajax:(destiny, route, title='Sin definir',id=null,flag=null)=>{
+                          PlantillaGuardaCita.clean_form_html('#myModalLabel1');
+                          PlantillaGuardaCita.clean_form_html(destiny);
+
+                            let modal = $("#default");
+                            if(flag==1){
+                                modal.find('.modal-dialog').addClass('modal-lg');
+                            }else if(flag!=1){
+                               modal.find('.modal-dialog').removeClass('modal-lg')
+                            }
+
+                          $('#myModalLabel1').html(title);
+
+                            id || (id = ' 0');
+                            $.get(route, { id: id }, function (htmlexterno) {
+                                //console.log(htmlexterno);
+                                $(destiny).html(htmlexterno);
+                            });
+                            return true;
+                        },
 
               };
 

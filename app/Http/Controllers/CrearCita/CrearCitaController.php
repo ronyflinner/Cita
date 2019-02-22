@@ -9,7 +9,6 @@ use App\Model\Disponibilidad;
 use App\Model\Fecha;
 use App\Model\Hora;
 use App\Model\Locacion\Lugar;
-use App\Model\Locacion\Provincia;
 use App\Model\Servicio;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -33,6 +32,7 @@ class CrearCitaController extends Controller {
 				# code...
 				Fecha::create(['f_fecha' => $value, 'slug' => str_random(120)]);
 		*/
+
 		return view('cita.crearcita', ['lugar' => array_add(Lugar::all()->pluck('nombre', 'id'), '', 'Selecionar')]);
 	}
 	/*Crear Cita*/
@@ -167,10 +167,12 @@ class CrearCitaController extends Controller {
 	}
 
 	public function response(request $request) {
-		Log::info('Respuesta Aprobado');
+
 		$pagoProcesado = array();
 		$request->processingDate; //fecha
-		$pagoProcesado = Arr::add($pagoProcesado, 'processingDate', $request->processingDate);
+
+		$fecha = $request->processingDate . ' ' . Date::now()->format('h:i:s');
+		$pagoProcesado = Arr::add($pagoProcesado, 'processingDate', $fecha);
 
 		$request->buyerEmail;
 		$pagoProcesado = Arr::add($pagoProcesado, 'buyerEmail', $request->buyerEmail);
@@ -183,6 +185,9 @@ class CrearCitaController extends Controller {
 		$pagoProcesado = Arr::add($pagoProcesado, 'message', $request->message);
 
 		/*TIPO DE PAGO*/
+		$request->polPaymentMethod; //ID DE BANK
+		$pagoProcesado = Arr::add($pagoProcesado, 'polPaymentMethod', $request->polPaymentMethod);
+
 		$request->lapPaymentMethod; // TIPO VISA
 		$pagoProcesado = Arr::add($pagoProcesado, 'lapPaymentMethod', $request->lapPaymentMethod);
 
@@ -211,18 +216,52 @@ class CrearCitaController extends Controller {
 		Cita::where('referenceCode', $request->referenceCode)
 			->update($pagoProcesado);
 
+		Log::info('Respuesta en estado' . $request->message);
+
 		return view('cita.citaprogramada');
 
 	}
+
 	public function confirmation(Request $request) {
 		Log::info($request->all());
 		return $Value = $request->all();
 
 	}
-	public function paymentPayUConfirm() {
+	public function paymentPayUConfirm($confirmation) {
+		Log::info($confirmation);
+		$pagoProcesado = array();
 
-		$slug = str_random(180);
-		Provincia::create(['nombre' => 'confirmacion']);
+		if ($confirmation['response_message_pol'] == 'APPROVED') {
+			$pagoProcesado = Arr::add($pagoProcesado, 'status_pago', 1);
+		} else if ($confirmation['response_message_pol'] == 'REJECTED') {
+			$pagoProcesado = Arr::add($pagoProcesado, 'status_pago', 2);
+		} else if ($confirmation['response_message_pol'] == 'PENDING') {
+			$pagoProcesado = Arr::add($pagoProcesado, 'status_pago', 3);
+		}
+
+		$pagoProcesado = Arr::add($pagoProcesado, 'buyerEmail', $confirmation['email_buyer']);
+
+		/*ESTADO DE TRANSACION*/
+		$pagoProcesado = Arr::add($pagoProcesado, 'message', $confirmation['response_message_pol']);
+		$pagoProcesado = Arr::add($pagoProcesado, 'lapTransactionState', $confirmation['response_message_pol']);
+		$pagoProcesado = Arr::add($pagoProcesado, 'transactionState', $confirmation['state_pol']);
+
+		$pagoProcesado = Arr::add($pagoProcesado, 'transactionId', $confirmation['transaction_id']);
+		/*ID BANCO*/
+		$pagoProcesado = Arr::add($pagoProcesado, 'polPaymentMethod', $confirmation['bank_id']);
+
+		$pagoProcesado = Arr::add($pagoProcesado, 'processingDate', $confirmation['transaction_date']);
+
+		$pagoProcesado = Arr::add($pagoProcesado, 'lapPaymentMethodType', $confirmation['payment_method_name']);
+
+		$pagoProcesado = Arr::add($pagoProcesado, 'reference_pol', $confirmation['reference_pol']);
+
+		/*	$pagoProcesado = Arr::add($pagoProcesado, 'reference_sale', $confirmation['reference_sale']);*/
+		//Log::info($pagoProcesado);
+
+		Cita::where('referenceCode', $confirmation['reference_sale'])
+			->update($pagoProcesado);
+		Log::info('Confirmacion en estado' . $confirmation['response_message_pol']);
 
 	}
 	/**

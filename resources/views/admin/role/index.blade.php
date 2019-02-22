@@ -172,23 +172,21 @@
 
 
                       	 $(document).on("click", "#buttonAdd", event=> {
-                      	 	let vurl=$("#_path").val();
-                      	 	let role=$("#role").val();
-                      	 	let token=$("#_token").val();
-                          let permiso=$("#permiso").val();
+                          	 	let vurl=$("#_path").val();
+                          	 	let role=$("#role").val();
+                          	 	let token=$("#_token").val();
+                              let permiso=$("#permiso").val();
 
+                          	 	if(role!="" && permiso.length >0 ){
 
+                          	 		data={'data':$("#role").val(),'permiso':permiso};
 
-                      	 	if(role!="" && permiso.length >0 ){
+                                //console.log(data);
+                          	 		PlantillaRoles.ajaxSave(data,vurl,token);
 
-                      	 		data={'data':$("#role").val(),'permiso':permiso};
-
-                            console.log(data);
-                      	 		PlantillaRoles.ajaxSave(data,vurl,token);
-
-                      	 	}else{
-							             	PlantillaRoles.toast_notification("error",'No puede quedar vacio',2);
-                      	 	}
+                          	 	}else{
+    							             	PlantillaRoles.toast_notification("error",'No puede quedar vacio',2);
+                          	 	}
 
                       	 	//PlantillaRoles.ajaxSearch();
                       	 });

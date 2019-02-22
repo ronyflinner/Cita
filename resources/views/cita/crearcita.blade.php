@@ -140,8 +140,12 @@
                           event.preventDefault();
                           if($('#form').parsley().isValid())
                           {
+                            var result = confirm("¿Listo para cancerla la Cita?");
+                            if (result) {
                               //  document.getElementById("form").submit();
                               PlantillaCrearCita.dataAjaxhora($("#form").serialize(),3)
+
+                            }
 
                           }
                       });
@@ -408,14 +412,14 @@
                                     $('#datepicker').datepicker('remove');
 
                                     $.fn.datepicker.dates['es'] = {
-                                        days: ["Sunday2", "Monday2", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-                                        daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+                                        days: ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado"],
+                                        daysShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sat"],
                                         daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-                                        months: ["January5", "February5", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-                                        monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                                        today: "Today",
+                                        months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Augosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                                        monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+                                        today: "Hoy",
                                         clear: "Clear",
-                                        format: "mm/dd/yyyy",
+                                        format: "yyy-mm-dd",
                                         titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
                                         weekStart: 0
                                     };

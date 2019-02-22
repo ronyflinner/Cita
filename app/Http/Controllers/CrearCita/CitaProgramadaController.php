@@ -5,6 +5,7 @@ namespace App\Http\Controllers\CrearCita;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\traitsGeneral\principal;
 use App\Model\Cita;
+use App\Model\Disponibilidad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Jenssegers\Date\Date;
@@ -16,6 +17,8 @@ class CitaProgramadaController extends Controller {
 	private $btnPdf;
 	private $btnBaged;
 	private $btnStatusPago;
+	private $btnDel;
+	private $btnPay;
 
 	/**
 	 * Display a listing of the resource.
@@ -95,18 +98,25 @@ class CitaProgramadaController extends Controller {
 
 				->addColumn('action', function ($val) {
 					$path = url('admin/usuario/citaprogramada/showPdf/');
-					if ($val->status_asistio != 3) {
-						$this->btnView = "<a href='" . $path . "/" . $val->slug . "/1' data-id='" . $val->id . "' target='_blank' class='btn btn-info btnView'><i class='fa fa-eye' aria-hidden='true' ></i></a>";
 
-						$this->btnPdf = "<a href='" . $path . "/" . $val->slug . "/0' download data-id='" . $val->id . "' class='btn btn-danger btnPdf'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></a>";
+					if ($val->status_pago == 1) {
+						$this->btnView = "<a href='" . $path . "/" . $val->slug . "/1' data-id='" . $val->id . "' target='_blank' class='btn btn-info btnView' title='Descargar Recibo Cita N° " . $val->referenceCode . "' ><i class='fa fa-eye' aria-hidden='true' ></i></a>";
 
+						$this->btnPdf = "<a href='" . $path . "/" . $val->slug . "/0' download data-id='" . $val->id . "' class='btn btn-danger btnPdf' title='Descargar Recibo Cita N° " . $val->referenceCode . "'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></a>";
+
+						$this->btnDel = "";
+						$this->btnPay = "";
 					} else {
 						$this->btnView = "";
 
 						$this->btnPdf = "";
+
+						$this->btnDel = "<a href='' data-id='" . $val->id . "' class='btn btn-danger btnDel' title='Eliminar Cita N° " . $val->referenceCode . "' ><i class='fa fa-trash' aria-hidden='true'></i></a>";
+
+						$this->btnPay = "<a href='' data-code='" . $val->referenceCode . "' data-id='" . $val->id . "' class='btn btn-success btnPay' data-toggle='modal' title='Pagar Cita N° " . $val->referenceCode . "' data-target='#pagarCitaModal'><i class='fa fa fa-credit-card' aria-hidden='true'></i></a>";
 					}
 
-					return $this->btnView . $this->btnPdf;
+					return $this->btnView . $this->btnPdf . $this->btnPay . $this->btnDel;
 				})
 				->rawColumns(['status', 'action', 'status_pago'])
 
@@ -147,6 +157,12 @@ class CitaProgramadaController extends Controller {
 		} else {
 			return $pdf->download($recibo);
 		}
+
+	}
+
+	public function pagoCitaprogramada($id) {
+
+		return response()->json($id);
 
 	}
 
@@ -206,7 +222,24 @@ class CitaProgramadaController extends Controller {
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy($id) {
-		//
+	public function destroy(Request $request, $id) {
+		if ($request->ajax()) {
+			$cita = Cita::find($id);
+
+			if ($cita->status_pago != 1) {
+				$disponibilidad = Disponibilidad::find($cita->disponibilidad_id);
+				$disponibilidad->cantPaciente = $disponibilidad->cantPaciente + 1;
+				$disponibilidad->save();
+				$cita->delete();
+				$mensaje = 1;
+
+			} else {
+				$mensaje = 2;
+			}
+
+			return response()->json(['data' => $mensaje]);
+
+		}
+
 	}
 }

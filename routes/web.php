@@ -32,6 +32,10 @@ Route::prefix('admin')->group(function () {
 		/*RUTA MATRIX*/
 		Route::resource('crearcita', 'CrearCita\CrearCitaController');
 
+		/*Pay*/
+
+		Route::get('/citaprogramada/pago/{id}', 'CrearCita\CitaProgramadaController@pagoCitaprogramada')->name('admin.ajax.pagoCitaProgramada');
+
 		/*Download y View pdf*/
 
 		Route::get('/citaprogramada/showPdf/{id}/{condicion}', 'CrearCita\CitaProgramadaController@showpdf')->name('admin.ajax.showPdf');

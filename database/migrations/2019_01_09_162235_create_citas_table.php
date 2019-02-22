@@ -29,6 +29,8 @@ class CreateCitasTable extends Migration {
 			$table->string('reference_pol')->nullable(true);
 
 			/*Tipo de pago*/
+			$table->string('polPaymentMethod')->nullable(true);
+
 			$table->string('lapPaymentMethod')->nullable(true);
 			$table->string('lapPaymentMethodType')->nullable(true);
 
