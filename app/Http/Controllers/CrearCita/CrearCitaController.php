@@ -344,33 +344,21 @@ class CrearCitaController extends Controller {
 
 			/*Formulario de pago*/
 
-			$ApiKey = '4Vj8eK4rloUd272L48hsrarnUA';
-			$merchantId = '508029';
-			$referenceCode = '000018';
 			$amount = $servicio->costo;
-			$currency = 'PEN';
-			$description = 'Donativo';
-			$accountId = '512323';
-			$tax = 0;
+			$referenceCODE = "0" . Auth::id() . Date::now()->format('Yhis');
 
+			$valores = self::credencialesPAyu($amount, $referenceCODE);
 			/*000+DNI+ID CITA*/
-			$referenceCODE = "0" . Auth::id() . Date::now()->format('Yhis');
-
-			$valores = $ApiKey . '~' . $merchantId . '~' . $referenceCODE . '~' . $amount . '~' . $currency;
-
-			$referenceCODE = "0" . Auth::id() . Date::now()->format('Yhis');
-
-			$signature = md5($valores);
 
 			$data = [
-				'referenceCode' => $referenceCODE,
-				'amount' => $amount,
-				'signature' => $signature,
-				'currency' => $currency,
-				'description' => $description,
-				'accountId' => $accountId,
-				'merchantId' => $merchantId,
-				'tax' => $tax,
+				'referenceCode' => $valores[0],
+				'amount' => $valores[1],
+				'signature' => $valores[2],
+				'currency' => $valores[3],
+				'description' => $valores[4],
+				'accountId' => $valores[5],
+				'merchantId' => $valores[6],
+				'tax' => $valores[7],
 			];
 
 			return response()->json($data);

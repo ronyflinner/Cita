@@ -10,6 +10,7 @@
 
       </div>
       <div class="modal-body">
+
         <div id="idmensaje"></div>
       <div id="idcontainer">
 
@@ -17,7 +18,8 @@
       </div>
       <div class="modal-footer ">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="button" class="btn btn-danger">Pagar Cita</button>
+            <button type="submit" class="btn btn-danger">Pagar Cita</button>
+
             {!!Form::close()!!}
       </div>
     </div>

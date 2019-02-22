@@ -161,8 +161,45 @@ class CitaProgramadaController extends Controller {
 	}
 
 	public function pagoCitaprogramada($id) {
+		$cita = Cita::find($id);
+		$valores = self::credencialesPAyu($cita->disponibilidad_link->doctor_servicio_link->servicio_link->costo, $cita->referenceCode);
 
-		return response()->json($id);
+		$template = "
+		   <form class='form' id='form' method='POST' name='form' action='https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/' accept-charset='UTF-8' >
+
+		  <div class='row'>
+			<div class='col-md-6 text-center'>
+				<div class='alert alert-info' role='alert'> Nombre del Servicio:<br> " . $cita->disponibilidad_link->doctor_servicio_link->servicio_link->nombre . "</div>
+			</div>
+			<div class='col-md-6 text-center'>
+				<div class='alert alert-success' role='alert'>Precio del Servicio:<br> S/." . $cita->disponibilidad_link->doctor_servicio_link->servicio_link->costo . "</div>
+			</div>
+		  </div>
+
+
+			<input name='merchantId' id='merchantId'   type='hidden'  value='" . $valores[6] . "'   >
+	        <input name='accountId'   id='accountId'  type='hidden'  value='" . $valores[5] . "' >
+	        <input name='description'  id='description' type='hidden'  value='" . $valores[4] . "'  >
+	        <input name='referenceCode'  id='referenceCode'  type='hidden' value='" . $valores[0] . "' >
+	        <input name='amount'       id='amount' type='hidden'  value='" . $valores[1] . "'   >
+	        <input name='tax'         id='tax'  type='hidden'  value='" . $valores[7] . "'  >
+	        <input name='taxReturnBase' id='taxReturnBase' type='hidden'  value='" . $valores[7] . "' >
+	        <input name='currency' id='currency'     type='hidden'  value='PEN' >
+	        <input name='signature'    id='signature' type='hidden'  value='" . $valores[3] . "'  >
+	        <input name='buyerEmail'    type='hidden'  value='luiskaco@gmail.com' >
+	        <input name='test'          type='hidden'  value='1' >
+	        <input name='responseUrl'    type='hidden'  value='" . url('/admin/usuario/response') . "' >
+	        <input name='confirmationUrl' type='hidden' value='https://www.ligacancer.org.pe/confirmacionPayu.php'>
+
+
+		 <small id='emailHelp' class='form-text text-muted'>Nota: Recuerde que deberar hacer clic en el boton regresar para retirar su recibo.</small>
+		  </div>
+
+
+
+		";
+
+		return response()->json($template);
 
 	}
 

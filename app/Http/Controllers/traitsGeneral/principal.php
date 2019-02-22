@@ -4,6 +4,7 @@ namespace App\Http\Controllers\traitsGeneral;
 use App\Model\Disponibilidad;
 use App\Model\Fecha;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Jenssegers\Date\Date;
 
@@ -102,4 +103,55 @@ trait principal {
 		$carbon = Carbon::createFromTime($hour, $minute, $second, $tz);
 		return $carbon->format('g:i A');
 	}
+
+	public function credencialesPAyu($costo, $referenceCODE = null) {
+		/*Formulario de pago*/
+
+		$ApiKey = '4Vj8eK4rloUd272L48hsrarnUA';
+		$merchantId = '508029';
+		$referenceCode = '000018';
+		$amount = $costo;
+		$currency = 'PEN';
+		$description = 'Donativo';
+		$accountId = '512323';
+		$tax = 0;
+
+		/*000+DNI+ID CITA*/
+
+		if (!empty($referenceCODE)) {
+			$referenceCODE = $referenceCODE;
+		} else {
+			$referenceCODE = "0" . Auth::id() . Date::now()->format('Yhis');
+		}
+
+		$valores = $ApiKey . '~' . $merchantId . '~' . $referenceCODE . '~' . $amount . '~' . $currency;
+
+		$referenceCODE = "0" . Auth::id() . Date::now()->format('Yhis');
+
+		$signature = md5($valores);
+
+		/*$data = [
+			'referenceCode' => $referenceCODE,
+			'amount' => $amount,
+			'signature' => $signature,
+			'currency' => $currency,
+			'description' => $description,
+			'accountId' => $accountId,
+			'merchantId' => $merchantId,
+			'tax' => $tax,
+		];*/
+
+		return [
+			$referenceCODE,
+			$amount,
+			$signature,
+			$currency,
+			$description,
+			$accountId,
+			$merchantId,
+			$tax,
+		];
+
+	}
+
 }

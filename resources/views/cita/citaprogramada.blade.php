@@ -225,7 +225,6 @@
 
                             let pathBT=`${$("#_modal_PagoAjax").val()}`;
 
-
                             completo=pathBT.replace(":id", $(this).data('id'));
                             PlantillaGuardaCita.viewajax('#idcontainer',completo , `Pagar Cita N° ${$(this).data('code')}`,id=null,4);
                           });
