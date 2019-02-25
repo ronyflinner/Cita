@@ -2,24 +2,24 @@
 @section('navT')
     @include('partials.nav1')
 
-      <section id="intro" class="intro">
+      <section id="intro" class="intro t">
               <div class="intro-content">
                 <div class="container">
                   <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 col-md-offset-3">
                       <div class="wow fadeInDown" data-wow-offset="0" data-wow-delay="0.1s">
                         <h2 class="h-ultra">Agenda tu Cita</h2>
                       </div>
                       <div class="wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
-                        <h4 class="h-light">Proporcionando la mejor atención médica de calidad</h4>
+                        <h4 class="h-light">Programa tu cita en cualquier momento del día</h4>
                       </div>
                       <div class="well well-trans">
                         <div class="wow fadeInRight" data-wow-delay="0.1s">
 
                             <ul class="lead-list">
-                                  <li><span class="fa fa-check fa-2x icon-success"></span> <span class="list"><strong>Agenda tu cita a las 24 horas</strong><br />Lorem ipsum dolor sit amet, in verterem persecuti vix, sit te meis</span></li>
-                                  <li><span class="fa fa-check fa-2x icon-success"></span> <span class="list"><strong>Escoge el horario que más te guste</strong><br />Lorem ipsum dolor sit amet, in verterem persecuti vix, sit te meis</span></li>
-                                  <li><span class="fa fa-check fa-2x icon-success"></span> <span class="list"><strong>Asegura tu cita cancelando al instante</strong><br />Lorem ipsum dolor sit amet, in verterem persecuti vix, sit te meis</span></li>
+                                  <li><span class="fa fa-check fa-2x icon-success"></span> <span class="list"><strong>Agenda tu cita a las 24 horas</strong><br /></span></li>
+                                  <li><span class="fa fa-check fa-2x icon-success"></span> <span class="list"><strong>Escoge el horario que más te guste</strong><br /></span></li>
+                                  <li><span class="fa fa-check fa-2x icon-success"></span> <span class="list"><strong>Asegura tu cita cancelando al instante</strong><br /></span></li>
                             </ul>
 
                             @if (Route::has('login'))
@@ -37,6 +37,7 @@
                              @endif
                         </div>
                       </div>
+
                     </div>
                 </div>
               </div>
@@ -45,4 +46,8 @@
 
 @endsection
 
+@section('javascript')
 
+
+
+@endsection

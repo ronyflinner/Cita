@@ -8,7 +8,7 @@
 	<br><br>
 	 <div class="row">
       <div class=" text-center ">
-        <div class="section_title">Crear Usuario</div>
+        <div class="section_title"><h3>Crear Usuario</h3></div>
       </div>
     </div>
 	<br><br>

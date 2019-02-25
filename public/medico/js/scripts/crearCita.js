@@ -198,7 +198,7 @@
                                   headers:{'X-CSRF-TOKEN': token},
                              })
                              .done(( data, textStatus, jqXHR)=> {
-                                  //console.log(data);
+                                  console.log(data);
 
                                   switch(data.switch) {
                                         case 1:
@@ -276,7 +276,7 @@
                              });
 
                             promise.done(function(data) {
-                                 // console.log(data);
+                                  console.log(data);
 
                                    var fechas_array=[];
                                    $.each( data.contenedor_fecha, ( index, value )=> {

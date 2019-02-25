@@ -60,4 +60,6 @@
 {{ Html::script('https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js') }}
 
 
+{{ Html::script('medico/js/customs2.js') }}
+
 @yield('javascript')

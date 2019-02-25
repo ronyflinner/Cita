@@ -44,7 +44,7 @@
                     <i class="fa fa-bars"></i>
                 </button>
            <a class="navbar-brand" href="#">
-                    <img src="{{ url('health/images/lcc.png') }}" alt="" width="100" height="40" />
+                    <img src="{{ url('medico/img/lcc.png') }}" alt="" width="100" height="40" />
           </a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -73,6 +73,9 @@
                     @endcan
                     @can('ver servicios')
                     <li><a href="{{ route('servicioedit.index')}}">Servicios</a></li>
+                    @endcan
+                    @can('ver logs')
+                    <li><a href="{{ url('admin/logs') }}">Logs</a></li>
                     @endcan
                   </ul>
                 </li>
@@ -110,6 +113,8 @@
                 @can('ver crear asistencia manual')
                   <li><a href="{{ route('admin.crearManualCita') }}">Crear Cita</a></li>
                 @endcan
+
+                 <li><a href="{{ route('usuario.create') }}" >Crear Usuario</a></li>
             <!-- Fin asistente-->
             @endhasrole
                 @can('ver clave')

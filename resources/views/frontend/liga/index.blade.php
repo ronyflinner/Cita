@@ -42,7 +42,7 @@
 					<div class="col-md-12 services-wrap" align="center">
 						<div class="row">
 							<div class="col-md-2 col-sm-3 text-center animate-box fadeInUp animated-fast col-lg-offset-1">
-								<a href="#" class="services">
+								<a href="{{ route('agenda') }}" class="services">
 									<span class="icon">
 										<i class="flaticon-stethoscope"></i>
 									</span>

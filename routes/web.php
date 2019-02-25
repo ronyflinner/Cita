@@ -28,8 +28,11 @@ Route::prefix('admin')->group(function () {
 	Route::group(['prefix' => 'usuario'], function () {
 		/*AJAX*/
 		Route::get('response', 'CrearCita\CrearCitaController@response')->name('roteo');
+
 		Route::get('/crearcita/ajaxCrear/{id?}/{servicio?}', 'CrearCita\CrearCitaController@ajaxCrearCitaFecha')->name('admin.ajax.crearCita');
+
 		Route::post('/crearcita/ajaxBuscar', 'CrearCita\CrearCitaController@ajaxBuscarHora')->name('admin.ajax.buscarCita');
+		/*SELECLT SELECONAR*/
 		Route::post('/crearcita/ajaxSelecionarBuscar', 'CrearCita\CrearCitaController@ajaxSelecionarBuscar')->name('admin.ajax.selecionarbuscar');
 
 		Route::post('/crearcita/ajaxPayuFormulario', 'CrearCita\CrearCitaController@ajaxPayuFormulario')->name('admin.ajax.ajaxPayuFormulario');
@@ -122,12 +125,15 @@ Route::prefix('admin')->group(function () {
 
 	Route::resource('programarcitaP', 'ProgramarCita\ProgramarC');
 
+	/*Log */
+	Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+
 });
 
 /*Entrada al Sistema*/
 Route::get('/agenda', function () {
 	return view('welcome');
-});
+})->name('agenda');
 
 /*Rutas Login*/
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
