@@ -148,7 +148,7 @@ class CitaProgramadaController extends Controller {
 
 		$pdf->setPaper('a4', 'portrait')
 			->setWarnings(false)
-			->setOptions(['isHtml5ParserEnabled' => true, 'is$documentoserif']);
+			->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'images' => true]);
 
 		$date_structs = Date::now()->format('Ymdhis');
 		$recibo = "Recibo" . $date_structs . $cita[0]->paciente_link->name . ".pdf";

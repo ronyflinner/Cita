@@ -11,6 +11,7 @@
                 <div class="section_title"><h3>Solicitud de Cita</h3></div>
               </div>
             </div>
+            <br>
 
 
             <div class="row icon_boxes_row">
@@ -32,11 +33,11 @@
                                   {!! Form::select('servicio',[''=>'Selecionar'], '', ['class'=>'form-control form-control-lg single selectServicio', 'required', 'id'=>'servicio'
                                   ]) !!}
                                 </div>
-                                <div class="form-group" id="display_cita" style="display: none;">
+                                <div class="form-group" id="display_cita" style="display: block;">
                                   <label for="sel1">Seleccionar Fecha de Cita:</label>
                                   {!! Form::text('date', Carbon\Carbon::now()->format('Y-m-d'), ['id'=>'datepicker','class'=>'form-control datepicker clicl', 'readonly', 'placeholder'=>'','required' ]) !!}
                                 </div>
-                                 <div class="form-group" id="display_horario" style="display: none;">
+                                 <div class="form-group" id="display_horario" style="display: block;">
                                   <label for="sel1">Seleccionar Horario:</label>
                                   {!! Form::select('hora',[], '', ['class'=>'form-control form-control-lg single', 'id'=>'hora' ,'required']) !!}
                                 </div>
@@ -45,7 +46,7 @@
 
                             </div>
                             <div class="class-md-6">
-                              <img src="{{ url('medico/img/infografia.jpg') }}" alt="instruitivo" height="300px" >;
+                              <iframe width="560" height="315" src="https://www.youtube.com/embed/8mCCMhuKEYw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
                       </div>
 
