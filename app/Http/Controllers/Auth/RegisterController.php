@@ -55,6 +55,7 @@ class RegisterController extends Controller {
 			'tipo' => 'required',
 			'telefono' => 'required',
 			'captcha' => 'required|captcha',
+			'tipo_documento' => 'required',
 
 		]);
 	}
@@ -73,7 +74,8 @@ class RegisterController extends Controller {
 			'password' => bcrypt($data['password']),
 			'apellidoP' => $data['apellido_paterno'],
 			'apellidoM' => $data['apellido_materno'],
-			'dni' => $data['tipo'] . '-' . $data['numero'],
+			'dni' => $data['numero'],
+			'tipo_documento' => $data['tipo'],
 			'numero' => $data['telefono'],
 			'slug' => str_random(150),
 			'status' => 1,

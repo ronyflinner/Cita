@@ -55,77 +55,78 @@ class CrearCitaController extends Controller {
 	}
 
 	public function ajaxCrearCitaFecha(Request $request, $lugar_id = null, $servicio = null) {
-		//if ($request->ajax()) {
+		if ($request->ajax()) {
 
-		$contenedor_fecha = array();
-		/*Definiendo variables*/
-		$dateA = "2019-01-15";
-		$bandera = 0;
-		$r = 0;
-		/**/
-		$fecha_final = Fecha::latest('f_fecha')->first();
-		/*COnvirtiendo fechas de Base de datos  a una instancia de carbon*/
-		$fecha_final_carbon_y = Date::createFromFormat('Y-m-d', $fecha_final->f_fecha)->format('Y');
-		$fecha_final_carbon_m = Date::createFromFormat('Y-m-d', $fecha_final->f_fecha)->format('m');
-		$fecha_final_carbon_d = Date::createFromFormat('Y-m-d', $fecha_final->f_fecha)->format('d');
+			$contenedor_fecha = array();
+			/*Definiendo variables*/
+			$dateA = "2019-01-15";
+			$bandera = 0;
+			$r = 0;
+			/**/
+			$fecha_final = Fecha::latest('f_fecha')->first();
+			/*COnvirtiendo fechas de Base de datos  a una instancia de carbon*/
+			$fecha_final_carbon_y = Date::createFromFormat('Y-m-d', $fecha_final->f_fecha)->format('Y');
+			$fecha_final_carbon_m = Date::createFromFormat('Y-m-d', $fecha_final->f_fecha)->format('m');
+			$fecha_final_carbon_d = Date::createFromFormat('Y-m-d', $fecha_final->f_fecha)->format('d');
 
-		/*Fragmentando la fechas */
-		$fecha_inicial_d = Date::now()->format('d');
-		$fecha_inicial_m = Date::now()->format('m');
-		$fecha_inicial_y = Date::now()->format('Y');
+			/*Fragmentando la fechas */
+			$fecha_inicial_d = Date::now()->format('d');
+			$fecha_inicial_m = Date::now()->format('m');
+			$fecha_inicial_y = Date::now()->format('Y');
 
-		/*Recorriendo las fechas*/
-		$dtINI = Carbon::create($fecha_inicial_y, $fecha_inicial_m, $fecha_inicial_d, 0, 0, 0, 'America/Lima');
-		$dtEND = Carbon::create($fecha_final_carbon_y, $fecha_final_carbon_m, $fecha_final_carbon_d, 0, 0, 0, 'America/Lima');
+			/*Recorriendo las fechas*/
+			$dtINI = Carbon::create($fecha_inicial_y, $fecha_inicial_m, $fecha_inicial_d, 0, 0, 0, 'America/Lima');
+			$dtEND = Carbon::create($fecha_final_carbon_y, $fecha_final_carbon_m, $fecha_final_carbon_d, 0, 0, 0, 'America/Lima');
 
-		/*Obtener Rango de fecha*/
-		$rango_fecha = self::generateDateRange($dtINI, $dtEND);
+			/*Obtener Rango de fecha*/
+			$rango_fecha = self::generateDateRange($dtINI, $dtEND);
 
-		/*Recorriendo el arreglo de rango de fechas*/
-		foreach ($rango_fecha as $value) {
-			/*Consultar fechas del rango para buscar el ID*/
-			$query_fecha = DB::table('fechas')->where('f_fecha', $value)->get();
+			/*Recorriendo el arreglo de rango de fechas*/
+			foreach ($rango_fecha as $value) {
+				/*Consultar fechas del rango para buscar el ID*/
+				$query_fecha = DB::table('fechas')->where('f_fecha', $value)->get();
 
-			if ($query_fecha->count() > 0) {
-				/*Buscar disponibilidad de los doctorres a con ese servicio*/
-				$fecha_disponible = Disponibilidad::where('lugar_id', $lugar_id)
-					->where('fecha_id', $query_fecha[0]->id)
-					->where('cantPaciente', '!=', 0)
-					->where('status', 1)
-				/*Buscar doctores que son parte del servicio*/
-					->whereHas('doctor_servicio_link', function ($query) use ($servicio) {
-						$query->where('servicio_id', $servicio);
-					})->with('hora_link');
-				if ($fecha_disponible->count() == 0) {
+				if ($query_fecha->count() > 0) {
+					/*Buscar disponibilidad de los doctorres a con ese servicio*/
+					$fecha_disponible = Disponibilidad::where('lugar_id', $lugar_id)
+						->where('fecha_id', $query_fecha[0]->id)
+						->where('cantPaciente', '!=', 0)
+						->where('status', 1)
+					/*Buscar doctores que son parte del servicio*/
+						->whereHas('doctor_servicio_link', function ($query) use ($servicio) {
+							$query->where('servicio_id', $servicio);
+						})->with('hora_link');
+
+					if ($fecha_disponible->count() == 0) {
+						$contenedor_fecha[$r] = $value;
+						$cal[] = $value;
+					}
+
+				} else {
 					$contenedor_fecha[$r] = $value;
-					$cal[] = $value;
 				}
 
-			} else {
-				$contenedor_fecha[$r] = $value;
+				$r++;
+
 			}
 
-			$r++;
+			/*Verificanddo si se dispone cita*/
+			if (count($rango_fecha) == count($contenedor_fecha)) {
+				$direccion = "<h3 class='alert-danger'> No se han aperturado Citas para la Sede selecionada. </h3>";
+				$bandera = 0;
+
+			} else {
+				$direccion_query = Lugar::find($lugar_id);
+
+				$direccion = "<label for='sel1'>Dirección:</label><br>";
+				//$direccion .= "<label>" . $direccion_query->nombre . $direccion_query->direccion . "</label>";
+				$direccion .= "<p>" . $direccion_query->nombre . " - " . $direccion_query->direccion . "<p>";
+				$bandera = 1;
+			}
+
+			return response()->json(["contenedor_fecha" => $contenedor_fecha, 'contenedor_fechaFinal' => $fecha_final->f_fecha, 'contenedor_lugar' => $direccion, 'verificacion' => $direccion, 'bandera' => $bandera, 'testeo' => $lugar_id]);
 
 		}
-
-		/*Verificanddo si se dispone cita*/
-		if (count($rango_fecha) == count($contenedor_fecha)) {
-			$direccion = "<h3 class='alert-danger'> No se han aperturado Citas para la Sede selecionada. </h3>";
-			$bandera = 0;
-
-		} else {
-			$direccion_query = Lugar::find($lugar_id);
-
-			$direccion = "<label for='sel1'>Dirección:</label><br>";
-			//$direccion .= "<label>" . $direccion_query->nombre . $direccion_query->direccion . "</label>";
-			$direccion .= "<p>" . $direccion_query->nombre . " - " . $direccion_query->direccion . "<p>";
-			$bandera = 1;
-		}
-
-		return response()->json(["contenedor_fecha" => $contenedor_fecha, 'contenedor_fechaFinal' => $fecha_final->f_fecha, 'contenedor_lugar' => $direccion, 'verificacion' => $direccion, 'bandera' => $bandera, 'testeo' => "testeo"]);
-
-		//}
 	}
 
 	public function ajaxBuscarHora(Request $request) {
@@ -282,7 +283,7 @@ class CrearCitaController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request) {
-		//return response()->json($request->all());
+		return response()->json($request->all());
 		$mensaje = 0;
 		$disponbilidad = '';
 
@@ -345,7 +346,6 @@ class CrearCitaController extends Controller {
 			$servicio = Servicio::find($request->servicio);
 
 			/*Formulario de pago*/
-
 			$amount = $servicio->costo;
 			$referenceCODE = "0" . Auth::id() . Date::now()->format('Yhis');
 
@@ -394,7 +394,7 @@ class CrearCitaController extends Controller {
 			$mensaje = 2; // no encontro usuario
 		}
 
-		return response()->json(['mensaje' => $mensaje]);
+		return response()->json(['mensaje' => $user]);
 	}
 
 	/**

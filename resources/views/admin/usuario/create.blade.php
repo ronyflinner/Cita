@@ -20,7 +20,7 @@
 						{{ Form::token() }}
             <div class="form-group">
               {{ Form::label('tipoDocumento', 'Tipo de Documento') }}
-              {!! Form::select('tipo',$tipoDocumento, '', ['class'=>'form-control form-control-lg single1 select', 'data-parsley-required', 'id'=>'tipo'
+              {!! Form::select('tipo',$tipoDocumento, '', ['class'=>'form-control form-control-lg single select', 'data-parsley-required', 'id'=>'tipo'
                                   ]) !!}
             </div>
 						<div class="form-group">

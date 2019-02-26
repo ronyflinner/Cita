@@ -85,6 +85,8 @@
 
                </div>
 
+                <input name='userId' id='userId'   type='hidden'  value='' >
+
             <br><br><br>
 
                 <input name='merchantId' id="merchantId"   type='hidden'  value=''   >
@@ -96,7 +98,7 @@
                 <input name='taxReturnBase' id="taxReturnBase" type='hidden'  value='0' >
                 <input name='currency' id="currency"     type='hidden'  value='PEN' >
                 <input name='signature'    id="signature" type='hidden'  value=''  >
-                <input name='buyerEmail'    type='hidden'  value='{{ Auth::user()->email }}' >
+                <input name='buyerEmail' id="userEmail"   type='hidden'  value='' >
                 <input name='test'          type='hidden'  value='1' >
                 <input name='responseUrl'    type='hidden'  value='{{ url('/admin/usuario/response') }}' >
                 <input name='confirmationUrl' type='hidden' value='https://www.ligacancer.org.pe/confirmacionPayu.php'>
@@ -251,44 +253,52 @@
                       form_select_default:destiny=>{
                           $(destiny).prepend('<option value="" selected>Selecionar</option>');
                       },
-                         btnLugar:()=>
+                      btnLugar:()=>
                       {
                         $(document).on("change", ".select", event=> {
-                        	console.log(1);
+
                               PlantillaCrearCitaManual.clean_form_input('#hora');
                               PlantillaCrearCitaManual.form_select_default('#hora');
                               PlantillaCrearCitaManual.clean_form_input('.selectServicio');
                               PlantillaCrearCitaManual.form_select_default('.selectServicio');
-                               PlantillaCrearCitaManual.form_option_disable('#buttonCargar',true);
+                              PlantillaCrearCitaManual.form_option_disable('#buttonCargar',true);
+
                               pselectItem=event.target.value;
+
                               dataJson={"lugar":pselectItem};
                               PlantillaCrearCitaManual.dataAjaxhora(dataJson,2);
                          });
                       },
                       btnServicio:()=>{
-                         $(document).on("change", ".selectServicio", event=> {
-                         	console.log(2);
+                        $(document).on("change", ".selectServicio", event=> {
+
                               PlantillaCrearCitaManual.clean_form_input('#hora');
                               PlantillaCrearCitaManual.form_select_default('#hora');
-                              let sede=$(".select").val();
-                               PlantillaCrearCitaManual.form_option_disable('#buttonCargar',true);
 
-                              ption=event.target.value;
-                              if(ption!=0){
-                               PlantillaCrearCitaManual.date_ajax(ption,sede);
+                              PlantillaCrearCitaManual.form_option_disable('#buttonCargar',true);
+
+                              //let sede=$("#lugar").val();
+                              let sede=$('select[name=lugar]').val();
+
+                              pServicio=event.target.value;
+
+                              console.log(`Servicio  ${pServicio}  lugar  ${sede}`);
+
+                              if(pServicio!=0){
+                                PlantillaCrearCitaManual.date_ajax(sede,pServicio);
 
                               }
 
-                         });
+                        });
                       },
                       btnHora:()=>{
                         $(document).on("change", "#hora", event=> {
-                        	console.log();
+                             // console.log('Hora');
+
                               ption=event.target.value;
                                token=$("#_token").val();
                               if(ption!=0){
-                                 PlantillaCrearCitaManual.form_option_disable('#buttonCargar',false);
-
+                                  PlantillaCrearCitaManual.form_option_disable('#buttonCargar',false);
 
                                   data={'servicio': $('select[name=servicio]').val()};
 
@@ -332,7 +342,8 @@
 
                       },
 
-                      /*Ajax para buscar horas*/
+
+                         /*Ajax para buscar horas*/
                       dataAjaxhora:(...conditionValue)=>{
                           token=$("#_token").val();
                           if(conditionValue[1]==1){
@@ -354,7 +365,7 @@
                                   headers:{'X-CSRF-TOKEN': token},
                              })
                              .done(( data, textStatus, jqXHR)=> {
-                                  //console.log(data);
+                                //  console.log(data);
 
                                   switch(data.switch) {
                                         case 1:
@@ -377,7 +388,7 @@
                                            }else if(data.yeah==1){
                                               PlantillaCrearCitaManual.toast_notification("success",'Se ha registrado satisfactoriamente',2);
 
-                                            document.getElementById("form").submit();
+                                           //   document.getElementById("form").submit();
 
                                               /* setTimeout(function(){
                                                 location = '{ { route('citaprogramada.index') }}'
@@ -406,121 +417,122 @@
                              });
                       },
 
-                        /* AJAX - Funciones*/
-                    date_ajax:(fecha=null,servicio=null,condition=null)=>{
-                        //console.log(`${fecha} ${servicio}`)
-                        token=$("#_token").val();
-                        vurl=`${$("#_ajaxCrearCita").val()}/${fecha}/${servicio}`;
+                      /* AJAX - Funciones*/
+                      date_ajax:(fechaLugar=null,servicio=null,condition=null)=>{
+                          console.log(`${fechaLugar} ${servicio}`)
+                          token=$("#_token").val();
+                          vurl=`${$("#_ajaxCrearCita").val()}/${fechaLugar}/${servicio}`;
 
-                        var promise =  $.ajax({
-                                  type: 'GET',
-                                  url: vurl,
-                                  data: {'data': fecha },
-                                  dataType: 'JSON',
-                                  async : true,
-                                  headers:{'X-CSRF-TOKEN': token},
-                             })
-                             .done(( data, textStatus, jqXHR)=> {
-                                // console.log(data)
-                               /* var fechas_array=[];
-                                $.each( data, ( index, value )=> {
-                                      fechas_array.push(value);
-                                });*/
-                             })
-                             .fail(( data, textStatus, jqXHR)=> {
-                               //console.log(data);
-                             });
-
-                            promise.done(function(data) {
-                                 // console.log(data);
-
-                                   var fechas_array=[];
-                                   $.each( data.contenedor_fecha, ( index, value )=> {
+                          var promise =  $.ajax({
+                                    type: 'GET',
+                                    url: vurl,
+                                    data: {'data': fechaLugar },
+                                    dataType: 'JSON',
+                                    async : true,
+                                    headers:{'X-CSRF-TOKEN': token},
+                               })
+                               .done(( data, textStatus, jqXHR)=> {
+                                  // console.log(data)
+                                 /* var fechas_array=[];
+                                  $.each( data, ( index, value )=> {
                                         fechas_array.push(value);
-                                    });
+                                  });*/
+                               })
+                               .fail(( data, textStatus, jqXHR)=> {
+                                 //console.log(data);
+                               });
 
-                                   if(data.bandera==1){
-                                       PlantillaCrearCitaManual.hide_form_input("#display_cita","block");
-                                       PlantillaCrearCitaManual.hide_form_input("#display_horario","block");
+                              promise.done(function(data) {
+                                    console.log(data);
 
-                                   }else{
-                                       PlantillaCrearCitaManual.hide_form_input("#display_cita","none");
-                                       PlantillaCrearCitaManual.hide_form_input("#display_horario","none");
+                                     var fechas_array=[];
+                                     $.each( data.contenedor_fecha, ( index, value )=> {
+                                          fechas_array.push(value);
+                                      });
 
-                                   }
+                                     if(data.bandera==1){
+                                         PlantillaCrearCitaManual.hide_form_input("#display_cita","block");
+                                         PlantillaCrearCitaManual.hide_form_input("#display_horario","block");
 
-                                   $("#destiny").html(data.verificacion);
-                                   var final=data.contenedor_fechaFinal
-                                    /*$("#_array_data_2").val(fechas_array);
-                                    console.log($("#_array_data_2").val());
-                                    agua=$("#_array_data_2").val();*/
-                                    $('#datepicker').datepicker('remove');
+                                     }else{
+                                         PlantillaCrearCitaManual.hide_form_input("#display_cita","none");
+                                         PlantillaCrearCitaManual.hide_form_input("#display_horario","none");
 
-                                    $.fn.datepicker.dates['es'] = {
-                                        days: ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado"],
-                                        daysShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sat"],
-                                        daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-                                        months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Augosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-                                        monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
-                                        today: "Hoy",
-                                        clear: "Clear",
-                                        format: "yyy-mm-dd",
-                                        titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
+                                     }
 
-                                        weekStart: 0
-                                    };
+                                     $("#destiny").html(data.verificacion);
+                                     var final=data.contenedor_fechaFinal
+                                      /*$("#_array_data_2").val(fechas_array);
+                                      console.log($("#_array_data_2").val());
+                                      agua=$("#_array_data_2").val();*/
+                                      $('#datepicker').datepicker('remove');
 
-                                    $('#datepicker').datepicker({
-                                       language: "es",
-                                       format: 'yyyy-mm-dd',
-                                       orientation: "bottom",
-                                       minDate: new Date(),
-                                       startDate: "+0d",
-                                       endDate:final,
-                                       autoclose: true,
-                                       calendarWeeks:false,
-                                       daysOfWeekDisabled:[0,6],
-                                       datesDisabled:fechas_array,
-                                       /*beforeShowDay: function(date){
-                                              var day = date.getDay();
-                                              var dd = date.getDate();
-                                              var mm = date.getMonth()+1;
-                                              var yyyy = date.getFullYear();
-                                              if(dd<10){
+                                      $.fn.datepicker.dates['es'] = {
+                                          days: ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado"],
+                                          daysShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sat"],
+                                          daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+                                          months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Augosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                                          monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+                                          today: "Hoy",
+                                          clear: "Clear",
+                                          format: "yyy-mm-dd",
+                                          titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
+
+                                          weekStart: 0
+                                      };
+
+                                      $('#datepicker').datepicker({
+                                         language: "es",
+                                         format: 'yyyy-mm-dd',
+                                         orientation: "bottom auto",
+                                         minDate: new Date(),
+                                         startDate: "+0d",
+                                         endDate:final,
+                                         autoclose: true,
+                                         calendarWeeks:false,
+                                         daysOfWeekDisabled:[0,6],
+                                         datesDisabled:fechas_array,
+                                         /*beforeShowDay: function(date){
+                                                var day = date.getDay();
+                                                var dd = date.getDate();
+                                                var mm = date.getMonth()+1;
+                                                var yyyy = date.getFullYear();
+                                                if(dd<10){
+                                                    dd='0'+dd;
+                                                }
+                                                if(mm<10){
+                                                    mm='0'+mm;
+                                                }
+                                                var date = yyyy+'-'+mm+'-'+dd;
+                                         } ,*/
+                                        }).on('changeDate', function(e) {
+                                              // `e` here contains the extra attributes
+                                              var day = e.date.getDay();
+                                              var dd = e.date.getDate();
+                                              var mm = e.date.getMonth()+1;
+                                              var yyyy = e.date.getFullYear();
+                                               if(dd<10){
                                                   dd='0'+dd;
                                               }
                                               if(mm<10){
                                                   mm='0'+mm;
                                               }
                                               var date = yyyy+'-'+mm+'-'+dd;
-                                       } ,*/
-                                      }).on('changeDate', function(e) {
-                                            // `e` here contains the extra attributes
-                                            var day = e.date.getDay();
-                                            var dd = e.date.getDate();
-                                            var mm = e.date.getMonth()+1;
-                                            var yyyy = e.date.getFullYear();
-                                             if(dd<10){
-                                                dd='0'+dd;
-                                            }
-                                            if(mm<10){
-                                                mm='0'+mm;
-                                            }
-                                            var date = yyyy+'-'+mm+'-'+dd;
 
-                                            lcugar=$("#lugar").val();
-                                            serviValor=$(".selectServicio").val();
+                                              lcugar=$("#lugar").val();
+                                              serviValor=$(".selectServicio").val();
 
 
-                                            dataJson={"data":date ,"lugar":lcugar,'serv':serviValor};
+                                              dataJson={"data":date ,"lugar":lcugar,'serv':serviValor};
 
-                                            PlantillaCrearCitaManual.dataAjaxhora(dataJson,1);
-                                           // $(this).datepicker('hide');
+                                              PlantillaCrearCitaManual.dataAjaxhora(dataJson,1);
+                                             // $(this).datepicker('hide');
 
-                                      });
-                          });
+                                        });
+                            });
 
-                    },
+                      },
+
 
 
 
@@ -536,11 +548,31 @@
                                   headers:{'X-CSRF-TOKEN': token},
                              })
                              .done(( data, textStatus, jqXHR)=> {
-                             		console.log(data);
+                             		   console.log(data);
 
-                                	 PlantillaCrearCitaManual.toast_notification("success",'Guardado Correctaente!!!',2);
+                                   $("#userId").val('');
+                                   $("#userEmail").val('');
+                                   $("#userId").val();
+                                   $("#userEmail").val();
 
-                                	 PlantillaCrearCitaManual.hide_form_input("#citaOculta","block");
+                                   PlantillaCrearCitaManual.toast_notification("success",' Guardado Correctaente!!!',2);
+                                   PlantillaCrearCitaManual.hide_form_input("#citaOculta","block");
+
+                                   switch(data.mensaje) {
+                                      case 1:
+                                        // code block
+                                        PlantillaCrearCitaManual.toast_notification("success",'Guardado Correctaente!!!',2);
+                                        PlantillaCrearCitaManual.hide_form_input("#citaOculta","block");
+
+                                        break;
+                                      case 2:
+                                         // code block
+
+
+                                        break;
+                                      default:
+                                          // code block
+                                    }
 
 
                              })

@@ -102,38 +102,48 @@
                       btnLugar:()=>
                       {
                         $(document).on("change", ".select", event=> {
+                              
                               PlantillaCrearCita.clean_form_input('#hora');
                               PlantillaCrearCita.form_select_default('#hora');
                               PlantillaCrearCita.clean_form_input('.selectServicio');
                               PlantillaCrearCita.form_select_default('.selectServicio');
-                               PlantillaCrearCita.form_option_disable('#buttonCargar',true);
+                              PlantillaCrearCita.form_option_disable('#buttonCargar',true);
+                              
                               pselectItem=event.target.value;
+                            
                               dataJson={"lugar":pselectItem};
                               PlantillaCrearCita.dataAjaxhora(dataJson,2);
                          });
                       },
                       btnServicio:()=>{
-                         $(document).on("change", ".selectServicio", event=> {
+                        $(document).on("change", ".selectServicio", event=> {
+                             
                               PlantillaCrearCita.clean_form_input('#hora');
                               PlantillaCrearCita.form_select_default('#hora');
-                              let sede=$(".select").val();
-                               PlantillaCrearCita.form_option_disable('#buttonCargar',true);
+                              
+                              PlantillaCrearCita.form_option_disable('#buttonCargar',true);
 
-                              ption=event.target.value;
-                              if(ption!=0){
-                                PlantillaCrearCita.date_ajax(ption,sede);
+                              //let sede=$("#lugar").val();
+                              let sede=$('select[name=lugar]').val();
+
+                              pServicio=event.target.value;
+
+                              //console.log(`Servicio  ${pServicio}  lugar  ${sede}`);
+
+                              if(pServicio!=0){
+                                PlantillaCrearCita.date_ajax(sede,pServicio);
 
                               }
 
-                         });
+                        });
                       },
                       btnHora:()=>{
                         $(document).on("change", "#hora", event=> {
+                              //console.log('Hora');
                               ption=event.target.value;
                                token=$("#_token").val();
                               if(ption!=0){
-                                 PlantillaCrearCita.form_option_disable('#buttonCargar',false);
-
+                                  PlantillaCrearCita.form_option_disable('#buttonCargar',false);
 
                                   data={'servicio': $('select[name=servicio]').val()};
 
@@ -198,7 +208,7 @@
                                   headers:{'X-CSRF-TOKEN': token},
                              })
                              .done(( data, textStatus, jqXHR)=> {
-                                  console.log(data);
+                                 // console.log(data);
 
                                   switch(data.switch) {
                                         case 1:
@@ -221,8 +231,7 @@
                                            }else if(data.yeah==1){
                                               PlantillaCrearCita.toast_notification("success",'Se ha registrado satisfactoriamente',2);
 
-                                            document.getElementById("form").submit();
-
+                                              document.getElementById("form").submit();
                                               /* setTimeout(function(){
                                                 location = '{ { route('citaprogramada.index') }}'
                                               },2000)*/
@@ -251,15 +260,15 @@
                       },
 
                     /* AJAX - Funciones*/
-                    date_ajax:(fecha=null,servicio=null,condition=null)=>{
-                        //console.log(`${fecha} ${servicio}`)
+                    date_ajax:(fechaLugar=null,servicio=null,condition=null)=>{
+                        //console.log(`${fechaLugar} ${servicio}`)
                         token=$("#_token").val();
-                        vurl=`${$("#_ajaxCrearCita").val()}/${fecha}/${servicio}`;
+                        vurl=`${$("#_ajaxCrearCita").val()}/${fechaLugar}/${servicio}`;
 
                         var promise =  $.ajax({
                                   type: 'GET',
                                   url: vurl,
-                                  data: {'data': fecha },
+                                  data: {'data': fechaLugar },
                                   dataType: 'JSON',
                                   async : true,
                                   headers:{'X-CSRF-TOKEN': token},
@@ -276,8 +285,7 @@
                              });
 
                             promise.done(function(data) {
-                                  console.log(data);
-
+                                   //console.log(data);
                                    var fechas_array=[];
                                    $.each( data.contenedor_fecha, ( index, value )=> {
                                         fechas_array.push(value);
@@ -317,7 +325,7 @@
                                     $('#datepicker').datepicker({
                                        language: "es",
                                        format: 'yyyy-mm-dd',
-                                       orientation: "bottom",
+                                       orientation: "bottom auto",
                                        minDate: new Date(),
                                        startDate: "+0d",
                                        endDate:final,

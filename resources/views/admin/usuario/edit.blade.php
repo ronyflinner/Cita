@@ -16,21 +16,21 @@
 		{{Form::model($user, array('route' => array('usuario.update', $user[0]->id),'id'=>'form'))}}
 
 		 	@php
-            		$var=exploid_blade($user[0]->dni,1);
+            		//$var=exploid_blade($user[0]->dni,1);
             @endphp
 
 			<div class="col-md-10 offset-1">
 			{{ Form::token() }}
             <div class="form-group">
               {{ Form::label('tipoDocumento', 'Tipo de Documento') }}
-              {!! Form::select('tipo',$tipoDocumento, $var[0], ['class'=>'form-control form-control-lg single1 select', 'data-parsley-required', 'id'=>'tipo'
+              {!! Form::select('tipo',$tipoDocumento, $user[0]->tipo_documento, ['class'=>'form-control form-control-lg single select', 'data-parsley-required', 'id'=>'tipo'
                                   ]) !!}
             </div>
 
 
 			<div class="form-group">
 		    {{ Form::label('numero_documento', 'Número de Documento') }}
-		    {{ Form::text('numero',$var[1] ,['class'=>'form-control dni','data-parsley-required  ','id'=>'dni']) }}
+		    {{ Form::text('numero',$user[0]->dni ,['class'=>'form-control dni','data-parsley-required  ','id'=>'dni']) }}
 		    </div>
 		    <div class="form-group">
 			{{ Form::label('email', 'Correo') }}

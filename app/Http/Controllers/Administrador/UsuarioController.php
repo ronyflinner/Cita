@@ -56,7 +56,8 @@ class UsuarioController extends Controller {
 				'password' => bcrypt($request->clave),
 				'apellidoP' => $request->apellido_paterno,
 				'apellidoM' => $request->apellido_materno,
-				'dni' => $request->tipo . '-' . $request->numero,
+				'dni' => $request->numero,
+				'tipo_documento' => $request->tipo,
 				'numero' => $request->telefono,
 				'tipo' => $request->tipoUsuario,
 				'slug' => str_random(150),
@@ -112,13 +113,14 @@ class UsuarioController extends Controller {
 	 */
 	public function update(Request $request, $user) {
 		if ($request->ajax()) {
-			$dni = $request->tipo . '-' . $request->numero;
+			//$dni = $request->tipo . '-' . $request->numero;
 			$user = User::find($user);
 			$user->name = $request->nombre;
 			$user->email = $request->email;
 			$user->apellidoP = $request->apellido_paterno;
 			$user->apellidoM = $request->apellido_materno;
-			$user->dni = $dni;
+			$user->dni = $request->numero;
+			$user->tipo_documento = $request->tipo;
 			$user->numero = $request->telefono;
 
 			if ($request->activo == 1) {
@@ -189,15 +191,15 @@ class UsuarioController extends Controller {
 			->addColumn('dni', function ($val) {
 				//1-Dni  2-Pasaporte 3-Carnet Extranjeria
 
-				$documento = explode('-', $val->dni);
-				if ($documento[0] == 1) {
+				//$documento = explode('-', $val->dni);
+				if ($val->tipo_documento == 1) {
 					$acronimo = 'D';
-				} else if ($documento[0] == 2) {
+				} else if ($val->tipo_documento == 2) {
 					$acronimo = 'P';
 				} else {
 					$acronimo = 'C';
 				}
-				return $acronimo . '-' . $documento[1];
+				return $acronimo . '-' . $val->dni;
 
 			})
 			->addColumn('nombre', function ($val) {
