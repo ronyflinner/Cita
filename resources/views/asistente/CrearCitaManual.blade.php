@@ -16,14 +16,12 @@
 
 			<div class="container">
 		      <div class="row text-center wow fadeInRight" data-wow-offset="0" data-wow-delay="0.2s">
-
-
 		      	{!! Form::open(['route'=>'admin.storeManualCita','name'=>'formSearchUsers', 'method'=>'POST',"class"=>"form ",'files' => false, 'id'=>'formSearchUsers']) !!}
 
 		      	 <div class="col-xs-4 col-sm-4 col-md-4">
                     <div class="form-group">
                       {{ Form::label('tipoDocumento', 'Tipo de Documento') }}
-            		  {!! Form::select('tipo',$tipoDocumento, '', ['class'=>'form-control form-control-lg single select', 'data-parsley-required', 'id'=>'tipo'
+            		  {!! Form::select('tipo',$tipoDocumento, '', ['class'=>'form-control form-control-lg single ', 'data-parsley-required', 'id'=>'tipo'
                                   ]) !!}
                       <div class="validation"></div>
                     </div>
@@ -60,7 +58,7 @@
                              <div class="col-md-offset-2 col-md-8">
                                 <div class="form-group">
                                   <label for="sel1">Seleccionar Centro de Prevención:</label>
-                                  {!! Form::select('lugar',$lugar, '', ['class'=>'form-control form-control-lg single select', 'required', 'id'=>'lugar'
+                                  {!! Form::select('lugar',[], '', ['class'=>'form-control form-control-lg single select', 'required', 'id'=>'lugar'
                                   ]) !!}
                                 </div>
                                  <div class="form-group">
@@ -85,7 +83,8 @@
 
                </div>
 
-                <input name='userId' id='userId'   type='hidden'  value='' >
+                <input name='userId' id='userId'   type='hidden'  value="" >
+                <input name='userValid' id='userValid'   type='hidden'  value='1' >
 
             <br><br><br>
 
@@ -98,7 +97,7 @@
                 <input name='taxReturnBase' id="taxReturnBase" type='hidden'  value='0' >
                 <input name='currency' id="currency"     type='hidden'  value='PEN' >
                 <input name='signature'    id="signature" type='hidden'  value=''  >
-                <input name='buyerEmail' id="userEmail"   type='hidden'  value='' >
+                <input name='buyerEmail' id="userEmail"   type='hidden'  value="" >
                 <input name='test'          type='hidden'  value='1' >
                 <input name='responseUrl'    type='hidden'  value='{{ url('/admin/usuario/response') }}' >
                 <input name='confirmationUrl' type='hidden' value='https://www.ligacancer.org.pe/confirmacionPayu.php'>
@@ -174,12 +173,25 @@
 
 	                      if($('#formSearchUsers').parsley().isValid())
 	                      {
+                          PlantillaCrearCitaManual.form_option_disable('#buttonCargar',true);
+                            /*Ocultar Busqueda*/
+
+                          formCitaId=['#lugar','#servicio','#hora'];
+
+                           $.each(formCitaId, function( index, value ) {
+                             PlantillaCrearCitaManual.clean_form_input(value);
+                             PlantillaCrearCitaManual.form_select_default(value);
+                          });
+                             PlantillaCrearCitaManual.clean_form_input('#datepicker');
+
+                          PlantillaCrearCitaManual.hide_form_input("#citaOculta","none");
+
 
 	                        formSerialize=form_to.attr('action');
 	                        dataSerialize=form_to.serialize();
 	                        tokenUser=$("#_token").val();
 	                        //console.log(dataSerialize);
-	                         PlantillaCrearCitaManual.ajaxSave(dataSerialize,formSerialize,tokenUser);
+	                        PlantillaCrearCitaManual.ajaxSave(dataSerialize,formSerialize,tokenUser);
 	                      }
                       });
 
@@ -282,7 +294,7 @@
 
                               pServicio=event.target.value;
 
-                              console.log(`Servicio  ${pServicio}  lugar  ${sede}`);
+                              //console.log(`Servicio  ${pServicio}  lugar  ${sede}`);
 
                               if(pServicio!=0){
                                 PlantillaCrearCitaManual.date_ajax(sede,pServicio);
@@ -550,28 +562,38 @@
                              .done(( data, textStatus, jqXHR)=> {
                              		   console.log(data);
 
-                                   $("#userId").val('');
-                                   $("#userEmail").val('');
-                                   $("#userId").val();
-                                   $("#userEmail").val();
+                                   if(data.validarCita>0){
+                                       $("#userId").val('');
+                                       $("#userEmail").val('');
 
-                                   PlantillaCrearCitaManual.toast_notification("success",' Guardado Correctaente!!!',2);
-                                   PlantillaCrearCitaManual.hide_form_input("#citaOculta","block");
+                                       $("#userId").val(data.data[0].id);
+                                       $("#userEmail").val(data.data[0].email);
+
+                                   }
+
 
                                    switch(data.mensaje) {
                                       case 1:
                                         // code block
-                                        PlantillaCrearCitaManual.toast_notification("success",'Guardado Correctaente!!!',2);
+
+                                        $.each( data.lugar, function( index, value ) {
+                                              $("#lugar").append('<option value='+index+'>'+ value+' </option>' );
+                                        });
+
+                                        PlantillaCrearCitaManual.toast_notification("success",'Datos Buscado Correctamente!!!',2);
                                         PlantillaCrearCitaManual.hide_form_input("#citaOculta","block");
+
+
 
                                         break;
                                       case 2:
                                          // code block
-
+                                          PlantillaCrearCitaManual.toast_notification("error",'No hemos encontrado al usuario,  Nota: Si no existe, proceda a crearle un usuario.!!!',2);
 
                                         break;
                                       default:
                                           // code block
+                                          PlantillaCrearCitaManual.toast_notification("warning",'Dispone de una cita activa actualmente!!',2);
                                     }
 
 

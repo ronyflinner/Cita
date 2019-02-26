@@ -375,26 +375,38 @@ class CrearCitaController extends Controller {
 
 		$tipoDocumento = ['' => 'Selecionar', '1' => 'DNI', '2' => 'Pasaporte', '3' => 'Carnet de Extranjeria'];
 
-		return view('asistente.CrearCitaManual', ['lugar' => array_add(Lugar::all()->pluck('nombre', 'id'), '', 'Selecionar'), 'tipoDocumento' => $tipoDocumento]);
+		return view('asistente.CrearCitaManual', ['tipoDocumento' => $tipoDocumento]);
 	}
 
 	public function storemanual_index(Request $request) {
+		$user = '';
+		$cita = '';
+		$lugar = '';
+		$validar = 0;
 		$lugar = Lugar::all();
 
-		$documento = $request->tipo . '-' . $request->numero;
+		$user = User::where('dni', $request->numero)->where('tipo_documento', $request->tipo)->get();
 
-		$user = User::where('dni', $documento)->get();
+		//$documento = $request->tipo . '-' . $request->numero;
 
 		if (count($user) > 0) {
 
-			$cita = Cita::where('paciente_id', $user->id)->get();
+			$cita = Cita::where('paciente_id', $user[0]->id)->where('status', 1)->get();
 
-			$mensaje = 1;
+			if (count($cita) > 0) {
+				//Pendiente CAmbiar
+				$mensaje = 3; // Dispone de una Cita activa actualmente
+				$validar = 0;
+			} else {
+				$mensaje = 1; // Consulta realizada correctamente
+				$validar = 1;
+			}
+
 		} else {
 			$mensaje = 2; // no encontro usuario
 		}
 
-		return response()->json(['mensaje' => $user]);
+		return response()->json(['mensaje' => $mensaje, 'data' => $user, 'validarCita' => $validar, 'lugar' => array_add(Lugar::all()->pluck('nombre', 'id'), '', 'Selecionar')]);
 	}
 
 	/**
