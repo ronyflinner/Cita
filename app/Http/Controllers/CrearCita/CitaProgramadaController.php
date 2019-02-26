@@ -132,11 +132,11 @@ class CitaProgramadaController extends Controller {
 		//paciente_link
 		//disponibilidad_link doctor_servicio_link
 
-		$documento = exploid_blade($cita[0]->paciente_link->dni, 1);
+		//$documento = exploid_blade($cita[0]->paciente_link->dni, 1);
 
-		if ($documento[0] == 1) {
+		if ($cita[0]->paciente_link->tipo_documento == 1) {
 			$nombreDocumento = "DNI";
-		} else if ($documento[0] == 2) {
+		} else if ($cita[0]->paciente_link->tipo_documento == 2) {
 			$nombreDocumento = "Pasaporte";
 		} else {
 			$nombreDocumento = "Carnet Extranjería";
@@ -144,7 +144,7 @@ class CitaProgramadaController extends Controller {
 
 		$pdf = PDF::loadView('reports.reciboPdf', ['cita' => $cita,
 			'nombreDocumento' => $nombreDocumento,
-			'numeroDocumento' => $documento[1]]);
+			'numeroDocumento' => $cita[0]->paciente_link->dni]);
 
 		$pdf->setPaper('a4', 'portrait')
 			->setWarnings(false)
