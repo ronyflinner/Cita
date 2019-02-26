@@ -55,7 +55,6 @@ class RegisterController extends Controller {
 			'tipo' => 'required',
 			'telefono' => 'required',
 			'captcha' => 'required|captcha',
-			'tipo_documento' => 'required',
 
 		]);
 	}

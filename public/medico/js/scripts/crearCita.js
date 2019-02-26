@@ -32,7 +32,9 @@
                             var result = confirm("¿Listo para cancerla la Cita? ");
                             if (result) {
                               //  document.getElementById("form").submit();
-                              PlantillaCrearCita.dataAjaxhora($("#form").serialize(),3)
+                              PlantillaCrearCita.dataAjaxhora($("#form").serialize(),3);
+
+                              console.log("hola");
 
                             }
 

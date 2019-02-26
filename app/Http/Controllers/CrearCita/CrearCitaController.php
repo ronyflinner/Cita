@@ -283,7 +283,7 @@ class CrearCitaController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request) {
-		return response()->json($request->all());
+
 		$mensaje = 0;
 		$disponbilidad = '';
 
