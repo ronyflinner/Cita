@@ -11,9 +11,9 @@
     <div class="form-wrapper">
                 <div class="wow fadeInRight" data-wow-duration="2s" data-wow-delay="0.2s">
 
-                  <div class="panel panel-skin">
+
                     <div class="panel-heading">
-                      <h3 class="panel-title"><span class="fa fa-pencil-square-o"></span> Verificación de asistencia</h3>
+                      <div class="section_title"><h3>Verificar Asistencia</h3></div>
                     </div>
                     <div class="panel-body">
                       <div id="sendmessage">Your message has been sent. Thank you!</div>
@@ -72,7 +72,7 @@
 
                       </form>
                     </div>
-                  </div>
+
 
                 </div>
               </div>
@@ -127,7 +127,7 @@
                                     $('#dni').append(data['dni']);
 
                                     if(data['status_asistio'] == 1){
-                                      $('#asistio').append('<font color=red align=justify><i class="fas fa-check-circle"></i></font>');
+                                      $('#asistio').append('<font color=red align=justify><i class="glyphicon glyphicon-remove-sign"></i></font>');
                                       $('#asistio').val('No');
                                     }else{
                                       $('#asistio').append('<font color=green align=justify><i class="fas fa-check-circle"></i></font>');
@@ -138,7 +138,7 @@
                                       $('#pago').append('<font color=green align=justify><i class="fas fa-check-circle"></i></font>');
                                       $('#pago').val('Sí');
                                     }else{
-                                      $('#pago').append('<font color=red align=justify><i class="fas fa-check-circle"></i></font>');
+                                      $('#pago').append('<font color=red align=justify><i class="glyphicon glyphicon-remove-sign"></i></font>');
                                       $('#pago').val('No');
                                     }
                                 },

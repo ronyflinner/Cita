@@ -1,9 +1,8 @@
-<link rel="stylesheet" type="text/css" href="{{url('health/styles/bootstrap4/bootstrap.min.css')}}">
-
+<link rel="stylesheet" type="text/css" href="{{url('medico/css/bootstrap.min.css')}}">
 
 <div class="container">
-  <img src="{{ url('health/images/lcc.png') }}" alt="" width="140px" height="60px">
-  <h2>Historial de cita</h2>
+  <img src="{{ url('medico/img/lcc.png') }}" alt="Logo" width="170px" height="75px">
+  <h2 align="center">Historial de cita</h2>
 
   @php
     $lu = ' ';
@@ -17,8 +16,8 @@
     }
   @endphp
 
-    <h4>{{ $lu }}</h4>
-    <h4>{{ $fecha }}</h4>
+    <h4 align="center">Lugar : {{ $lu }}</h4>
+    <h4 align="center">Fecha : {{ $fecha }}</h4>
 
   <table class="table table-bordered">
     <thead>

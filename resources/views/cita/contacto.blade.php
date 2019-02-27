@@ -92,7 +92,7 @@
                 },
                 General:()=>{
 
-                     CKEDITOR.replace('message');
+                   //  CKEDITOR.replace('message');
                       $('#men').click(function(event) {
 
 

@@ -45,9 +45,10 @@ class HistorialCitaController extends Controller {
 			->join('users', 'citas.paciente_id', '=', 'users.id')
 			->join('horas', 'disponibilidads.hora_id', '=', 'horas.id')
 			->join('doctor__servicios', 'doctor__servicios.id', '=', 'disponibilidads.doctor_id')
+			->join('servicios', 'doctor__servicios.servicio_id', '=', 'servicios.id')
 			->where('disponibilidads.lugar_id', $lugar)
 			->where('disponibilidads.fecha_id', $id)
-			->select('citas.id AS idc', 'users.id', 'horas.r_hora', 'users.name', 'citas.status_asistio', 'citas.idReprogramada')->get();
+			->select('citas.id AS idc', 'users.id', 'servicios.nombre', 'horas.r_hora', 'users.name', 'citas.status_asistio', 'citas.idReprogramada', 'citas.status_pago')->get();
 
 		$con = 1;
 		return datatables($enviar)
@@ -56,15 +57,8 @@ class HistorialCitaController extends Controller {
 			})->addColumn('idcita', function ($val) {
 			return $val->idc;
 		})->addColumn('servicio', function ($val) {
-			if ($val->status_asistio == 2) {
-				return "Asistio";
-			} else if ($val->status_asistio == 0) {
-				return "Falto";
-			} else if ($val->status_asistio == 1) {
-				return "Despistaje";
-			} else if ($val->status_asistio == 3) {
-				return "Reprogramada";
-			}
+
+			return $val->nombre;
 		})->addColumn('idU', function ($val) {
 			return $val->id;
 		})->addColumn('hora', function ($val) {
@@ -82,10 +76,11 @@ class HistorialCitaController extends Controller {
 				return "Reprogramada";
 			}
 		})->addColumn('reprogramar', function ($val) {
-			if ($val->status_asistio == 0 || $val->status_asistio == 1) {
+			if ($val->status_pago == 0) {
+				return 'No ha pagado';
+			} else if ($val->status_pago == 1 && ($val->status_asistio == 0 || $val->status_asistio == 1)) {
 				return "<button type='button'  class='editar btn btn-primary'><i class='fa fa-pencil-square-o'></i></button> ";
-			} else if ($val->idReprogramada != 0) {
-
+			} else if ($val->idReprogramada != 1) {
 				$enviar1 = DB::table('citas')
 					->join('disponibilidads', 'citas.disponibilidad_id', '=', 'disponibilidads.id')
 					->where('citas.id', $val->idReprogramada)
@@ -93,8 +88,6 @@ class HistorialCitaController extends Controller {
 				$fecha = Fecha::where('id', $enviar1[0]->fecha_id)->get();
 				return $fecha[0]->f_fecha;
 			}
-
-			return " ";
 
 		})->rawColumns(['reprogramar'])->make(true);
 
@@ -112,9 +105,14 @@ class HistorialCitaController extends Controller {
 
 		$fecha = new Carbon($fecha);
 
+		$idcita = $request->cita;
+
 		$fecha = $fecha->addWeek();
 		$f1 = $fecha->format('Y-m-d');
 
+		$cita = Cita::where('id', $idcita)->get();
+
+		//return response()->json($cita[0]->id);
 		//return response()->json($f1);
 
 		//$fe = Fecha::whereMonth('f_fecha', $f1)->get();
@@ -158,6 +156,8 @@ class HistorialCitaController extends Controller {
 
 		} else {
 
+			//return response()->json($enviar);
+
 			$cont2 = 0;
 			while ($b && $cont2 != count($enviar)) {
 				if ($enviar[$cont2]->cantPaciente != 0 && $enviar[$cont2]->status != 0) {
@@ -166,7 +166,7 @@ class HistorialCitaController extends Controller {
 
 					#crea cita en esa disponibilidad
 					$slug = str_random(180);
-					$insertid = \DB::table('citas')->insertGetId(['disponibilidad_id' => $enviar[$cont2]->id, 'paciente_id' => $idpaciente, 'slug' => $slug, 'status' => 1, 'status_asistio' => 1]);
+					$insertid = \DB::table('citas')->insertGetId(['disponibilidad_id' => $enviar[$cont2]->id, 'paciente_id' => $idpaciente, 'slug' => $slug, 'status' => 1, 'status_asistio' => 1, 'referenceCode' => $cita[0]->referenceCode, 'processingDate' => $cita[0]->processingDate, 'buyerEmail' => $cita[0]->buyerEmail, 'transactionId' => $cita[0]->transactionId, 'reference_pol' => $cita[0]->reference_pol, 'lapPaymentMethod' => $cita[0]->lapPaymentMethod, 'lapPaymentMethodType' => $cita[0]->lapPaymentMethodType, 'message' => $cita[0]->message, 'transactionState' => $cita[0]->transactionState, 'lapTransactionState' => $cita[0]->lapTransactionState, 'idReprogramada' => 1, 'status_pago' => $cita[0]->status_pago, 'polPaymentMethod' => $cita[0]->polPaymentMethod]);
 
 					$pres = Cita::where('id', $request->cita)->update(['status' => 0, 'status_asistio' => 3, 'idReprogramada' => $insertid]);
 					$disp = $enviar[$cont2]->id;

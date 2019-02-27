@@ -24,13 +24,13 @@ class VerificadorController extends Controller {
 	 */
 
 	public function buscar(Request $request) {
-		$cita = Cita::where('id', $request->id)->get();
+		$cita = Cita::where('referenceCode', $request->id)->where('status', 1)->get();
 		$user = User::where('id', $cita[0]->paciente_id)->get();
 		return response()->json(['nombre' => $user[0]->name, 'dni' => $user[0]->dni, 'status_asistio' => $cita[0]->status_asistio, 'status_pago' => $cita[0]->status_pago]);
 	}
 
 	public function asistencia(Request $request) {
-		$pres = Cita::where('id', $request->id)->update(['status_asistio' => 0]);
+		$pres = Cita::where('referenceCode', $request->id)->update(['status_asistio' => 0]);
 		return response()->json('hola');
 	}
 	public function create() {

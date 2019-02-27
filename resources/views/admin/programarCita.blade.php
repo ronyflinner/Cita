@@ -135,7 +135,9 @@
 
     </div>
 </div>
-    <div class="form-group" id="lu">
+   <div class="row">
+     <div class='col-md-8'>
+        <div class="form-group" id="lu">
       <label for="sel1">Seleccionar Lugar:</label>
       {!! Form::select('lugar',$lugar, '', ['class'=>'form-control form-control-lg single', 'id'=>'lugar']) !!}
     </div>
@@ -153,10 +155,6 @@
            <option value="volvo">Seleccionar</option>
       </select>
     </div>
-
-
-
-
     <!-- Date range -->
       <div class="form-group" id="ra">
                 <label>Seleccione rango de fecha:</label>
@@ -169,32 +167,16 @@
                 </div>
                 <!-- /.input group -->
       </div>
-    <br>
 
-    <div class="row">
-       <div class="offset-2 col-md-4" id="fecha_s">
+
+      <div  id="fecha_s">
          <select id ='fec1' class='form-control form-control-lg single'>
             <option value="volvo">Fecha</option>
          </select>
        </div>
-
-      <div class="col-md-4" id="fecha_s">
-         <select id ='fecc' class='form-control form-control-lg single'>
-            <option value="volvo">Cargar</option>
-            <option value="Mañana">Mañana</option>
-            <option value="Tarde">Tarde</option>
-           <!-- <option value="Todo">Todo</option> -->
-         </select>
-       </div>
-
-    </div>
-
-   <br>
-
-    <div class="container">
-    <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4">
-            <div class="panel panel-default">
+     </div>
+     <div class='col-md-4 d-flex justify-content-center'>
+         <div class="panel panel-default">
                 <!-- Default panel contents -->
                 <div class="panel-heading">Horario</div>
 
@@ -207,21 +189,33 @@
                        </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-     <div class="form-check" id ='fec2'>
-
-  </div>
-</div>
-
-
-
+     </div>
+   </div>
 
     <br>
 
+  <!--  <div class="row">
+       <div class="offset-2 col-md-4" id="fecha_s">
+         <select id ='fec1' class='form-control form-control-lg single'>
+            <option value="volvo">Fecha</option>
+         </select>
+       </div>
+
+      <div class="col-md-4" id="fecha_s">
+         <select id ='fecc' class='form-control form-control-lg single'>
+            <option value="volvo">Cargar</option>
+            <option value="Mañana">Mañana</option>
+            <option value="Tarde">Tarde</option>
+
+         </select>
+       </div>
+
+    </div> -->
+
+
+
 </div>
-<br><br><br>
+
 
 @endsection
 

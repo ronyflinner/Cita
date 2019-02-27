@@ -122,23 +122,9 @@
 
                                     };
 
-                                console.log();
-                                //$(location).attr('href',vurl);
 
-                               itable = $('#Na').DataTable({
-                                        responsive: {
-                                            details: {
-                                                display: $.fn.dataTable.Responsive.display.modal( {
-                                                    header: function ( row ) {
-                                                        var data = row.data();
-                                                        return 'Servicio';
-                                                    }
-                                                } ),
-                                                renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
-                                                    tableClass: 'table'
-                                                } )
-                                            }
-                                        },
+                          itable = $('#Na').DataTable({
+
                                         processing: true,
                                         serverSide: true,
                                         ajax:{
@@ -153,7 +139,6 @@
 
                                                      if(Object.keys(json.data).length != 0){
                                                              $('#pdf').css('display', 'block');
-
 
                                                      }else{
                                                              $('#pdf').css('display', 'none');
@@ -204,6 +189,7 @@
 
         var obtener_habilitar = function(tbody,table,bt){
               $(tbody).on("click",bt,function(){
+                alert('hola');
                 var data = table.row($(this).parents("tr")).data();
                 console.log(data.asistencia);
                 console.log($('#datepicker').val());
@@ -240,6 +226,13 @@
 
                              if(data == 1){
                                PlantillaContacto.toast_notification("success",'Reprogramado correctamente',2);
+                               setTimeout(
+                                  function()
+                                  {
+                                    location.reload();
+                                  }, 5000);
+
+
                              }else{
                               PlantillaContacto.toast_notification("warning",'Debe habilitar doctores . no hay disponibles para reprogramar',2);
                              }
