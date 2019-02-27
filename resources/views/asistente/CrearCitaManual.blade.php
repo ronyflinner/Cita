@@ -86,6 +86,7 @@
                 <input name='userId' id='userId'   type='hidden'  value="" >
                 <input name='userValid' id='userValid'   type='hidden'  value='1' >
 
+
             <br><br><br>
 
                 <input name='merchantId' id="merchantId"   type='hidden'  value=''   >
@@ -99,7 +100,7 @@
                 <input name='signature'    id="signature" type='hidden'  value=''  >
                 <input name='buyerEmail' id="userEmail"   type='hidden'  value="" >
                 <input name='test'          type='hidden'  value='1' >
-                <input name='responseUrl'    type='hidden'  value='{{ url('/admin/usuario/response') }}' >
+                <input name='responseUrl'    type='hidden'  value='{{ route('respuestaAsistente') }}' >
                 <input name='confirmationUrl' type='hidden' value='https://www.ligacancer.org.pe/confirmacionPayu.php'>
 
             <div class="row">
@@ -161,6 +162,12 @@
                       $('.dni').mask('000000000');
                       $('#telefono').mask('(51)000000000');
                       $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
+
+
+                      if({{ $mensaje }}==1){
+
+                            PlantillaCrearCitaManual.toast_notification("success",'Operación Realizada Correctamente!!!',2);
+                      }
 
                        /*Limpieza*/
                       PlantillaCrearCitaManual.clean_form_input('#hora');
@@ -310,9 +317,17 @@
                               ption=event.target.value;
                                token=$("#_token").val();
                               if(ption!=0){
-                                  PlantillaCrearCitaManual.form_option_disable('#buttonCargar',false);
+                                PlantillaCrearCitaManual.form_option_disable('#buttonCargar',false);
 
-                                  data={'servicio': $('select[name=servicio]').val()};
+                                let USERVALID = $("#userValid").val();
+                                let USERID = $("#userId").val();
+
+                                 data={'servicio': $('select[name=servicio]').val(),
+                                        'uservalid':USERVALID,
+                                        'userid':USERID,
+                                      };
+
+
 
                                  $.ajax({
                                     type: 'POST',
@@ -353,7 +368,6 @@
                          });
 
                       },
-
 
                          /*Ajax para buscar horas*/
                       dataAjaxhora:(...conditionValue)=>{
@@ -400,7 +414,7 @@
                                            }else if(data.yeah==1){
                                               PlantillaCrearCitaManual.toast_notification("success",'Se ha registrado satisfactoriamente',2);
 
-                                           //   document.getElementById("form").submit();
+                                             document.getElementById("form").submit();
 
                                               /* setTimeout(function(){
                                                 location = '{ { route('citaprogramada.index') }}'
@@ -545,9 +559,6 @@
 
                       },
 
-
-
-
                       /*AJAX - Buscar*/
                      ajaxSave:(data,vurl,token)=>{
 
@@ -560,7 +571,9 @@
                                   headers:{'X-CSRF-TOKEN': token},
                              })
                              .done(( data, textStatus, jqXHR)=> {
-                             		   console.log(data);
+
+                                  rutaCrear='{{ route('usuario.create') }}';
+                                  cieloPatha=`No hemos encontrado al usuario. Haga clic para <a class='btn btn-success' href='${rutaCrear}'>Crear Usuario</a>`;
 
                                    if(data.validarCita>0){
                                        $("#userId").val('');
@@ -571,10 +584,9 @@
 
                                    }
 
-
                                    switch(data.mensaje) {
                                       case 1:
-                                        // code block
+                                        // code block Positive
 
                                         $.each( data.lugar, function( index, value ) {
                                               $("#lugar").append('<option value='+index+'>'+ value+' </option>' );
@@ -583,18 +595,19 @@
                                         PlantillaCrearCitaManual.toast_notification("success",'Datos Buscado Correctamente!!!',2);
                                         PlantillaCrearCitaManual.hide_form_input("#citaOculta","block");
 
-
-
                                         break;
                                       case 2:
-                                         // code block
-                                          PlantillaCrearCitaManual.toast_notification("error",'No hemos encontrado al usuario,  Nota: Si no existe, proceda a crearle un usuario.!!!',2);
+                                         // code block Unknows
+
+
+                                          PlantillaCrearCitaManual.toast_notification("error",cieloPatha,2);
 
                                         break;
                                       default:
-                                          // code block
+                                          // code block advertising
                                           PlantillaCrearCitaManual.toast_notification("warning",'Dispone de una cita activa actualmente!!',2);
                                     }
+
 
 
                              })
@@ -620,3 +633,4 @@
 	</script>
 
 @endsection
+

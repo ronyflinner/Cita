@@ -15,7 +15,7 @@ class CitaProgramadaController extends Controller {
 	use principal;
 	private $btnView;
 	private $btnPdf;
-	private $btnBaged;
+	private $btnAsistio;
 	private $btnStatusPago;
 	private $btnDel;
 	private $btnPay;
@@ -62,20 +62,20 @@ class CitaProgramadaController extends Controller {
 
 					switch ($val->status_asistio) {
 					case 1:
-						$this->btnBaged = "<h5><span class='badge badge-secondary'>Programada</span></h5>";
+						$this->btnAsistio = "<h5><span class='badge badge-secondary'>Programada</span></h5>";
 						break;
 					case 2:
-						$this->btnBaged = "<h5><span class='badge badge-secondary'>Asistió</span></h5>";
+						$this->btnAsistio = "<h5><span class='badge badge-secondary'>Asistió</span></h5>";
 						break;
 					case 3:
-						$this->btnBaged = "<h5><span class='badge badge-secondary'>Reprogramada</span></h5>";
+						$this->btnAsistio = "<h5><span class='badge badge-secondary'>Reprogramada</span></h5>";
 						break;
 					default:
-						$this->btnBaged = "<h5><span class='badge badge-secondary'>No asistió</span></h5>";
+						$this->btnAsistio = "<h5><span class='badge badge-secondary'>No asistió</span></h5>";
 						break;
 					}
 
-					return $this->btnBaged;
+					return $this->btnAsistio;
 				})
 				->addColumn('status_pago', function ($val) {
 

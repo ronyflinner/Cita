@@ -41,6 +41,15 @@ class UsuarioController extends Controller {
 		return view('admin.usuario.create', compact('role', 'tipoDocumento'));
 	}
 
+	public function createAsistente() {
+		$role = array_add(Role::all()->pluck('name', 'id'), "", "Selecionar");
+
+		$tipoDocumento = ['' => 'Selecionar', '1' => 'DNI', '2' => 'Pasaporte', '3' => 'Carnet de Extranjeria'];
+
+		return "hola";
+		return view('admin.usuario.createAsistente');
+	}
+
 	/**
 	 * Store a newly created resource in storage.
 	 *

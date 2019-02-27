@@ -53,6 +53,7 @@
                </div>
             </div>
             <br><br><br>
+                <input name='userValid' id='userValid'   type='hidden'  value='2' >
 
                 <input name='merchantId' id="merchantId"   type='hidden'  value=''   >
                 <input name='accountId'   id="accountId"  type='hidden'  value='' >
@@ -65,7 +66,7 @@
                 <input name='signature'    id="signature" type='hidden'  value=''  >
                 <input name='buyerEmail'    type='hidden'  value='{{ Auth::user()->email }}' >
                 <input name='test'          type='hidden'  value='1' >
-                <input name='responseUrl'    type='hidden'  value='{{ url('/admin/usuario/response') }}' >
+                <input name='responseUrl'    type='hidden'  value='{{ route('respuestaPaciente') }}' >
                 <input name='confirmationUrl' type='hidden' value='https://www.ligacancer.org.pe/confirmacionPayu.php'>
 
             <div class="row">

@@ -19,15 +19,16 @@
 Route::prefix('admin')->group(function () {
 	Route::get('/home', 'HomeController@index')->name('home');
 
-	Route::group(['prefix' => 'asistente'], function () {
-		Route::get('crearcita', 'CrearCita\CrearCitaController@crearmanual_index')->name('admin.crearManualCita');
-		Route::post('storeCrearcita', 'CrearCita\CrearCitaController@storemanual_index')->name('admin.storeManualCita');
-	});
+	/*Respuesta Payu*/
+	Route::get('response', 'CrearCita\CrearCitaController@response')->name('respuestaPaciente');
+
+	Route::get('responseAsistentePayu', 'CrearCita\CrearCitaController@responseAsistentePayu')->name('respuestaAsistente');
+
+	/*Respuesta Payu*/
 
 	/*citas*/
 	Route::group(['prefix' => 'usuario'], function () {
 		/*AJAX*/
-		Route::get('response', 'CrearCita\CrearCitaController@response')->name('roteo');
 
 		Route::get('/crearcita/ajaxCrear/{id?}/{servicio?}', 'CrearCita\CrearCitaController@ajaxCrearCitaFecha')->name('admin.ajax.crearCita');
 
@@ -66,6 +67,12 @@ Route::prefix('admin')->group(function () {
 	Route::post('cargo', 'Pagos\CulquiController@cargo')->name('cargo.cliente');
 	Route::post('orden', 'Pagos\CulquiController@orden')->name('orden.cliente');
 
+	Route::group(['prefix' => 'asistente'], function () {
+		Route::get('usuario/crearCita', 'Administrador\UsuarioController@createAsistente')->name('asistenteCrear');
+		Route::get('crearcita', 'CrearCita\CrearCitaController@crearmanual_index')->name('admin.crearManualCita');
+		Route::post('storeCrearcita', 'CrearCita\CrearCitaController@storemanual_index')->name('admin.storeManualCita');
+	});
+
 	/*DATATABlE - usuario*/
 
 	Route::post('StatusUsuario', 'Administrador\UsuarioController@getStatusPost')->name('admin.ajax.statusUsuario');
@@ -73,6 +80,8 @@ Route::prefix('admin')->group(function () {
 	Route::get('getUsuarioTable', 'Administrador\UsuarioController@getListadoUsuario')->name('admin.ajax.getUsuarioTable');
 
 	Route::post('reiniciarClave', 'Administrador\UsuarioController@resetPassword')->name('admin.reiniciarClave');
+
+	Route::get('usuario/crearCita', 'Administrador\UsuarioController@createAsistente')->name('asistenteCrear');
 
 	Route::resource('usuario', 'Administrador\UsuarioController');
 	/*DATATABlE - usuario*/

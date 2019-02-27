@@ -17,6 +17,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Jenssegers\Date\Date;
 
 class CrearCitaController extends Controller {
@@ -216,12 +217,72 @@ class CrearCitaController extends Controller {
 		$request->referenceCode; // Codigo de referencia CREADO por el Sistema
 
 		//return $request->all();
-		Cita::where('referenceCode', $request->referenceCode)
+		Cita::where('referenceCode', $request->referenceCode)->where('status', 1)
 			->update($pagoProcesado);
 
 		Log::info('Respuesta en estado' . $request->message);
 
 		return view('cita.citaprogramada');
+
+	}
+
+	/*Respuesta para payu de Asistente*/
+	public function responseAsistentePayu(request $request) {
+
+		$pagoProcesado = array();
+		$request->processingDate; //fecha
+
+		$fecha = $request->processingDate . ' ' . Date::now()->format('h:i:s');
+		$pagoProcesado = Arr::add($pagoProcesado, 'processingDate', $fecha);
+
+		$request->buyerEmail;
+		$pagoProcesado = Arr::add($pagoProcesado, 'buyerEmail', $request->buyerEmail);
+		$request->transactionId; //Transacion ID
+		$pagoProcesado = Arr::add($pagoProcesado, 'transactionId', $request->transactionId);
+		$request->reference_pol; //referencia de pago
+		$pagoProcesado = Arr::add($pagoProcesado, 'reference_pol', $request->reference_pol);
+
+		$request->message; // Mensaje de aprobacion
+		$pagoProcesado = Arr::add($pagoProcesado, 'message', $request->message);
+
+		/*TIPO DE PAGO*/
+		$request->polPaymentMethod; //ID DE BANK
+		$pagoProcesado = Arr::add($pagoProcesado, 'polPaymentMethod', $request->polPaymentMethod);
+
+		$request->lapPaymentMethod; // TIPO VISA
+		$pagoProcesado = Arr::add($pagoProcesado, 'lapPaymentMethod', $request->lapPaymentMethod);
+
+		$request->lapPaymentMethodType; // TIPO DE MEDIO
+		$pagoProcesado = Arr::add($pagoProcesado, 'lapPaymentMethodType', $request->lapPaymentMethodType);
+
+		/*Estado transacion*/
+		$request->transactionState;
+		$pagoProcesado = Arr::add($pagoProcesado, 'transactionState', $request->transactionState);
+
+		$request->lapTransactionState;
+		$pagoProcesado = Arr::add($pagoProcesado, 'lapTransactionState', $request->lapTransactionState);
+
+		/*Diferenciar Estado*/
+		if ($request->message == 'APPROVED') {
+			$pagoProcesado = Arr::add($pagoProcesado, 'status_pago', 1);
+		} else if ($request->message == 'REJECTED') {
+			$pagoProcesado = Arr::add($pagoProcesado, 'status_pago', 2);
+		} else if ($request->message == 'PENDING') {
+			$pagoProcesado = Arr::add($pagoProcesado, 'status_pago', 3);
+		}
+
+		$request->referenceCode; // Codigo de referencia CREADO por el Sistema
+
+		//return $request->all();
+		Cita::where('referenceCode', $request->referenceCode)->where('status', 1)
+			->update($pagoProcesado);
+
+		Log::info('Respuesta de creación de usuario en asistente y su estado es: ' . $request->message);
+
+		/*Regresar vista*/
+		$tipoDocumento = ['' => 'Selecionar', '1' => 'DNI', '2' => 'Pasaporte', '3' => 'Carnet de Extranjeria'];
+
+		return view('asistente.CrearCitaManual', ['tipoDocumento' => $tipoDocumento, 'mensaje' => 1]);
 
 	}
 
@@ -262,7 +323,7 @@ class CrearCitaController extends Controller {
 		/*	$pagoProcesado = Arr::add($pagoProcesado, 'reference_sale', $confirmation['reference_sale']);*/
 		//Log::info($pagoProcesado);
 
-		Cita::where('referenceCode', $confirmation['reference_sale'])
+		Cita::where('referenceCode', $confirmation['reference_sale'])->where('status', 1)
 			->update($pagoProcesado);
 		Log::info('Confirmacion en estado' . $confirmation['response_message_pol']);
 
@@ -323,6 +384,7 @@ class CrearCitaController extends Controller {
 						'disponibilidad_id' => $value->id,
 						'paciente_id' => Auth::id(),
 						'status_asistio' => 1,
+						'idReprogramada' => 1,
 						'referenceCode' => $request->referenceCode,
 						'status_pago' => 3, //1- Aprobado  2- Rechazad 3- Pendiente
 						'status' => 1, //cita activa
@@ -342,12 +404,19 @@ class CrearCitaController extends Controller {
 		if ($request->ajax()) {
 
 			/*Buscando precio del servicio*/
-
 			$servicio = Servicio::find($request->servicio);
 
 			/*Formulario de pago*/
 			$amount = $servicio->costo;
-			$referenceCODE = "0" . Auth::id() . Date::now()->format('Yhis');
+
+			//validar - Vista Crear Cita Asistente y Vista Crear cita paciente
+			if ($request->uservalid == 1) {
+				$userID = $request->userid; //asistente
+			} else {
+				$userID = Auth::id(); //paciente
+			}
+
+			$referenceCODE = "0" . $userID . Str::random(2) . Date::now()->format('Yhis');
 
 			$valores = self::credencialesPAyu($amount, $referenceCODE);
 			/*000+DNI+ID CITA*/
@@ -375,7 +444,7 @@ class CrearCitaController extends Controller {
 
 		$tipoDocumento = ['' => 'Selecionar', '1' => 'DNI', '2' => 'Pasaporte', '3' => 'Carnet de Extranjeria'];
 
-		return view('asistente.CrearCitaManual', ['tipoDocumento' => $tipoDocumento]);
+		return view('asistente.CrearCitaManual', ['tipoDocumento' => $tipoDocumento, 'mensaje' => 2]);
 	}
 
 	public function storemanual_index(Request $request) {
