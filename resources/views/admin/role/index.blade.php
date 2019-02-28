@@ -10,26 +10,26 @@
     <br><br>
     <div class="row">
       <div class="col text-center mt-3">
-        <div class="section_title">Lista de Role</div>
+        <div class="section_title wow lightSpeedIn" data-wow-delay="0.1s"><h3>Lista de Role</h3></div>
       </div>
     </div>
 	  <br>
         {!! Form::open(['route'=>'role.store','name'=>'form', 'method'=>'POST',"class"=>"form ",'files' => false, 'id'=>'form']) !!}
 
 
-          <div class="form-group">
+          <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
             {{ Form::label('Nombre del Role', 'Nombre del Role') }}
               {{ Form::text('role',null,['class'=>'form-control','placeholder'=>'Ingresar Nombre','id'=>'role','data-parsley-required']) }}
 
           </div>
-          <div class="form-group">
+          <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
              {{ Form::label('permiso', 'Selecionar Permisos') }}
               {!! Form::select('permiso[]',$permisos, '', ['class'=>'form-control form-control-lg single select', 'data-parsley-required','multiple ', 'id'=>'permiso'
                                       ]) !!}
           </div>
 
-           <button type="submit" id="buttonAdd1" class="btn btn-success mb-2">Agregar</button>
-           <a href="{{ route('usuario.index') }}"  class="btn btn-warning mb-2">Regresar</a>
+           <button type="submit" id="buttonAdd1" class="btn btn-success mb-2 wow bounceIn" data-wow-delay="0.4s">Agregar</button>
+           <a href="{{ route('usuario.index') }}"  class="btn btn-warning mb-2 wow bounceIn" data-wow-delay="0.4s">Regresar</a>
       	</form>
     <br><br>
    <table id="Mytable"  class="table table-bordered table-hover" style="width:100%">

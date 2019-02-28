@@ -8,7 +8,7 @@
           <br><br>
             <div class="row">
               <div class="text-center ">
-                <div class="section_title"><h3>Solicitud de Cita</h3></div>
+                <div class="section_title wow lightSpeedIn" data-wow-delay="0.1s"><h3>Solicitud de Cita</h3></div>
               </div>
             </div>
             <br>
@@ -16,28 +16,26 @@
 
             <div class="row icon_boxes_row">
             <form class="form" id="form" method="POST" name="form" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/" accept-charset="UTF-8" >
-
-
-              {!! Form::token() !!}
+            {!! Form::token() !!}
               <!-- Icon Box -->
                 <div class="container">
                       <div class="row">
                              <div class="col-md-6">
-                                <div class="form-group">
+                                <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
                                   <label for="sel1">Seleccionar Centro de Prevención:</label>
                                   {!! Form::select('lugar',$lugar, '', ['class'=>'form-control form-control-lg single select', 'required', 'id'=>'lugar'
                                   ]) !!}
                                 </div>
-                                 <div class="form-group">
+                                 <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
                                   <label for="sel1">Seleccionar Servicio:</label>
                                   {!! Form::select('servicio',[''=>'Selecionar'], '', ['class'=>'form-control form-control-lg single selectServicio', 'required', 'id'=>'servicio'
                                   ]) !!}
                                 </div>
-                                <div class="form-group" id="display_cita" style="display: block;">
+                                <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s" id="display_cita" style="display: block;">
                                   <label for="sel1">Seleccionar Fecha de Cita:</label>
                                   {!! Form::text('date', Carbon\Carbon::now()->format('Y-m-d'), ['id'=>'datepicker','class'=>'form-control datepicker clicl', 'readonly', 'placeholder'=>'','required' ]) !!}
                                 </div>
-                                 <div class="form-group" id="display_horario" style="display: block;">
+                                 <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s" id="display_horario" style="display: block;">
                                   <label for="sel1">Seleccionar Horario:</label>
                                   {!! Form::select('hora',[], '', ['class'=>'form-control form-control-lg single', 'id'=>'hora' ,'required']) !!}
                                 </div>
@@ -46,7 +44,7 @@
 
                             </div>
                             <div class="class-md-6">
-                              <iframe width="560" height="315" src="https://www.youtube.com/embed/8mCCMhuKEYw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                              <iframe width="560" height="315" src="https://www.youtube.com/embed/8mCCMhuKEYw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class=" wow fadeInDown" data-wow-offset="0" data-wow-delay="0.1s"></iframe>
                             </div>
                       </div>
 
@@ -71,7 +69,7 @@
 
             <div class="row">
               <div class="col text-center">
-                <button type="submit" disabled="" id="buttonCargar" class="btn btn-success"><span>Pagar Cita</span></button>
+                <button type="submit" disabled="" id="buttonCargar" class="btn btn-success wow bounceIn" data-wow-delay="0.4s"><span>Pagar Cita</span></button>
                  {!! Form::close() !!}
 
 

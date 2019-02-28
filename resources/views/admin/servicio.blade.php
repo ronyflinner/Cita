@@ -11,33 +11,33 @@
 
    <div >
       <div class="crear">
-          <h3>Crear Servicio</h3>
+          <h3 class="wow lightSpeedIn" data-wow-delay="0.1s">Crear Servicio</h3>
       </div>
 
-    <div class="editar" style="display:none;">
+    <div class="editar wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s" style="display:none;">
         <h3>Editar Servicio</h3>
     </div>
      <div class="row">
        <div class="col-md-4">
-         <div class="form-group">
+         <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
             <label for="usr">Nombre del Servicio:</label>
             <input type="text" class="form-control" id="servicio">
         </div>
        </div>
        <div class="col-md-4">
-         <div class="form-group">
+         <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
             <label for="usr">Costo:</label>
-            <input type="text" class="form-control" id="costo">
+            <input type="text" class="form-control wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s" id="costo">
         </div>
        </div>
        <div class="col-md-4">
          <div class="form-group">
             <br>
-            <button type="button" class="btn btn-primary" id='bu'>Aceptar</button>
+            <button type="button" class="btn btn-primary wow bounceIn" data-wow-delay="0.4s" id='bu'>Aceptar</button>
          </div>
          <div class="form-group">
             <br>
-            <button type="button" class="btn btn-primary" id='editar2' style="display:none;">Editar</button>
+            <button type="button" class="btn btn-primary wow bounceIn" data-wow-delay="0.4s" id='editar2' style="display:none;">Editar</button>
          </div>
        </div>
      </div>

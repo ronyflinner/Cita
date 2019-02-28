@@ -26,7 +26,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12 col-lg-12">
-                <h1 class="h1">
+                <h1 class="h1 wow lightSpeedIn" data-wow-delay="0.1s">
                     Mensaje </h1>
             </div>
         </div>
@@ -39,7 +39,7 @@
                 <div class="row">
                     <div class="col-md-12">
 
-                        <div class="form-group">
+                        <div class="form-group  wow fadeInDown" data-wow-offset="0" data-wow-delay="0.1s">
                             <label for="name">
                                 Ingresar mensaje</label>
                             <textarea name="message" id="message" class="form-control" rows="9" cols="25" required="required"
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <button type="submit" class="btn btn-primary pull-right" id="men">
+                        <button type="submit" class="btn btn-primary pull-right wow bounceIn" data-wow-delay="0.4s" id="men">
                             Enviar Mensaje</button>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
 
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
             <form>
             <legend><span class="fa fa-inbox"></span> Centros de Prevención </legend>
             <address>

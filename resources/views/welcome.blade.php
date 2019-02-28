@@ -24,7 +24,7 @@
 
                             @if (Route::has('login'))
                                   @auth
-                                      <div class="btn btn-skin btn-lg"><a href="{{ url('/') }}"><span>Regresar</span></div>
+                                      <div class="btn btn-skin btn-lg"><a href="{{ route('logout') }}"><span>Regresar</span></div>
 
                                       <p class="text-right wow bounceIn" data-wow-delay="0.4s"><a class="btn btn-skin btn-lg" href="{{ url('/') }}">Ingresar<i class="fa fa-angle-right"></i></a></p>
                                   @else

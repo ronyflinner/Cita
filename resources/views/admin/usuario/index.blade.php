@@ -10,12 +10,12 @@
     <br><br>
     <div class="row">
       <div class="col text-center mt-3">
-        <div class="section_title"><h3>Lista de Usuarios</h3></div>
+        <div class="section_title wow lightSpeedIn" data-wow-delay="0.1s"><h3>Lista de Usuarios</h3></div>
       </div>
     </div>
-    <a href="{{ route('usuario.create') }}" class="btn btn-success">Crear Usuario</a>
-    <a href="{{ route('role.index') }}" class="btn btn-info">Crear Role</a>
-    <a href="{{ route('permiso.index') }}" class="btn btn-warning">Crear Permisos</a>
+    <a href="{{ route('usuario.create') }}" class="btn btn-success  wow bounceIn" data-wow-delay="0.4s">Crear Usuario</a>
+    <a href="{{ route('role.index') }}" class="btn btn-info  wow bounceIn" data-wow-delay="0.4s">Crear Role</a>
+    <a href="{{ route('permiso.index') }}" class="btn btn-warning  wow bounceIn" data-wow-delay="0.4s">Crear Permisos</a>
     <br><br>
    <table id="Mytable"  class="table table-bordered table-hover" style="width:100%">
       <thead>

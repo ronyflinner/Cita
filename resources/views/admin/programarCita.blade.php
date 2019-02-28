@@ -129,7 +129,7 @@
     <h3></h3>
 
 <div class="container">
-    <h3 class="text-center">Programar Cita</h3>
+    <h3 class="text-center  wow lightSpeedIn" data-wow-delay="0.1s">Programar Cita</h3>
     <hr>
     <div class="col-xs-12">
 
@@ -137,26 +137,26 @@
 </div>
    <div class="row">
      <div class='col-md-8'>
-        <div class="form-group" id="lu">
+        <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s" id="lu">
       <label for="sel1">Seleccionar Lugar:</label>
       {!! Form::select('lugar',$lugar, '', ['class'=>'form-control form-control-lg single', 'id'=>'lugar']) !!}
     </div>
-    <div class="form-group" style="display: none;" >
+    <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s" style="display: none;" >
       <label for="sel1">Seleccionar Lugar:</label>
     </div>
-    <div class="form-group" id="lu">
+    <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s" id="lu">
       <label for="sel1">Seleccionar Servicio:</label>
       {!! Form::select('servicio',$servicio, '', ['class'=>'form-control form-control-lg single', 'id'=>'servicio']) !!}
     </div>
 
-    <div class="form-group" id="doctor">
+    <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s" id="doctor">
       <label for="sel1" id="seld">Seleccionar Doctor:</label>
        <select id ='fedoc' class='form-control form-control-lg single'>
            <option value="volvo">Seleccionar</option>
       </select>
     </div>
     <!-- Date range -->
-      <div class="form-group" id="ra">
+      <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s" id="ra">
                 <label>Seleccione rango de fecha:</label>
 
                 <div class="input-group">

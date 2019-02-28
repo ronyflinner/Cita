@@ -9,11 +9,11 @@
 
  <div class="container">
     <div class="form-wrapper">
-                <div class="wow fadeInRight" data-wow-duration="2s" data-wow-delay="0.2s">
+                <div class="wow >
 
 
                     <div class="panel-heading">
-                      <div class="section_title"><h3>Verificar Asistencia</h3></div>
+                      <div class="section_title  wow lightSpeedIn" data-wow-delay="0.1s"><h3>Verificar Asistencia</h3></div>
                     </div>
                     <div class="panel-body">
                       <div id="sendmessage">Your message has been sent. Thank you!</div>
@@ -23,7 +23,7 @@
                         <div class="row">
 
                           <div class="col-xs-4 col-sm-4 col-md-4">
-                            <div class="form-group">
+                            <div class="form-group wow fadeInRight" data-wow-duration="2s" data-wow-delay="0.2s">
                               <label>Codigo de cita</label>
                               <input type="text" name="first_name" id="codigo_cita" class="form-control input-md" data-rule="minlen:3" data-msg="Please enter at least 3 chars">
                               <div class="validation"></div>
@@ -32,7 +32,7 @@
                           <div class="col-xs-4 col-sm-4 col-md-4">
                             <div class="form-group">
                               <br>
-                             <button type="button" id="buscar" class="btn btn-primary">Buscar</button>
+                             <button type="button" id="buscar" class="btn btn-primary wow bounceIn" data-wow-delay="0.4s">Buscar</button>
                             </div>
                           </div>
                         </div>

@@ -46,8 +46,7 @@ class UsuarioController extends Controller {
 
 		$tipoDocumento = ['' => 'Selecionar', '1' => 'DNI', '2' => 'Pasaporte', '3' => 'Carnet de Extranjeria'];
 
-		return "hola";
-		return view('admin.usuario.createAsistente');
+		return view('asistente.createAsistente', compact('role', 'tipoDocumento'));
 	}
 
 	/**
@@ -59,6 +58,13 @@ class UsuarioController extends Controller {
 	public function store(Request $request) {
 
 		if ($request->ajax()) {
+
+			if ($request->verificar == 1) {
+				$status = 1;
+			} else {
+				$status = 0;
+			}
+
 			$user = User::create([
 				'name' => $request->nombre,
 				'email' => $request->email,
@@ -70,7 +76,7 @@ class UsuarioController extends Controller {
 				'numero' => $request->telefono,
 				'tipo' => $request->tipoUsuario,
 				'slug' => str_random(150),
-				'status' => 0]);
+				'status' => $status]);
 
 			$role = Role::find($request->role);
 			$user->assignRole($role->name);

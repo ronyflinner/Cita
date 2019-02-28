@@ -10,14 +10,14 @@
     <br><br>
     <div class="row">
       <div class="col text-center mt-3">
-        <div class="section_title"><h3>Citas Programadas</h3></div>
+        <div class="section_title wow lightSpeedIn" data-wow-delay="0.1s"><h3>Citas Programadas</h3></div>
       </div>
     </div>
     <br><br>
 
     <div class="row">
       <div class="container">
-          <table id="Mytable" class="table table-striped table-bordered nowrap" style="width:100%">
+          <table id="Mytable" class="table table-striped table-bordered nowrap">
               <thead>
                   <tr>
                       <th>N°</th>

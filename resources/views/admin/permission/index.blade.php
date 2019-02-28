@@ -10,7 +10,7 @@
     <br><br>
     <div class="row">
       <div class="col text-center mt-3">
-        <div class="section_title">Lista de Permisos</div>
+        <div class="section_title wow lightSpeedIn" data-wow-delay="0.1s"><h3>Lista de Permisos</h3></div>
       </div>
     </div>
 	  <br>
@@ -18,11 +18,12 @@
 	  <div class="form-row align-items-center">
 	    <div class="col-auto">
 	      <label class="sr-only" for="inlineFormInput">Nombre del Permisión</label>
-	      <input type="text" class="form-control mb-2" id="role" placeholder="Ingresar Nombre">
+	      <input type="text" class="form-control mb-2 wow lightSpeedIn" data-wow-delay="0.1s" id="role" placeholder="Ingresar Nombre">
 	    </div>
+      <br>
 	    <div class="col-auto">
-	      <button type="button" id="buttonAdd" class="btn btn-success mb-2">Agregar</button>
-         <a href="{{ route('usuario.index') }}"  class="btn btn-warning mb-2">Regresar</a>
+	      <button type="button" id="buttonAdd" class="btn btn-success mb-2  wow bounceIn" data-wow-delay="0.4s">Agregar</button>
+         <a href="{{ route('usuario.index') }}"  class="btn btn-warning mb-2  wow bounceIn" data-wow-delay="0.4s">Regresar</a>
 	    </div>
 	  </div>
 	</form>

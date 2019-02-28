@@ -6,7 +6,7 @@
 @section('seccion_c')
 
      <div class="container" id="No">
-            <h2>Buzón de mensajes</h2>
+            <h2 class="  wow lightSpeedIn" data-wow-delay="0.1s">Buzón de mensajes</h2>
             <table class='table table-bordered' id='Na'>
                <thead>
                   <tr>

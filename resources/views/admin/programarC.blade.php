@@ -9,7 +9,7 @@
 
 <div class="container">
 
-    <h3>Programar Cita</h3>
+    <h3 class="wow lightSpeedIn" data-wow-delay="0.1s">Programar Cita</h3>
 
 
     <br>

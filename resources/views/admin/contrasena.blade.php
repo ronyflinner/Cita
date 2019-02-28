@@ -12,17 +12,17 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Cambio de Contraseña</div>
+                <div class="panel-heading wow lightSpeedIn" data-wow-delay="0.1s">Cambio de Contraseña</div>
 
                 <div class="panel-body">
                     <form id="form" class="form-horizontal" method="POST" action="{{ route('admin.reiniciarClave') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Contraseña</label>
+                            <label for="password" class="col-md-4 control-label wow fadeInDown" data-wow-offset="0" data-wow-delay="0.1s">Contraseña</label>
 
                             <div class="col-md-6">
-                                <input id="password" data-parsley-required type="password" class="form-control" name="password" data-parsley-equalto="#password-confirm">
+                                <input id="password" data-parsley-required type="password" class="form-control wow fadeInDown" data-wow-offset="0" data-wow-delay="0.1s" name="password" data-parsley-equalto="#password-confirm">
 
                                 @if ($errors->has('password'))
                                     <span class="help-block">
@@ -33,9 +33,9 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirmar Contraseña</label>
+                            <label for="password-confirm" class="col-md-4 control-label wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">Confirmar Contraseña</label>
                             <div class="col-md-6">
-                                <input id="password-confirm" data-parsley-required  type="password" class="form-control" name="password_confirmation" data-parsley-equalto="#password">
+                                <input id="password-confirm" data-parsley-required  type="password" class="form-control wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s" name="password_confirmation" data-parsley-equalto="#password">
 
                                 @if ($errors->has('password_confirmation'))
                                     <span class="help-block">
@@ -47,7 +47,7 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-success">
+                                <button type="submit" class="btn btn-success wow bounceIn" data-wow-delay="0.4s">
                                     Cambiar Contraseña
                                 </button>
                             </div>

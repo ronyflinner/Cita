@@ -116,7 +116,7 @@
                   <li class="{{active_class(if_uri_pattern(['admin/asistente/crearcita'],'active','other'))}}"><a href="{{ route('admin.crearManualCita') }}">Crear Cita</a></li>
                 @endcan
 
-                 <li class="{{active_class(if_uri_pattern(['admin/usuario/create'],'active','other'))}}"><a href="{{ route('usuario.create') }}" >Crear Usuario</a></li>
+                 <li class="{{active_class(if_uri_pattern(['admin/asistente/crearCita'],'active','other'))}}"><a href="{{ route('asistenteCrearUsuario') }}" >Crear Usuario</a></li>
             <!-- Fin asistente-->
             @endhasrole
                 @can('ver clave')

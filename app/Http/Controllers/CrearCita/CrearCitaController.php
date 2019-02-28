@@ -17,7 +17,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use Jenssegers\Date\Date;
 
 class CrearCitaController extends Controller {
@@ -379,10 +378,18 @@ class CrearCitaController extends Controller {
 					$cantidad = $value->cantPaciente - 1;
 					Disponibilidad::where('id', $value->id)
 						->update(['cantPaciente' => $cantidad]);
+
+					/*Validar usuario si es usuario logueado o no logueado*/
+					if ($request->userValid == 1) {
+						$userID = $request->userId;
+					} else {
+						$userID = Auth::id();
+					}
+
 					/*asignar cita*/
 					$cita = Cita::create([
 						'disponibilidad_id' => $value->id,
-						'paciente_id' => Auth::id(),
+						'paciente_id' => $userID,
 						'status_asistio' => 1,
 						'idReprogramada' => 1,
 						'referenceCode' => $request->referenceCode,
@@ -416,7 +423,7 @@ class CrearCitaController extends Controller {
 				$userID = Auth::id(); //paciente
 			}
 
-			$referenceCODE = "0" . $userID . Str::random(2) . Date::now()->format('Yhis');
+			$referenceCODE = "0" . $userID . str_random(2) . Date::now()->format('Yhis');
 
 			$valores = self::credencialesPAyu($amount, $referenceCODE);
 			/*000+DNI+ID CITA*/

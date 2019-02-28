@@ -9,17 +9,17 @@
 		    <br><br>
 		    <div class="row wow fadeInDown" data-wow-offset="0" data-wow-delay="0.1s">
 		      <div class="col text-center mt-3">
-		        <div class="section_title"><h3>Consultar Información</h3></div>
+		        <div class="section_title wow lightSpeedIn" data-wow-delay="0.1s"><h3>Consultar Información</h3></div>
 		      </div>
 		    </div>
 		    <br><br>
 
 			<div class="container">
-		      <div class="row text-center wow fadeInRight" data-wow-offset="0" data-wow-delay="0.2s">
+		      <div class="row text-center" >
 		      	{!! Form::open(['route'=>'admin.storeManualCita','name'=>'formSearchUsers', 'method'=>'POST',"class"=>"form ",'files' => false, 'id'=>'formSearchUsers']) !!}
 
 		      	 <div class="col-xs-4 col-sm-4 col-md-4">
-                    <div class="form-group">
+                    <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
                       {{ Form::label('tipoDocumento', 'Tipo de Documento') }}
             		  {!! Form::select('tipo',$tipoDocumento, '', ['class'=>'form-control form-control-lg single ', 'data-parsley-required', 'id'=>'tipo'
                                   ]) !!}
@@ -27,7 +27,7 @@
                     </div>
                   </div>
 				 <div class="col-xs-4 col-sm-4 col-md-4">
-                    <div class="form-group">
+                    <div class="form-group wow fadeInDown" data-wow-offset="0" data-wow-delay="0.1s">
                       {{ Form::label('numero_documento', 'N° de Documento') }}
 					    {{ Form::text('numero', null,['class'=>'form-control dni','data-parsley-required  ','id'=>'dni']) }}
                       <div class="validation"></div>
@@ -36,7 +36,7 @@
                   <div class="col-xs-4 col-sm-4 col-md-4">
                     <div class="form-group">
                       <br>
-                     <button type="submit" class="btn btn-primary">Buscar</button>
+                     <button type="submit" class="btn btn-primary wow bounceIn" data-wow-delay="0.4s">Buscar</button>
                     </div>
                   </div>
 		      </div>
@@ -56,21 +56,21 @@
                 <div class="container">
                       <div class="row">
                              <div class="col-md-offset-2 col-md-8">
-                                <div class="form-group">
+                                <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
                                   <label for="sel1">Seleccionar Centro de Prevención:</label>
                                   {!! Form::select('lugar',[], '', ['class'=>'form-control form-control-lg single select', 'required', 'id'=>'lugar'
                                   ]) !!}
                                 </div>
-                                 <div class="form-group">
+                                 <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
                                   <label for="sel1">Seleccionar Servicio:</label>
                                   {!! Form::select('servicio',[''=>'Selecionar'], '', ['class'=>'form-control form-control-lg single selectServicio', 'required', 'id'=>'servicio'
                                   ]) !!}
                                 </div>
-                                <div class="form-group" id="display_cita" style="display: block;">
+                                <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s" id="display_cita" style="display: block;">
                                   <label for="sel1">Seleccionar Fecha de Cita:</label>
                                   {!! Form::text('date', Carbon\Carbon::now()->format('Y-m-d'), ['id'=>'datepicker','class'=>'form-control datepicker clicl', 'readonly', 'placeholder'=>'','required' ]) !!}
                                 </div>
-                                 <div class="form-group" id="display_horario" style="display: block;">
+                                 <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s" id="display_horario" style="display: block;">
                                   <label for="sel1">Seleccionar Horario:</label>
                                   {!! Form::select('hora',[], '', ['class'=>'form-control form-control-lg single', 'id'=>'hora' ,'required']) !!}
                                 </div>
@@ -105,7 +105,7 @@
 
             <div class="row">
               <div class="col text-center">
-                <button type="submit" disabled="" id="buttonCargar" class="btn btn-success"><span>Pagar Cita</span></button>
+                <button type="submit" disabled="" id="buttonCargar" class="btn btn-success wow bounceIn" data-wow-delay="0.4s"><span>Pagar Cita</span></button>
                  {!! Form::close() !!}
               </div>
               <br><br>
@@ -209,7 +209,8 @@
 	                            var result = confirm("¿Listo para cancerla la Cita? ");
 	                            if (result) {
 	                              //  document.getElementById("form").submit();
-	                              PlantillaCrearCitaManual.dataAjaxhora($("#form").serialize(),3)
+	                              PlantillaCrearCitaManual.dataAjaxhora($("#form").serialize(),3);
+
 
 	                            }
 
@@ -391,7 +392,7 @@
                                   headers:{'X-CSRF-TOKEN': token},
                              })
                              .done(( data, textStatus, jqXHR)=> {
-                                //  console.log(data);
+                                  //console.log(data);
 
                                   switch(data.switch) {
                                         case 1:
@@ -414,7 +415,7 @@
                                            }else if(data.yeah==1){
                                               PlantillaCrearCitaManual.toast_notification("success",'Se ha registrado satisfactoriamente',2);
 
-                                             document.getElementById("form").submit();
+                                              document.getElementById("form").submit();
 
                                               /* setTimeout(function(){
                                                 location = '{ { route('citaprogramada.index') }}'

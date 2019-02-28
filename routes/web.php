@@ -68,9 +68,13 @@ Route::prefix('admin')->group(function () {
 	Route::post('orden', 'Pagos\CulquiController@orden')->name('orden.cliente');
 
 	Route::group(['prefix' => 'asistente'], function () {
-		Route::get('usuario/crearCita', 'Administrador\UsuarioController@createAsistente')->name('asistenteCrear');
+
+		Route::get('crearCita', 'Administrador\UsuarioController@createAsistente')->name('asistenteCrearUsuario');
+
 		Route::get('crearcita', 'CrearCita\CrearCitaController@crearmanual_index')->name('admin.crearManualCita');
+
 		Route::post('storeCrearcita', 'CrearCita\CrearCitaController@storemanual_index')->name('admin.storeManualCita');
+
 	});
 
 	/*DATATABlE - usuario*/
@@ -80,8 +84,6 @@ Route::prefix('admin')->group(function () {
 	Route::get('getUsuarioTable', 'Administrador\UsuarioController@getListadoUsuario')->name('admin.ajax.getUsuarioTable');
 
 	Route::post('reiniciarClave', 'Administrador\UsuarioController@resetPassword')->name('admin.reiniciarClave');
-
-	Route::get('usuario/crearCita', 'Administrador\UsuarioController@createAsistente')->name('asistenteCrear');
 
 	Route::resource('usuario', 'Administrador\UsuarioController');
 	/*DATATABlE - usuario*/

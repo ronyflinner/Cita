@@ -8,7 +8,7 @@
     <br><br>
     <div class="row">
       <div class="col text-center mt-3">
-        <div class="section_title">Editar Role</div>
+        <div class="section_title wow lightSpeedIn" data-wow-delay="0.1s">Editar Role</div>
       </div>
     </div>
 	  <br>

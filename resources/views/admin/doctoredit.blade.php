@@ -9,9 +9,9 @@
 
 <div class="container">
 
-    <h3>Seleccionar Servicio a Doctor</h3>
+    <h3 class="wow lightSpeedIn" data-wow-delay="0.1s">Seleccionar Servicio a Doctor</h3>
 
-   <div class="form-group" id="lu">
+   <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s" id="lu">
       <label for="sel1">Seleccionar Doctor:</label>
 
       {!! Form::select('usuario',$usuario, '', ['class'=>'form-control form-control-lg single', 'id'=>'usuario']) !!}
@@ -21,7 +21,7 @@
  <!--  { !! Form::select('usuario',$servicio, '', ['class'=>'js-example-basic-multiple', 'name'=>'states[]' , 'multiple'=>"multiple" ,'id'=>'servicio']) !!} -->
     <label for="sel1">Servicio:</label>
     <div id="ser3">
-    <div class='form-group' id='ser'>
+    <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s"  id='ser'>
          <select class='js-example-basic-multiple' id='sel2' name='states[]' multiple='multiple'>
 
         </select>
@@ -30,7 +30,7 @@
 
 
     <div class="d-flex justify-content-center">
-        <button id="bu" type="button" class="btn btn-success d-flex">Crear Servicio</button>
+        <button id="bu" type="button" class="btn btn-success d-flex wow bounceIn" data-wow-delay="0.4s">Crear Servicio</button>
     </div>
 
 </div>

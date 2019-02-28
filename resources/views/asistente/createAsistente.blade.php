@@ -8,7 +8,7 @@
 	<br><br>
 	 <div class="row">
       <div class=" text-center ">
-        <div class="section_title"><h3>Crear Usuario</h3></div>
+        <div class="section_title wow lightSpeedIn" data-wow-delay="0.1s"><h3>Crear Usuario</h3></div>
       </div>
     </div>
 	<br><br>
@@ -18,57 +18,62 @@
 				 {!! Form::open(['route'=>'usuario.store','name'=>'form', 'method'=>'POST',"class"=>"form ",'files' => false, 'id'=>'form']) !!}
 
 						{{ Form::token() }}
-            <div class="form-group">
+            <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
               {{ Form::label('tipoDocumento', 'Tipo de Documento') }}
               {!! Form::select('tipo',$tipoDocumento, '', ['class'=>'form-control form-control-lg single select', 'data-parsley-required', 'id'=>'tipo'
                                   ]) !!}
             </div>
-						<div class="form-group">
+
+             <input type="hidden" id="verificar" name="verificar" value="1">
+             <!-- Verificar-->
+             <input type="hidden" id="tipoUsuario" name="tipoUsuario" value="2">
+             <input type="hidden" id="role" name="role" value="3">
+
+
+						<div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
 					    {{ Form::label('numero_documento', 'Número de Documento') }}
 					    {{ Form::text('numero', null,['class'=>'form-control dni','data-parsley-required  ','id'=>'dni']) }}
 					  </div>
-					  <div class="form-group">
+					  <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
 						{{ Form::label('email', 'Correo') }}
 					    {{ Form::email('email', null,  ['class'=>'form-control', 'data-parsley-type="email" data-parsley-required','id'=>'correo']) }}
 					  </div>
-					  <div class="form-group">
+					  <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
 						{{ Form::label('nombre', 'Nombre') }}
 					    {{ Form::text('nombre', null,['class'=>'form-control','data-parsley-required','id'=>'nombre']) }}
 					  </div>
-					   <div class="form-group">
+					   <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
 					   	{{ Form::label('apellidoP', 'Apellido Paterno') }}
 					    {{ Form::text('apellido_paterno', null,['class'=>'form-control','data-parsley-required','id'=>'apellidoP']) }}
 					  </div>
-             <div class="form-group">
+             <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
               {{ Form::label('apellidoM', 'Apellido Materno') }}
               {{ Form::text('apellido_materno', null,['class'=>'form-control','data-parsley-required','id'=>'apellidoM']) }}
             </div>
-            <div class="form-group">
+            <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
               {{ Form::label('telefono', 'Telefóno') }}
               {{ Form::text('telefono', null,['class'=>'form-control','data-parsley-required','id'=>'telefono']) }}
             </div>
-					  <div class="form-group">
+					  <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
 					    {{ Form::label('clave', 'Clave') }}
 					    {{ Form::password('clave', ['class' => 'form-control','data-parsley-required data-parsley-equalto="#repetir-clave"','id'=>'clave']) }}
 					  </div>
-					    <div class="form-group">
-					    {{ Form::label('repetir-clave', 'Clave') }}
+					    <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
+					    {{ Form::label('repetir-clave', 'Repetir-Clave') }}
 					    {{ Form::password('repetir-clave', ['class' => 'form-control','data-parsley-required data-parsley-equalto="#clave"','id'=>'repetir-clave']) }}
 					  </div>
-              <div class="form-group">
-              {{ Form::label('tipo', 'Tipo') }}
-              {!! Form::select('tipoUsuario',[''=>'Selecionar','2'=>'Usuario','3'=>'Doctor',''], '', ['class'=>'form-control form-control-lg single select', 'data-parsley-required', 'id'=>'role'
-                                  ]) !!}
-            </div>
-					  <div class="form-group">
-					    {{ Form::label('role', 'Role') }}
-					   	{!! Form::select('role',$role, '', ['class'=>'form-control form-control-lg single select', 'data-parsley-required', 'id'=>'role'
-                                  ]) !!}
-					  </div>
-					  <br>
-					  <button type="submit" class="btn btn-primary">Enviar</button>
-					  <a href="{{ route('usuario.index') }}" class="btn btn-warning">Regresar</a>
+
+            <br>
+            <br>
+					  <button type="submit" class="btn btn-primary wow bounceIn" data-wow-delay="0.4s">Registrar</button>
+
 				    {!! Form::close() !!}
+
+              <br>
+                <br>
+                <br>
+                <br>
+
 
 			</div>
 
@@ -193,7 +198,7 @@
                                 	PlantillaRoles.toast_notification("success",'Guardado Correctaente!!!',2);
 
                                     setTimeout(function(){
-                                      location = '{{ route('usuario.index') }}'
+                                      location = '{{ route('admin.crearManualCita') }}'
                                     },2000)
 
                              })
