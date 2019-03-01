@@ -1,4 +1,4 @@
-orang@component('mail::message')
+@component('mail::message')
 {{-- Greeting --}}
 @if (! empty($greeting))
 # {{ $greeting }}

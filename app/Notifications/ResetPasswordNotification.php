@@ -45,7 +45,7 @@ class ResetPasswordNotification extends Notification {
 			->greeting('Hola!', $notifiable->name)
 			->line('Recibes esta linea porque se solicitud un cambio de contraseña.')
 			->action('Reseteo de contraseña', url(config('app.url') . route('password.reset', $this->token, false)))
-			->line('Si no realizaste esta petición, puedes ignorar el correo y nada habra cambiado. ')
+			->line('Si no realizaste esta petición, puedes ignorar el correo. ')
 			->salutation('¡Saludos, Gracias!');
 	}
 }

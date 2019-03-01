@@ -37,7 +37,7 @@
   {{ Html::style('css/app.css') }}
   {{ Html::style('medico/css/prettify.css') }}
   {{ Html::style('medico/css/style.css') }}
-  {{ Html::style('medico/css/bootstrap-datepicker.css') }}
+
 
 
 

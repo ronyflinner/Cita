@@ -160,7 +160,9 @@ class CrearCitaController extends Controller {
 
 				if ($fecha_disponible->count() > 0) {
 					/*Haciendo el arreglo para el select id hora disponbilidad y nombre de hora*/
-					$Disponibilidad[$fecha_disponible[0]->hora_id] = $fecha_disponible[0]->hora_link->r_hora;
+					$disponibilidad = explode('-', $fecha_disponible[0]->hora_link->r_hora);
+
+					$Disponibilidad[$fecha_disponible[0]->hora_id] = $disponibilidad[0];
 					//return $fecha_disponible[0]->hora_link->r_hora;
 				}
 			}
