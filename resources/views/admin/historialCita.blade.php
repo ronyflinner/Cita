@@ -250,11 +250,16 @@
             }
 
     $('#bun').on('click',function(){
-              $('#Na_wrapper').remove();
+              if($('#datepicker').val()==""){
+                 PlantillaContacto.toast_notification("warning",'Debe seleccionar una fecha',2);
+              }else{
+                $('#Na_wrapper').remove();
               $('#Na').remove();
               $('#No').append("<table class='table table-bordered' class='table table-striped table-bordered nowrap' style='width:100%' id='Na'><thead><tr><th>N°</th><th>Id Cita</th><th>Servicio</th><th>Id Paciente</th><th>Hora</th><th>Nombre de Paciente</th><th>Asistencia</th><th>Reprogramación</th></tr></thead></table>");
               var promise = promesa3();
               obtener_habilitar("#Na tbody",itable,"button.editar");
+              }
+
     });
 
 

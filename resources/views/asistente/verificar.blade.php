@@ -65,7 +65,7 @@
                           <div class="col-xs-2 col-sm-2 col-md-2">
                             <div class="form-group">
                               <br>
-                              <button type="button" id="asistencia" class="btn btn-primary">Aceptar</button>
+                              <button type="button" id="asistencia" class="btn btn-primary">Confirmar</button>
                             </div>
                           </div>
                         </div>
@@ -174,10 +174,13 @@
                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                           } ,
                                 success:  function (data) {
-                                    $('#pago').empty();
+                                    $('#asistio').empty();
                                     PlantillaContacto.toast_notification("success",'Se verifico la asistencia!!!',2);
-                                    $('#pago').append('<font color=green align=justify><i class="fas fa-check-circle"></i></font>');
-                                      $('#pago').val('Sí');
+                                    $('#asistio').append('<font color=green align=justify><i class="fas fa-check-circle"></i></font>');
+                                      $('#asistio').val('Sí');
+                                      $('#asistido font').attr('color', 'green');
+
+
                                 },
                                 error: function (data) {
                                     $('#nombre').empty();
