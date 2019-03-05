@@ -199,4 +199,6 @@ Route::get('campana/mama', 'Liga\LccController@vista_mama')->name('mama');
 
 Route::get('campana/varones', 'Liga\LccController@vista_amomibolas')->name('bolas');
 
+Route::get('campana/vph', 'Liga\LccController@vista_vph')->name('vph');
+
 Route::get('campana/diaContraElCancer', 'Liga\LccController@vista_diaContraElCancer')->name('diaContraElCancer');

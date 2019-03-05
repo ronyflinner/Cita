@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected $commands = [
 		'\App\Console\Commands\TestLog',
+		'\App\Console\Commands\RecordatorioCita', #Importando Clase de Correo a recordar
 	];
 
 	/**
@@ -24,7 +25,9 @@ class Kernel extends ConsoleKernel {
 	protected function schedule(Schedule $schedule) {
 		// $schedule->command('inspire')
 		//          ->hourly();
-		$schedule->command('logs:test')->everyMinute()->withoutOverlapping();
+		$schedule->command('logs:test')->daily();
+		$schedule->command('users:recordar')->everyMinute(); // Llamando al comando que pertenece a la class
+		//->everyMinute();
 	}
 
 	/**

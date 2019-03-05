@@ -65,6 +65,10 @@ class LccController extends Controller {
 		return view('frontend.liga.campana.amomisbolas');
 	}
 
+	public function vista_vph() {
+		return view('frontend.liga.campana.vph');
+	}
+
 	public function vista_diaContraElCancer() {
 		return view('frontend.liga.campana.diamundial');
 	}

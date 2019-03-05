@@ -51,7 +51,8 @@
 									<ul class="dropdown">
 										<li><a href="{{ route('pancreas') }}">Prevención del Cáncer de Páncreas</a></li>
 										<li><a href="{{ route('piel') }}">Prevención del Cáncer de Piel</a></li>
-										<li><a href="{{ route('cuello') }}">Prevención de Cáncer del Cuello Uterino</a></li>
+										<!--<li><a href="{ { route('cuello') }}">Prevención de Cáncer del Cuello Uterino</a></li> -->
+										<li><a href="{{ route('vph') }}">Prevención Contra el VPH</a></li>
 										<li><a href="{{ route('mama') }}">Prevención del Cáncer de Mama</a></li>
 										<li><a href="{{ route('bolas') }}">Prevención del Cáncer de Cáncer en Varones</a></li>
 										<li><a href="{{ route('diaContraElCancer') }}">Día Mundial Contra el Cáncer</a></li>
