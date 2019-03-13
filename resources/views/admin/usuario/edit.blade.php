@@ -7,7 +7,7 @@
 	<br><br>
 	 <div class="row">
       <div class="col text-center mt-3">
-        <div class="section_title">Editar Usuario</div>
+        <div class="section_title"><h3>Editar Usuario</h3></div>
       </div>
     </div>
 	<br><br>
@@ -76,13 +76,14 @@
 			   	{!! Form::select('role',$role, $role_id, ['class'=>'form-control form-control-lg single select', 'data-parsley-required', 'id'=>'role']) !!}
 			</div>
 		    <br>
-		    <button type="submit" class="btn btn-primary">Enviar</button>
+		    <button type="submit" class="btn btn-primary">Actualizar</button>
 		    <a href="{{ route('usuario.index') }}" class="btn btn-warning">Regresar</a>
 			{!! Form::close() !!}
 
 			</div>
 		</div>
 </div>
+<br><br><br>
 
 <!-- Token -->
 <input type="hidden" name="_token" id="_token" value="{{csrf_token()}}">

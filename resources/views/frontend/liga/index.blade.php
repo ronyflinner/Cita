@@ -33,26 +33,36 @@
 		</style>
 
 
-		<a href="{{ route('vph') }}">
+			<a href="{{ route('vph') }}">
+				<aside id="colorlib-hero" >
+				<div class="flexslider">
+					<ul class="slides">
+			   	   <!-- <a href="#" target="_blank">-->
+					   	<li class="background-imagen-1">
+					   		<div class="overlay"></div>
+					   		<div class="container-fluid">
+					   			<div class="row">
+					   				<div class="col-md-10 col-sm-12 col-md-offset-2 col-xs-12 col-md-pull-1 slider-text ">
+						   				<div class="slider-text-inner">
+						   					<div class="desc" >
 
-		<aside id="colorlib-video">
-
-	        <div id="block2" style="width: 100%; height: 500px;"
-			  data-vide-bg="mp4: {{ url('') }}/liga/video/G4-WEB"
-			  data-vide-options="position: 0% 50% muted: false, loop: true,">
-
-			</div>
-			<a  href="#" class="btn btn-danger video2Clic jsVideo"  data-video-id='GIvvHmftGuI'>Ver más</a>
 
 
-		</aside>
+											</div>
+									   </div>
+					   				</div>
+					   			</div>
+					   		</div>
+					   	</li>
+				   	</ul>
+			  	</div>
+			  	</aside>
+		  	</a>-
 
 
 
 
 		</a>
-
-
             <div id="colorlib-services" >
 			<div class="container" >
 				<div class="row">
@@ -144,7 +154,7 @@
 					</div>
 					<div class="col-md-4 animate-box">
 						<div class="classes">
-							<div class="classes-img" style="background-image: url({{ url('liga/images/campañas/Camp4.jpg') }});">
+							<div class="classes-img" style="background-image: url({{ url('liga/images/logo/vph.png') }});">
 							</div>
 
 						</div>

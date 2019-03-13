@@ -424,8 +424,8 @@ class CrearCitaController extends Controller {
 			} else {
 				$userID = Auth::id(); //paciente
 			}
-
-			$referenceCODE = "0" . $userID . str_random(2) . Date::now()->format('Yhis');
+			//str_random(2)
+			$referenceCODE = "0" . $userID . Date::now()->format('his') . rand(1, 100);
 
 			$valores = self::credencialesPAyu($amount, $referenceCODE);
 			/*000+DNI+ID CITA*/

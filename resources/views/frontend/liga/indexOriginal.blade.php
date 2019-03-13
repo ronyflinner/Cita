@@ -2,6 +2,21 @@
 @section('content')
 	<body>
 
+				<a href="{{ route('vph') }}">
+
+		<aside id="colorlib-video">
+
+	        <div id="block2" style="width: 100%; height: 500px;"
+			  data-vide-bg="mp4: {{ url('') }}/liga/video/G4-WEB"
+			  data-vide-options="position: 0% 50% muted: false, loop: true,">
+
+			</div>
+			<a  href="#" class="btn btn-danger video2Clic jsVideo"  data-video-id='GIvvHmftGuI'>Ver más</a>
+
+
+		</aside>
+
+		</a>
 
 		<a href="{{ route('vph') }}">
 			<aside id="colorlib-hero" >

@@ -177,7 +177,7 @@
                                    //  console.log(data);
                                       if(data.data==1){
                                              PlantillaUsuarios.toast_notification("info",'Cambios Realizados Correctamente!!!',2);
-                                            otable.ajax.reload();
+                                            otable.ajax.reload( null, false );
                                       }else{
                                              PlantillaUsuarios.toast_notification("error",'No fue posible guardar los datos',2);
                                       }
