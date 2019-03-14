@@ -12,6 +12,8 @@
  */
 /*Webhood*/
 
+Route::get('checkAppointment/{slug}', 'Webhook\CheckAppointmentController@handle')->name('checkAppointment');
+
 //Route::post('webhook', 'WebhookController@handle');
 
 //Route::post('confirmation', 'CrearCita\CrearCitaController@testeo')->name('confirmation');

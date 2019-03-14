@@ -83,9 +83,9 @@
   </tbody>
 </table>
 
-      <h4 class="text-center" style="margin-top: 0; margin-bottom: 0; font-weight: 500; color: inherit; vertical-align: baseline; font-size: 24px; line-height: 28.8px;" align="center">RECORDATORIO DE CITA</h4>
+      <h4 class="text-center" style="margin-top: 0; margin-bottom: 0; font-weight: 500; color: inherit; vertical-align: baseline; font-size: 24px; line-height: 28.8px;" align="center">GRACIAS POR REGISTRARSE</h4>
       <h5 class="text-muted text-center" style="margin-top: 0; margin-bottom: 0; font-weight: 500; color: #636c72; vertical-align: baseline; font-size: 20px; line-height: 24px;" align="center">
-      {{ Jenssegers\Date\Date::now()->format('l jS \\of F Y h:i:s A') }}
+      {{ Jenssegers\Date\Date::now('America/Lima')->format('l jS \\of F Y h:i:s A') }}
    </h5>
 
       <div class="hr " style="width: 100%; margin: 20px 0; border: 0;">
@@ -105,10 +105,10 @@
         Fecha: {{ $fecha }}
       </p>
       <p>
-          Hora: {{$hora }}
+          Hora: {{ $hora }}
       </p>
       <p>
-          Ubicación: {{$lugar }}
+          Ubicación: {{ $lugar }}
       </p>
 
 

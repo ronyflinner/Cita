@@ -4,6 +4,7 @@ namespace App\Http\Controllers\CrearCita;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\traitsGeneral\principal;
+use App\Mail\ConfirmacionCita;
 use App\Model\Cita;
 use App\Model\Disponibilidad;
 use App\Model\Fecha;
@@ -17,6 +18,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Jenssegers\Date\Date;
 
 class CrearCitaController extends Controller {
@@ -28,11 +30,18 @@ class CrearCitaController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index() {
-		/*$years = Date::now()->format('Y');
+		/*	$years = Date::now()->format('Y');
 			foreach (self::cargarFecha($years, 1) as $key => $value) {
 				# code...
 				Fecha::create(['f_fecha' => $value, 'slug' => str_random(120)]);
+
 		*/
+
+		///return new ConfirmacionCita(Cita::where('paciente_id', 10)->get());
+
+		//return new RecordarCita;
+
+		//Mail::to($userDta[0]->paciente_link->email)->queue(new RecordarCita($userDta));
 
 		return view('cita.crearcita', ['lugar' => array_add(Lugar::all()->pluck('nombre', 'id'), '', 'Selecionar')]);
 	}
@@ -208,6 +217,11 @@ class CrearCitaController extends Controller {
 
 		/*Diferenciar Estado*/
 		if ($request->message == 'APPROVED') {
+			/*enviar mensaje*/
+			$userDta = Cita::where('referenceCode', $request->referenceCode)->get();
+
+			Mail::to($userDta[0]->paciente_link->email)->queue(new ConfirmacionCita($userDta));
+
 			$pagoProcesado = Arr::add($pagoProcesado, 'status_pago', 1);
 		} else if ($request->message == 'REJECTED') {
 			$pagoProcesado = Arr::add($pagoProcesado, 'status_pago', 2);
@@ -266,6 +280,11 @@ class CrearCitaController extends Controller {
 		/*Diferenciar Estado*/
 		if ($request->message == 'APPROVED') {
 			$pagoProcesado = Arr::add($pagoProcesado, 'status_pago', 1);
+
+			$userDta = Cita::where('referenceCode', $request->referenceCode)->get();
+
+			Mail::to($userDta[0]->paciente_link->email)->queue(new ConfirmacionCita($userDta));
+
 		} else if ($request->message == 'REJECTED') {
 			$pagoProcesado = Arr::add($pagoProcesado, 'status_pago', 2);
 		} else if ($request->message == 'PENDING') {
@@ -326,6 +345,7 @@ class CrearCitaController extends Controller {
 
 		Cita::where('referenceCode', $confirmation['reference_sale'])->where('status', 1)
 			->update($pagoProcesado);
+
 		Log::info('Confirmacion en estado' . $confirmation['response_message_pol']);
 
 	}
