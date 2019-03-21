@@ -320,7 +320,7 @@
                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                           } ,
                                 success:  function (data) {
-                                     PlantillaContacto.toast_notification("success","Cambio realizado",2);
+                                     PlantillaContacto.toast_notification("success","Se genero los horarios con exito",2);
                                     console.log(data);
                                 },
                                 error: function (data) {
@@ -535,7 +535,10 @@
   //  obtener_habilitar("#Na tbody",ba,"button.editar");
     //Date range picker
     $('#reservation').daterangepicker({
-
+            "locale": {
+        "applyLabel": "Aceptar",
+        "cancelLabel": "Cancelar",
+        }
 
        });
 
