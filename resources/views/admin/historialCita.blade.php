@@ -46,6 +46,7 @@
                 <label></label>
 
                 <div class="input-group">
+
                   <button type="submit" form="form1" value="Submit" id='bpdf' class="btn btn-success">Descargar PDF</button>
 
                 </div>

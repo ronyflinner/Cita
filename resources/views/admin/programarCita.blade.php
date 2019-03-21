@@ -135,9 +135,11 @@
 
     </div>
 </div>
+
    <div class="row">
-     <div class='col-md-8'>
-        <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s" id="lu">
+     <div class="col-md-4"></div>
+     <div class='col-md-5 offset-4'>
+        <div class="form-group wow fadeInUp d-flex justify-content-center" data-wow-offset="0" data-wow-delay="0.1s" id="lu">
       <label for="sel1">Seleccionar Lugar:</label>
       {!! Form::select('lugar',$lugar, '', ['class'=>'form-control form-control-lg single', 'id'=>'lugar']) !!}
     </div>
@@ -169,18 +171,17 @@
       </div>
 
 
-      <div  id="fecha_s">
+  <!--  <div  id="fecha_s">
          <select id ='fec1' class='form-control form-control-lg single'>
             <option value="volvo">Fecha</option>
          </select>
-       </div>
+       </div> -->
      </div>
-     <div class='col-md-4 d-flex justify-content-center'>
+  <!--   <div class='col-md-4 d-flex justify-content-center'>
          <div class="panel panel-default">
-                <!-- Default panel contents -->
-                <div class="panel-heading">Horario</div>
+               io</div>
 
-                <!-- List group -->
+
                 <div class="list-group" id="el">
 
                        <div class='container'  id ='fec2'>
@@ -189,7 +190,7 @@
                        </div>
                 </div>
             </div>
-     </div>
+     </div> -->
    </div>
 
     <br>
@@ -290,9 +291,8 @@
               // $('#No').hide();
                 hora = null;
 
-               function promesaS(){
+               function promesaS(){ // poner fechas
                 return  new Promise(function() {
-
                                 url1 = $('#reservation').val();
                                 url2 = $('#reservation').val();
 
@@ -301,7 +301,9 @@
 
                                //(Location).load(vurl, { id: url1 });
                                var parametros = {
-                                       "id" : $('#reservation').val()
+                                       "id" : $('#reservation').val(),
+                                       "lugar" : $('#lugar').val(),
+                                       "doctor" : $('#fedoc').val(),
 
                                     };
 
@@ -318,16 +320,8 @@
                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                           } ,
                                 success:  function (data) {
-                                    fecha = data['fecha'];
-                                    for(var i in fecha){
-                                      $("#fec1").append("<option value='"+fecha[i]['f_fecha']+"'>"+fecha[i]['f_fecha']+"</option>");
-                                    }
-
-                                    hora = data['hora'];
-
-
-                                    console.log(data['fecha']);
-                                    console.log(data['hora']);
+                                     PlantillaContacto.toast_notification("success","Se genero los horarios con exito",2);
+                                    console.log(data);
                                 },
                                 error: function (data) {
                                    console.log('Error:', data);
@@ -339,7 +333,7 @@
                }
 
 
-          function promesa2(){
+          function promesa2(){ // buscar fecha y poner horas
                 return  new Promise(function() {
                                 console.log('entre');
                                 url1 = $('#fec1').val();
@@ -424,7 +418,7 @@
                }
 
 
-               function promesa3(){
+               function promesa3(){ // programar cita para una fecha y hora determinada
                 return  new Promise(function() {
                                 console.log('entre');
                                 //alert($('#servicio').val());
@@ -445,9 +439,7 @@
                                     };
 
                                 console.log(vurl);
-                                //$(location).attr('href',vurl);
 
-                               // var doc = 'statusEdit';
                                 $.ajax({
                                 url:   vurl,
                                 data: parametros,
@@ -462,7 +454,6 @@
                                     console.log("lallal");
                                    if(data3 == 9){
                                     PlantillaContacto.toast_notification("warning","Ya existe un horario asignado",2);
-
                                    }else if(data3 == 0){
                                     PlantillaContacto.toast_notification("success","Horario asignado",2);
                                     actualizar = data3;
@@ -470,10 +461,6 @@
                                     PlantillaContacto.toast_notification("success","Cambio realizado",2);
                                     actualizar = data3;
                                    }
-
-
-
-
                                 },
                                 error: function (data2) {
                                    console.log('Error:', data2);
@@ -548,7 +535,10 @@
   //  obtener_habilitar("#Na tbody",ba,"button.editar");
     //Date range picker
     $('#reservation').daterangepicker({
-
+            "locale": {
+        "applyLabel": "Aceptar",
+        "cancelLabel": "Cancelar",
+        }
 
        });
 
@@ -562,131 +552,9 @@
          $('.js-example-basic-multiple').select2();
          $('#fec1').remove();
          $('#fecha_s').append("<select id ='fec1' class='form-control form-control-lg single'><option value='volvo'>Fecha</option></select>");
-         var promise = promesaS();
-
-         $('#fec1').click(function(event) {
-         // alert($('#fedoc').val());
-          $('#fec2').remove();
-          $('#el').append("<div class='container' id ='fec2'><br></div>");
-
-          actualizar = 1 ;
-          var promise = promesa2();
-
-          // sigue el codigo aqui
-           console.log('actualizar');
-           console.log(actualizar);
-
-           event = 0 ;
-
-            //var promise = promesa5();
+         var promise = promesaS(); // poner fechas
 
 
-            $('.che').on('change',function(){
-                  h = $(this).val();
-                  var promise = promesa3();
-
-
-
-                  console.log($(this).val());
-                  console.log($('#fec1').val());
-                  console.log($('#fec1').val());
-
-          });
-
-        $('#fecc').click(function(e){
-
-
-           e.preventDefault();
-           e.stopImmediatePropagation();
-           console.log('me repeti');
-           $(".che").off("change");
-
-             if($("#fecc").val() == "Todo") {
-                    $(".che").each(function(){
-                    h = $(this).attr('value');
-                      var promise = promesa5();
-
-                      if(actualizar == 0){
-                        $(this).attr('checked','checked');
-                      }
-                      else{
-                        $(this).removeAttr('checked');
-                      }
-
-
-
-                       });
-             }
-             else if($("#fecc").val() == "Tarde"){
-
-              $(".che").each(function(){
-                  aux = 0;
-                   h = $(this).attr('value');
-                  if(h == '08:30 - 08:30' || h == '08:30 - 09:00'  || h == '09:00 - 09:30' || h == '09:30 - 10:00' || h == '10:00 - 10:30' || h == '10:30 - 11:00' || h == '11:00 - 11:30' || h == '11:30 - 12:00'){
-                    aux = 1;
-                  }
-
-
-                  if(aux == 0){
-                    console.log(actualizar);
-                     console.log('opcion '+$(this).text()+' valor '+ $(this).attr('value'));
-
-                      var promise = promesa3();
-
-                      if(actualizar == 0){
-                        $(this).attr('checked','checked');
-                      }
-                      else{
-                        $(this).removeAttr('checked');
-                      }
-
-
-                  }
-
-                       });
-             }
-
-             else if($("#fecc").val() == "Mañana"){
-
-              $(".che").each(function(){
-                  aux = 1;
-                   h = $(this).attr('value');
-                  if(h == '08:30 - 08:30' || h == '08:30 - 09:00'  || h == '09:00 - 09:30' || h == '09:30 - 10:00' || h == '10:00 - 10:30' || h == '10:30 - 11:00' || h == '11:00 - 11:30' || h == '11:30 - 12:00'){
-                    aux = 0;
-                  }
-
-
-                  if(aux == 0){
-                    console.log(actualizar);
-                     console.log('opcion '+$(this).text()+' valor '+ $(this).attr('value'));
-
-                      var promise = promesa3();
-
-                      if(actualizar == 0){
-                        $(this).attr('checked','checked');
-                      }
-                      else{
-                        $(this).removeAttr('checked');
-                      }
-
-
-                  }
-
-
-
-                       });
-             }
-          });
-
-
-
-
-
-
-        });
-
-         console.log('hola');
-                   console.log(hora);
     });
 
 

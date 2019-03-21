@@ -30,14 +30,20 @@ class DoctorEditController extends Controller {
 	}
 
 	public function editardoc(Request $request) {
-		$guardar = 0;
-
+		$guardar = 0; // 0 :
 		if (!empty($request->servicio[0])) {
 			if (!empty($request->ser1[0])) {
 				foreach ($request->ser1 as $val) {
 					$ser = DB::table('doctor__servicios')->where('usuario_id', $request->usuario)->where('servicio_id', $val)->get();
 					if (sizeof($ser) != 0) {
-						$pres = Doctor_Servicio::where('usuario_id', $request->usuario)->where('servicio_id', $val)->update(['status' => 0]);
+						$users = DB::table('disponibilidads')
+							->join('doctor__servicios', 'doctor__servicios.id', '=', 'disponibilidads.doctor_id')
+							->where('disponibilidads.doctor_id', $ser[0]->id)->get();
+						if (sizeof(($users)) == 0) {
+							$pres = Doctor_Servicio::where('usuario_id', $request->usuario)->where('servicio_id', $val)->update(['status' => 0]);
+						}
+						$guardar = 3;
+
 					}
 				}
 			}
@@ -46,34 +52,35 @@ class DoctorEditController extends Controller {
 				//$int = (int) $val;
 				//return response()->json($val);
 				$ser = DB::table('doctor__servicios')->where('usuario_id', $request->usuario)->where('servicio_id', $val)->get();
-
 				if (sizeof($ser) == 0) {
-
 					// creo servicio
 					$slug = str_random(180);
 					$insertid = \DB::table('doctor__servicios')->insertGetId(['servicio_id' => $val, 'usuario_id' => $request->usuario, 'slug' => $slug, 'status' => 1]);
-
 				} else {
 					// actualizar
-
-					$guardar = 1;
+					//$guardar = 1;
 					$pres = Doctor_Servicio::where('usuario_id', $request->usuario)->where('servicio_id', $val)->update(['status' => 1]);
 				}
 			}
 		} else {
-
 			if (!empty($request->ser1[0])) {
 				foreach ($request->ser1 as $val) {
 					$ser = DB::table('doctor__servicios')->where('usuario_id', $request->usuario)->where('servicio_id', $val)->get();
 					if (sizeof($ser) != 0) {
-						$pres = Doctor_Servicio::where('usuario_id', $request->usuario)->where('servicio_id', $val)->update(['status' => 0]);
+						$users = DB::table('disponibilidads')
+							->join('doctor__servicios', 'doctor__servicios.id', '=', 'disponibilidads.doctor_id')
+							->where('disponibilidads.doctor_id', $ser[0]->id)->get();
+						if (sizeof(($users)) == 0) {
+							$pres = Doctor_Servicio::where('usuario_id', $request->usuario)->where('servicio_id', $val)->update(['status' => 0]);
+						}
+						$guardar = 3;
+
 					}
 				}
 			}
 
 		}
-
-		return response()->json($request->ser1);
+		return response()->json($guardar);
 	}
 	/**
 	 * Show the form for creating a new resource.
