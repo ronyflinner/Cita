@@ -12,6 +12,74 @@
       </div>
     </div>
 	<br><br>
+      <div class="container">
+    {!! Form::open(['route'=>'usuario.store','name'=>'form', 'method'=>'POST',"class"=>"form ",'files' => false, 'id'=>'form']) !!}
+
+      @php
+                //$var=exploid_blade($user[0]->dni,1);
+            @endphp
+
+      <div class="col-md-10 offset-1">
+           {{ Form::token() }}
+
+
+        <div class="form-group">
+            {{ Form::label('tipoDocumento', 'Tipo de Documento') }}
+            {!! Form::select('tipo',$tipoDocumento, '', ['class'=>'form-control form-control-lg single select', 'data-parsley-required', 'id'=>'tipo'
+                                ]) !!}
+        </div>
+        <div class="form-group">
+            {{ Form::label('numero_documento', 'Número de Documento') }}
+            {{ Form::text('numero',null ,['class'=>'form-control dni','data-parsley-required  ','id'=>'dni']) }}
+        </div>
+        <div class="form-group">
+            {{ Form::label('email', 'Correo') }}
+            {{ Form::email('email', null,  ['class'=>'form-control', 'data-parsley-type="email" data-parsley-required','id'=>'correo']) }}
+        </div>
+        <div class="form-group">
+            {{ Form::label('nombre', 'Nombre') }}
+            {{ Form::text('nombre', null,['class'=>'form-control','data-parsley-required','id'=>'nombre']) }}
+        </div>
+        <div class="form-group">
+            {{ Form::label('apellidoP', 'Apellido Paterno') }}
+            {{ Form::text('apellido_paterno', null,['class'=>'form-control','data-parsley-required','id'=>'apellidoP']) }}
+        </div>
+            <div class="form-group">
+            {{ Form::label('apellidoM', 'Apellido Materno') }}
+            {{ Form::text('apellido_materno', null,['class'=>'form-control','data-parsley-required','id'=>'apellidoM']) }}
+        </div>
+        <div class="form-group">
+            {{ Form::label('telefono', 'Telefóno') }}
+            {{ Form::text('telefono', null,['class'=>'form-control','data-parsley-required','id'=>'telefono']) }}
+        </div>
+
+
+        <div class="form-group">
+          {{ Form::label('clave', 'Clave') }}
+          {{ Form::password('clave', ['class' => 'form-control','data-parsley-required data-parsley-equalto="#repetir-clave" data-parsley-excluded="true"','id'=>'clave',]) }}
+        </div>
+        <div class="form-group">
+          {{ Form::label('repetir-clave', 'Repetir-Clave') }}
+          {{ Form::password('repetir-clave', ['class' => 'form-control','data-parsley-required data-parsley-equalto="#clave" data-parsley-excluded="true"','id'=>'repetir-clave', ]) }}
+        </div>
+
+        <div class="form-group">
+            {{ Form::label('tipo', 'Tipo') }}
+            {!! Form::select('tipoUsuario',[''=>'Selecionar','2'=>'Usuario','3'=>'Doctor'], '', ['class'=>'form-control form-control-lg single select','data-parsley-required', 'id'=>'type']) !!}
+      </div>
+          <div class="form-group">
+          {{ Form::label('role', 'Role') }}
+          {!! Form::select('role',$role, '', ['class'=>'form-control form-control-lg single select', 'data-parsley-required', 'id'=>'role']) !!}
+      </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Registrar</button>
+        <a href="{{ route('usuario.index') }}" class="btn btn-warning">Regresar</a>
+      {!! Form::close() !!}
+
+      </div>
+    </div>
+    <br>
+    <br><br>
 
 
 </div>
@@ -128,7 +196,7 @@
                              })
                              .done(( data, textStatus, jqXHR)=> {
 
-                                	PlantillaRoles.toast_notification("success",'Guardado Correctaente!!!',2);
+                                  	PlantillaRoles.toast_notification("success",'Guardado Correctamente!!!',2);
 
                                     setTimeout(function(){
                                       location = '{{ route('usuario.index') }}'

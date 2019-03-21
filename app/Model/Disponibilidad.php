@@ -27,4 +27,5 @@ class Disponibilidad extends Model {
 	public function doctor_servicio_link() {
 		return $this->belongsTo(Doctor_Servicio::class, 'doctor_id');
 	}
+
 }

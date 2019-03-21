@@ -2,40 +2,67 @@
 @section('content')
 	<body>
 
+		<style>
 
-		<a href="https://www.ligacancer.org.pe/diamundial.html">
-			<aside id="colorlib-hero" >
-			<div class="flexslider">
-				<ul class="slides">
-		   	   <!-- <a href="#" target="_blank">-->
-			   	<li class="background-imagen-1">
-			   		<div class="overlay"></div>
-			   		<div class="container-fluid">
-			   			<div class="row">
-			   				<div class="col-md-10 col-sm-12 col-md-offset-2 col-xs-12 col-md-pull-1 slider-text ">
-				   				<div class="slider-text-inner">
-				   					<div class="desc" >
+			.video2Clic{
+				position: absolute; top: 300px; left: 600px;
+
+				 -webkit-transition: width 2s; /* Safari */
+ 				 transition: width 2s;
+			}
+
+		     @media screen and (max-width: 768px) {
+		     	.video2Clic{
+					 left: 0px;
+					 height: 50px;
+
+				}
+
+		     }
+
+
+		    @media screen and (max-width: 375px) {
+				.video2Clic{
+					 left: 0px;
+					 height: 50px;
+
+				}
+
+		    }
+
+		</style>
+
+
+			<a href="{{ route('vph') }}">
+				<aside id="colorlib-hero" >
+				<div class="flexslider">
+					<ul class="slides">
+			   	   <!-- <a href="#" target="_blank">-->
+					   	<li class="background-imagen-1">
+					   		<div class="overlay"></div>
+					   		<div class="container-fluid">
+					   			<div class="row">
+					   				<div class="col-md-10 col-sm-12 col-md-offset-2 col-xs-12 col-md-pull-1 slider-text ">
+						   				<div class="slider-text-inner">
+						   					<div class="desc" >
 
 
 
-									</div>
-							   </div>
-			   				</div>
-			   			</div>
-			   		</div>
-			   	</li>
-			   <!--	</a>-->
-
-			   	</ul>
-		  	</div>
-		  	</aside>
+											</div>
+									   </div>
+					   				</div>
+					   			</div>
+					   		</div>
+					   	</li>
+				   	</ul>
+			  	</div>
+			  	</aside>
+		  	</a>-
 
 
 
 
 		</a>
-
-
             <div id="colorlib-services" >
 			<div class="container" >
 				<div class="row">
@@ -127,7 +154,7 @@
 					</div>
 					<div class="col-md-4 animate-box">
 						<div class="classes">
-							<div class="classes-img" style="background-image: url({{ url('liga/images/campañas/Camp4.jpg') }});">
+							<div class="classes-img" style="background-image: url({{ url('liga/images/logo/vph.png') }});">
 							</div>
 
 						</div>
@@ -194,6 +221,14 @@
 @endsection
 
 @section('scritps')
+
+
+{{ Html::script('liga/js/jquery.vide.js') }}
+
+{{ Html::style('liga/css/modal-video.min.css') }}
+{{ Html::script('liga/js/jquery-modal-video.min.js') }}
+
+
 	<!-- Main -->
 	<script>
 		;(function () {
@@ -508,6 +543,47 @@
 }());
 	</script>
 
+<script>
+
+  $(function() {
+
+
+
+
+    $(".jsVideo").modalVideo({
+           youtube:{
+            controls: 0,
+            autoplay: 1,
+            nocookie: true,
+            playlist: null,
+            playsinline: null,
+
+            cc_load_policy: 1,
+            color: null,
+            disablekb: 0,
+            enablejsapi: 0,
+            end: null,
+            fs: 1,
+            h1: null,
+            iv_load_policy: 1,
+            list: null,
+            listType: null,
+            loop: 0,
+            modestbranding: null,
+            origin: null,
+            rel: 0,
+            showinfo: 1,
+            start: 0,
+            wmode: 'transparent',
+            theme: 'dark'
+
+        }
+      });
+
+
+});
+
+</script>
 
 
 @endsection

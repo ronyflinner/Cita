@@ -12,6 +12,8 @@
  */
 /*Webhood*/
 
+Route::get('checkAppointment/{slug}', 'Webhook\CheckAppointmentController@handle')->name('checkAppointment');
+
 //Route::post('webhook', 'WebhookController@handle');
 
 //Route::post('confirmation', 'CrearCita\CrearCitaController@testeo')->name('confirmation');
@@ -198,5 +200,7 @@ Route::get('campana/cuellouterino', 'Liga\LccController@vista_cuellouterino')->n
 Route::get('campana/mama', 'Liga\LccController@vista_mama')->name('mama');
 
 Route::get('campana/varones', 'Liga\LccController@vista_amomibolas')->name('bolas');
+
+Route::get('campana/vph', 'Liga\LccController@vista_vph')->name('vph');
 
 Route::get('campana/diaContraElCancer', 'Liga\LccController@vista_diaContraElCancer')->name('diaContraElCancer');

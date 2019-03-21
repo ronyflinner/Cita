@@ -36,8 +36,8 @@
         <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="{{ url('/') }}" >Inicio</a></li>
-            <li><a href="https://www.ligacancer.org.pe/quienesomos.html" target="_blank">Quiénes Somos</a></li>
-            <li><a href="https://www.ligacancer.org.pe/quehacemos.html" target="_blank">Qué Hacemos</a></li>
+            <li><a href="{{ route('quienesSomos') }}" target="_blank">Quiénes Somos</a></li>
+            <li><a href="{{ route('queHacemos') }}" target="_blank">Qué Hacemos</a></li>
           </ul>
         </div>
         <!-- /.navbar-collapse -->

@@ -138,6 +138,8 @@ class UsuarioController extends Controller {
 			$user->tipo_documento = $request->tipo;
 			$user->numero = $request->telefono;
 
+			$user->tipo = $request->tipoUsuario;
+
 			if ($request->activo == 1) {
 				$user->password = $request->clave;
 

@@ -4,7 +4,6 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel {
 	/**
@@ -13,7 +12,9 @@ class Kernel extends ConsoleKernel {
 	 * @var array
 	 */
 	protected $commands = [
-		//
+		'\App\Console\Commands\TestLog',
+		'\App\Console\Commands\RecordatorioCita', #Importando Clase de Correo a recordar
+		'\App\Console\Commands\CargaFecha',
 	];
 
 	/**
@@ -25,10 +26,12 @@ class Kernel extends ConsoleKernel {
 	protected function schedule(Schedule $schedule) {
 		// $schedule->command('inspire')
 		//          ->hourly();
+		//$schedule->command('logs:test')->daily()->timezone('America/Lima');
 
-		$schedule->call(function () {
-			Log::info('Prueba de Cron');
-		})->everyMinute();
+		$schedule->command('users:recordar')->weeklyOn(6, '23:45')->timezone('America/Lima');
+		//$schedule->command('users:recordar')->everyMinute();
+		$schedule->command('fecha:cargar')->monthlyOn(9, '15:00')->timezone('America/Lima'); // Llamando al comando que pertenece a la class
+		//->everyMinute();
 	}
 
 	/**
