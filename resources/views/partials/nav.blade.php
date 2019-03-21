@@ -23,7 +23,7 @@
             <div class="col-sm-6 col-md-6">
                <p class="bold ">
                 <marquee behavior="" direction="">
-                  <p>Bienvenido al Sistema de Cita - Versión Beta-1.8   {{verificarEstadoUsuario()}}</p>
+                  <p>Bienvenido al Sistema de Cita - Versión Beta-1.9.1   {{verificarEstadoUsuario()}}</p>
 
 
                </marquee>                       </p>

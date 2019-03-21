@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Liga Contra el Cáncer</title>
-	<link rel="shortcut icon" type="images/x-icon" href="images/favicon.ico" />
+	<link rel="shortcut icon" type="images/x-icon" href="{{ url('favicon.ico') }}" />
 
 	@include('frontend.layout.meta')
 	@include('frontend.layout.css')

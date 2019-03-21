@@ -317,6 +317,13 @@ class CrearCitaController extends Controller {
 
 		if ($confirmation['response_message_pol'] == 'APPROVED') {
 			$pagoProcesado = Arr::add($pagoProcesado, 'status_pago', 1);
+
+			/*Nota: Pendiente de esta linea en caso de fallo.*/
+
+			$userDta = Cita::where('referenceCode', $confirmation['reference_sale'])->get();
+
+			Mail::to($userDta[0]->paciente_link->email)->queue(new ConfirmacionCita($userDta));
+
 		} else if ($confirmation['response_message_pol'] == 'REJECTED') {
 			$pagoProcesado = Arr::add($pagoProcesado, 'status_pago', 2);
 		} else if ($confirmation['response_message_pol'] == 'PENDING') {

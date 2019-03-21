@@ -143,6 +143,8 @@
             .parsley-errors-list.filled {
               opacity: 1;
             }
+
+
         </style>
 
 

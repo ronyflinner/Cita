@@ -145,7 +145,7 @@
                             </div>
                         </div>
 
-                            <div class="form-group{{ $errors->has('captcha') ? ' has-error' : '' }}">
+                             <div class="form-group{{ $errors->has('captcha') ? ' has-error' : '' }}">
                             <label for="captcha" class="col-md-4 control-label">Captcha</label>
 
                             <div class="col-md-6">
@@ -161,8 +161,25 @@
                         </div><br>
 
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
+                            <div class="row2">
+                                  <h4 class="text-center"><b>Terminos y Condiciones</b></h4>
+                                <p class="primeralinea text-justify">
+                                En cumplimiento de lo dispuesto por la Ley N°29733, Ley de Protección de Datos Personales y su Reglamento, le comunicamos que sus datos personales serán almacenados  en las bases de datos de la Liga Contra el Cáncer, con el fin de poderle prestar y ofrecer nuestros servicios y novedades de la organización. La Liga Contra el Cáncer manifiesta cumplir con la normativa vigente en materia de protección de datos personales, y en particular con las medidas de protección correspondientes
+                                </p>
+                            </div>
+                            <div class="row2 text-center">
+
+                                <label class="radio-inline"><input type="radio" name="terminos" class="terminos" value="1" checked>Acuerdo</label>
+                                <label class="radio-inline"><input type="radio" name="terminos" class="terminos" value="0">Desacuerdo</label>
+
+
+                        </div>
+
+
+                        <br><br>
+                        <div class="form-group">
+                            <div class="col-md-12 text-center">
+                                <button type="submit" class="btn btn-primary checkRegister" >
                                     Registrar
                                 </button>
                             </div>
@@ -190,6 +207,15 @@
               $('.dni').mask('000000000');
               $('#telefono').mask('(51)000000000');
               $('.single').select2();
+
+              $(".terminos").click(function(event) {
+                  /* Act on the event */
+                    if($(this).val()==1){
+                        $(".checkRegister").prop('disabled', false);
+                     }else{
+                        $(".checkRegister").prop('disabled', true);
+                    }
+              });
         });
 </script>
 @endsection

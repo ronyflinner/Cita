@@ -15,6 +15,7 @@ trait principal {
 		}
 		return $dates;
 	}
+
 	public function busquedaFechas() {
 		$contenedor_fecha = array();
 		$dateA = "2019-01-15";
