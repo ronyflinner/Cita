@@ -48,17 +48,11 @@ class ProgramarCitaController extends Controller {
 		return response()->json($users);
 	}
 	public function statusEdit(request $request) {
-		//return response()->json($request->input('id'));
+
+		$lugar = $request->lugar;
+		$doctor = $request->doctor;
+
 		$fechas = $request->id;
-
-		//return response()->json($fechas);
-
-		//return response()->json($fecha1);
-		//$prueba = Fecha::whereBetween('f_fecha', [$f1, $f2])->get();
-		//$h = $fecha1 . " " . $fecha2;
-
-		//return response()->json($prueba[0]->id);
-
 		$fecha1 = substr($fechas, 0, 10);
 		$fecha2 = substr($fechas, 14, 24);
 
@@ -73,32 +67,22 @@ class ProgramarCitaController extends Controller {
 
 		$arr = array('fecha' => $la, 'hora' => $ho);
 
-		return $arr;
+		foreach ($la as $fecha) {
+			foreach ($ho as $hora) {
+				$slug = str_random(180);
 
-		$users = DB::table('disponibilidads')
-			->join('horas', 'disponibilidads.hora_id', '=', 'horas.id')
-			->join('fechas', 'disponibilidads.fecha_id', '=', 'fechas.id')
-			->join('lugars', 'disponibilidads.lugar_id', '=', 'lugars.id')
-			->join('doctor__servicios', 'doctor__servicios.id', '=', 'disponibilidads.doctor_id')
-			->where('lugars.id', $lugar)
-			->where('disponibilidads.doctor_id', $lugar)
-			->whereBetween('fechas.f_fecha', array($f1, $f2))
-			->select('fechas.f_fecha', 'horas.r_hora', 'disponibilidads.status')->get();
+				$dispo = Disponibilidad::where('fecha_id', $fecha->id)->where('doctor_id', $doctor)->where('hora_id', $hora->id)->where('lugar_id', $lugar)->get();
 
-		/*	  $users = DB::table('disponibilidads')
-			->join('horas', 'disponibilidads.hora_id', '=', 'horas.id')
-			->join('fechas', 'disponibilidads.fecha_id', '=', 'fechas.id')
-			->join('lugars', 'disponibilidads.lugar_id', '=', 'lugars.id')
-			->where('lugars.id', 1)
-			->whereBetween('fechas.f_fecha', array($f1, $f2))
-			->select('fechas.f_fecha', 'horas.r_hora', 'disponibilidads.status')->get();
-     */
-		return response()->json($users);
+				if (count($dispo) == 0) {
 
-		return response()->json($prueba);
-		$sta = Fecha::all()->pluck('f_fecha');
+					// creas
+					$insertid = \DB::table('disponibilidads')->insertGetId(
+						['fecha_id' => $fecha->id, 'lugar_id' => $lugar, 'hora_id' => $hora->id, 'cantPaciente' => 5, 'slug' => $slug, 'status' => 1, 'doctor_id' => $doctor]);
+				}
+			}
+		}
 
-		return response()->json($sta);
+		return response()->json(-1);
 	}
 
 	public function buscarFecha(Request $request) {

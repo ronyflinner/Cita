@@ -143,7 +143,13 @@
                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     } ,
           success:  function (data) {
-            PlantillaContacto.toast_notification("success",'Doctor actualizado',2);
+
+            if(data == 3){
+               PlantillaContacto.toast_notification("success",'buuuuuuuuuu',2);
+            }else{
+              PlantillaContacto.toast_notification("success",'Doctor actualizado',2);
+            }
+
 
           },
           error: function (data) {

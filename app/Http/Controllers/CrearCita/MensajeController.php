@@ -33,9 +33,7 @@ class MensajeController extends Controller {
 					return $val->mensaje;
 
 				})->addColumn('responder', function ($val) {
-
 				return " <a href='mailto:" . $val->email . "'><button type='button'  class='editar btn btn-primary'><i class='fa fa-pencil-square-o'></i></button></a>";
-
 			})->rawColumns(['responder'])->make(true);
 		}
 
