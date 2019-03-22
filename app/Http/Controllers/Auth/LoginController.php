@@ -75,20 +75,21 @@ class LoginController extends Controller {
 				return $this->sendLockoutResponse($request);
 			}
 
+			if (Auth::attempt(['email' => $request['email'], 'password' => $request['password'], 'status' => 1])) {
+				/*Redireccionando Rol*/
+				if (Auth::user()->hasRole(['Administrador'])) {
+					return redirect($this->redirectToAdmin);
+				} else if (Auth::user()->hasRole(['Paciente'])) {
+					return redirect($this->redirectToUsuario);
+				} else if (Auth::user()->hasRole(['Desarrollador'])) {
+					return redirect($this->redirectToDesarrollador);
 
-		if (Auth::attempt(['email' => $request['email'], 'password' => $request['password'], 'status' => 1])) {
-			/*Redireccionando Rol*/
-			if (Auth::user()->hasRole(['Administrador'])) {
-				return redirect($this->redirectToAdmin);
-			} else if (Auth::user()->hasRole(['Paciente'])) {
-				return redirect($this->redirectToUsuario);
-			} else if (Auth::user()->hasRole(['Desarrollador'])) {
-				return redirect($this->redirectToDesarrollador);
-
-			} else {
-				$this->incrementLoginAttempts($request);
-				return $this->sendFailedLoginResponse($request);
+				} else {
+					$this->incrementLoginAttempts($request);
+					return $this->sendFailedLoginResponse($request);
+				}
 			}
+
 		}
 
 	}

@@ -79,7 +79,8 @@ trait principal {
 			$explo_fecha = explode('-', $value);
 			$feArreglo = Date::create($explo_fecha[0], $explo_fecha[1], $explo_fecha[2], 0, 0, 0, 'America/Lima')->dayOfWeek;
 
-			if ($feArreglo != 0 && $feArreglo != 6) {
+			if ($feArreglo != 0) {
+				// Filtrar Domingo y  Sabado && $feArreglo != 6
 				$fechaR[] = $value;
 			}
 

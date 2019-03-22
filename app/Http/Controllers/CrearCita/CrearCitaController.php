@@ -31,9 +31,12 @@ class CrearCitaController extends Controller {
 	 */
 	public function index() {
 		/*	$years = Date::now()->format('Y');
+
 			foreach (self::cargarFecha($years, 1) as $key => $value) {
 				# code...
 				Fecha::create(['f_fecha' => $value, 'slug' => str_random(120)]);
+
+			}
 
 		*/
 
