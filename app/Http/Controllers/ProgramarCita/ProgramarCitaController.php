@@ -74,10 +74,18 @@ class ProgramarCitaController extends Controller {
 				$dispo = Disponibilidad::where('fecha_id', $fecha->id)->where('doctor_id', $doctor)->where('hora_id', $hora->id)->where('lugar_id', $lugar)->get();
 
 				if (count($dispo) == 0) {
-
 					// creas
-					$insertid = \DB::table('disponibilidads')->insertGetId(
-						['fecha_id' => $fecha->id, 'lugar_id' => $lugar, 'hora_id' => $hora->id, 'cantPaciente' => 5, 'slug' => $slug, 'status' => 1, 'doctor_id' => $doctor]);
+					$dt = Carbon::parse($fecha->f_fecha);
+					if ($dt->dayOfWeek == 6) {
+						if ($hora->id <= 26) {
+							$insertid = \DB::table('disponibilidads')->insertGetId(
+								['fecha_id' => $fecha->id, 'lugar_id' => $lugar, 'hora_id' => $hora->id, 'cantPaciente' => 5, 'slug' => $slug, 'status' => 1, 'doctor_id' => $doctor]);
+						}
+					} else {
+						$insertid = \DB::table('disponibilidads')->insertGetId(
+							['fecha_id' => $fecha->id, 'lugar_id' => $lugar, 'hora_id' => $hora->id, 'cantPaciente' => 5, 'slug' => $slug, 'status' => 1, 'doctor_id' => $doctor]);
+					}
+
 				}
 			}
 		}

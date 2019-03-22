@@ -145,14 +145,8 @@
                             </div>
                         </div>
 
-<<<<<<< HEAD
                             <div class="form-group{{ $errors->has('g-recaptcha') ? ' has-error' : '' }}">
                                 <label for="captcha" class="col-md-4 control-label">Captcha</label>
-=======
-                             <div class="form-group{{ $errors->has('captcha') ? ' has-error' : '' }}">
-                            <label for="captcha" class="col-md-4 control-label">Captcha</label>
->>>>>>> 94b3a1d6903ba86d55fb8411cbd073e7e516a912
-
                                 <div class="col-md-6">
                                     <div class="captcha_wrapper">
                                        <div class="g-recaptcha" data-sitekey="6LcAbZkUAAAAAIQsk0F1deTS1mJNd1Ui1i5Wf5GK"></div>

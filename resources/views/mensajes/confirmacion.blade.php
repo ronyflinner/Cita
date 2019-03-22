@@ -83,7 +83,7 @@
   </tbody>
 </table>
 
-      <h4 class="text-center" style="margin-top: 0; margin-bottom: 0; font-weight: 500; color: inherit; vertical-align: baseline; font-size: 24px; line-height: 28.8px;" align="center">GRACIAS POR REGISTRARSE</h4>
+      <h4 class="text-center" style="margin-top: 0; margin-bottom: 0; font-weight: 500; color: inherit; vertical-align: baseline; font-size: 24px; line-height: 28.8px;" align="center">Felicitaciones!</h4><h6>Ha generado su cita con éxito</h6>
       <h5 class="text-muted text-center" style="margin-top: 0; margin-bottom: 0; font-weight: 500; color: #636c72; vertical-align: baseline; font-size: 20px; line-height: 24px;" align="center">
       {{ Jenssegers\Date\Date::now('America/Lima')->format('l jS \\of F Y h:i:s A') }}
    </h5>
@@ -260,7 +260,7 @@
         </td>
       </tr>
       <tr>
-        <td style="border-spacing: 0px; border-collapse: collapse; line-height: 24px; font-size: 16px; border-top-width: 0; border-bottom-width: 0; margin: 0;" align="left">Central telefónica *5442 </td>
+        <td style="border-spacing: 0px; border-collapse: collapse; line-height: 24px; font-size: 16px; border-top-width: 0; border-bottom-width: 0; margin: 0;" align="left">Central telefónica (01)2040404 </td>
         <td class="text-right" style="border-spacing: 0px; border-collapse: collapse; line-height: 24px; font-size: 16px; border-top-width: 0; border-bottom-width: 0; margin: 0;" align="right"></td>
       </tr>
       <tr>
