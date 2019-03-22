@@ -44,7 +44,7 @@
 
                             </div>
                             <div class="class-md-6">
-                              <iframe width="560" height="315" src="https://www.youtube.com/embed/8mCCMhuKEYw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class=" wow fadeInDown" data-wow-offset="0" data-wow-delay="0.1s"></iframe>
+                              <iframe width="560" height="315" src="https://www.youtube.com/embed/GIvvHmftGuI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class=" wow fadeInDown" data-wow-offset="0" data-wow-delay="0.1s"></iframe>
                             </div>
                       </div>
 
@@ -422,15 +422,14 @@
 
                                     $.fn.datepicker.dates['es'] = {
                                         days: ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado"],
-                                        daysShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sat"],
-                                        daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-                                        months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Augosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                                        daysShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+                                        daysMin: ["Do","Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+                                        months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
                                         monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
                                         today: "Hoy",
-                                        clear: "Clear",
+                                        clear: "Limpiar",
                                         format: "yyy-mm-dd",
                                         titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
-
                                         weekStart: 0
                                     };
 
@@ -443,7 +442,7 @@
                                        endDate:final,
                                        autoclose: true,
                                        calendarWeeks:false,
-                                       daysOfWeekDisabled:[0,6],
+                                       daysOfWeekDisabled:[0],
                                        datesDisabled:fechas_array,
                                        /*beforeShowDay: function(date){
                                               var day = date.getDay();

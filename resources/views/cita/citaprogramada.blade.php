@@ -50,7 +50,7 @@
       </div>
     </div>
 
-    @include('frontend.layout.modal')
+    @include('partials.modalPay')
 
 <br><br>
 <!-- Token -->

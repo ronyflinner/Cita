@@ -23,7 +23,7 @@
             <div class="col-sm-6 col-md-6">
                <p class="bold ">
                 <marquee behavior="" direction="">
-                  <p>Bienvenido al Sistema de Cita - Versión Beta-1.8   {{verificarEstadoUsuario()}}</p>
+                  <p>Bienvenido al Sistema de Cita - Versión Beta-1.9.1   {{verificarEstadoUsuario()}}</p>
 
 
                </marquee>                       </p>
@@ -52,31 +52,42 @@
           <ul class="nav navbar-nav">
 
 
+            <!-- Desarrollador -->
+
+            @hasrole('Desarrollador')
+                   @can('ver usuarios')
+                    <li class="{{active_class(if_uri_pattern(['admin/usuarioP'],'active','other'))}}"><a href="{{ route('usuario.index') }}">Usuarios</a></li>
+                    @endcan
+
+                    @can('ver logs')
+                    <li class="{{active_class(if_uri_pattern(['admin/logs'],'active','other'))}}"><a href="{{ url('admin/logs') }}">Logs</a></li>
+                    @endcan
+
+
+
+            @endhasrole
+
+
             <!-- Administrador -->
             @hasrole('Administrador')
 
                 @can('ver Programar Cita')
                    <li class="{{active_class(if_uri_pattern(['admin/programarcita'],'active','other'))}}"><a href="{{ route('programarcita.index') }}">Programar Cita</a></li>
                 @endcan
-                @can('ver consultar citas')
-                   <li class="{{active_class(if_uri_pattern(['admin/historialCitaP'],'active','other'))}}"><a href="{{ route('historialCitaP.index') }}">Consultar Citas</a></li>
-                @endcan
+
                 @can('ver administración')
                 <li class="dropdown " >
 
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración</a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administrativo</a>
                   <ul class="dropdown-menu">
-                    @can('ver usuarios')
-                    <li class="{{active_class(if_uri_pattern(['admin/usuarioP'],'active','other'))}}"><a href="{{ route('usuario.index') }}">Usuarios</a></li>
-                    @endcan
+
+                    @include('partials.mini.miniConsulta')
+
                     @can('ver doctores')
                     <li class="{{active_class(if_uri_pattern(['admin/doctoredit'],'active','other'))}}"><a href="{{ route('doctoredit.index')}}">Doctores</a></li>
                     @endcan
                     @can('ver servicios')
                     <li class="{{active_class(if_uri_pattern(['admin/servicioedit'],'active','other'))}}"><a href="{{ route('servicioedit.index')}}">Servicios</a></li>
-                    @endcan
-                    @can('ver logs')
-                    <li class="{{active_class(if_uri_pattern(['admin/logs'],'active','other'))}}"><a href="{{ url('admin/logs') }}">Logs</a></li>
                     @endcan
                   </ul>
                 </li>
@@ -106,12 +117,15 @@
 
             <!-- Fin Paciente -->
             @endhasrole
-            @hasrole('Asistente')
+            @hasrole('Admisionista')
 
             <!-- Asistente -->
                 @can('ver asistencia')
                   <li class="{{active_class(if_uri_pattern(['admin/verificarcita'],'active','other'))}}"><a href="{{ route('verificarcita.index') }}">Verificar Asistencia</a></li>
                 @endcan
+
+                @include('partials.mini.miniConsulta')
+
                 @can('ver crear asistencia manual')
                   <li class="{{active_class(if_uri_pattern(['admin/asistente/crearcita'],'active','other'))}}"><a href="{{ route('admin.crearManualCita') }}">Crear Cita</a></li>
                 @endcan

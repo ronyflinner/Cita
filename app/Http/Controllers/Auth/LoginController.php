@@ -31,6 +31,7 @@ class LoginController extends Controller {
 	protected $redirectToUsuario = 'admin/usuario/citaprogramada';
 	protected $redirectToAdmin = 'admin/programarcita';
 	protected $redirectToPaciente = 'admin/verificarcita';
+	protected $redirectToDesarrollador = 'admin/usuario';
 
 	/**
 	 * Create a new controller instance.
@@ -74,17 +75,16 @@ class LoginController extends Controller {
 				return $this->sendLockoutResponse($request);
 			}
 
-			if (Auth::attempt(['email' => $request['email'], 'password' => $request['password'], 'status' => 1])) {
-				/*Redireccionando Rol*/
-				if (Auth::user()->hasRole(['Administrador'])) {
-					return redirect($this->redirectToAdmin);
-				} else if (Auth::user()->hasRole(['Paciente'])) {
-					return redirect($this->redirectToUsuario);
-				} else {
-					return redirect($this->redirectToPaciente);
-				}
-				//	return $this->redirectTo;
-				return redirect($this->redirectTo);
+
+		if (Auth::attempt(['email' => $request['email'], 'password' => $request['password'], 'status' => 1])) {
+			/*Redireccionando Rol*/
+			if (Auth::user()->hasRole(['Administrador'])) {
+				return redirect($this->redirectToAdmin);
+			} else if (Auth::user()->hasRole(['Paciente'])) {
+				return redirect($this->redirectToUsuario);
+			} else if (Auth::user()->hasRole(['Desarrollador'])) {
+				return redirect($this->redirectToDesarrollador);
+
 			} else {
 				$this->incrementLoginAttempts($request);
 				return $this->sendFailedLoginResponse($request);
