@@ -141,7 +141,7 @@ class UsuarioController extends Controller {
 			$user->tipo = $request->tipoUsuario;
 
 			if ($request->activo == 1) {
-				$user->password = $request->clave;
+				$user->password = bcrypt($request->clave);
 
 			}
 			$positivo = $user->save();
@@ -230,7 +230,7 @@ class UsuarioController extends Controller {
 			})
 			->addColumn('status', function ($val) {
 				if ($val->status == 1) {
-					$this->btnStatus = "<span class='badge badge-success'>Activo</span>";
+					$this->btnStatus = " <span class='badge badge-success'>Activo</span>";
 				} else {
 					$this->btnStatus = "<span class='badge badge-danger'>Desactivado</span>";
 				}
@@ -245,7 +245,7 @@ class UsuarioController extends Controller {
 
 				$this->btnEdit = "<a href='" . $path . "' data-id='" . $val->id . "' target='_blank' class='btn btn-info btnView'><i class='fa fa-pencil' aria-hidden='true' ></i></a>";
 
-				$this->btnAsign = "<a href='#'  data-id='" . $val->id . "' class='btn btn-warning btnStatus'><i class='fa fa-users' aria-hidden='true'></i></a>";
+				$this->btnAsign = "<a href='#'  data-id='" . $val->id . "' class='btn btn-danger btnStatus'><i class=' fa fa-refresh' aria-hidden='true'></i></a>";
 
 				return $this->btnEdit . $this->btnAsign;
 			})

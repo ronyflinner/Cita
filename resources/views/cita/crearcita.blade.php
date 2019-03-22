@@ -422,15 +422,14 @@
 
                                     $.fn.datepicker.dates['es'] = {
                                         days: ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado"],
-                                        daysShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sat"],
-                                        daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-                                        months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Augosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                                        daysShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+                                        daysMin: ["Do","Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+                                        months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
                                         monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
                                         today: "Hoy",
-                                        clear: "Clear",
+                                        clear: "Limpiar",
                                         format: "yyy-mm-dd",
                                         titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
-
                                         weekStart: 0
                                     };
 
@@ -443,7 +442,7 @@
                                        endDate:final,
                                        autoclose: true,
                                        calendarWeeks:false,
-                                       daysOfWeekDisabled:[0,6],
+                                       daysOfWeekDisabled:[0],
                                        datesDisabled:fechas_array,
                                        /*beforeShowDay: function(date){
                                               var day = date.getDay();
