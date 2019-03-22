@@ -145,20 +145,18 @@
                             </div>
                         </div>
 
-                            <div class="form-group{{ $errors->has('captcha') ? ' has-error' : '' }}">
-                            <label for="captcha" class="col-md-4 control-label">Captcha</label>
+                            <div class="form-group{{ $errors->has('g-recaptcha') ? ' has-error' : '' }}">
+                                <label for="captcha" class="col-md-4 control-label">Captcha</label>
 
-                            <div class="col-md-6">
-                                @captcha
-                                <input type="text" id="captcha" name="captcha">
+                                <div class="col-md-6">
+                                    <div class="captcha_wrapper">
+                                       <div class="g-recaptcha" data-sitekey="6LcAbZkUAAAAAIQsk0F1deTS1mJNd1Ui1i5Wf5GK"></div>
+                                      </div>
 
-                                @if ($errors->has('captcha'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('captcha') }}</strong>
-                                    </span>
-                                @endif
+
+                                </div>
                             </div>
-                        </div><br>
+                            <br>
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
@@ -184,6 +182,7 @@
 
 @endsection
 @section('javascript')
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
        $(function() {
                 //arranque de funciones y procesos que estan en el init
@@ -193,8 +192,6 @@
         });
 </script>
 @endsection
-
-
 
 
 

@@ -193,6 +193,8 @@ return [
 
 		Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
 
+		Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
+
 	],
 
 	/*
@@ -252,6 +254,8 @@ return [
 		'Html' => Collective\Html\HtmlFacade::class,
 
 		'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+
+		'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
 
 	],
 

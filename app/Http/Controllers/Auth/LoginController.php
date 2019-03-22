@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller {
 	/*
@@ -41,39 +42,62 @@ class LoginController extends Controller {
 	}
 
 	public function login(Request $request) {
-		$this->validateLogin($request);
 
-		// If the class is using the ThrottlesLogins trait, we can automatically throttle
-		// the login attempts for this application. We'll key this by the username and
-		// the IP address of the client making these requests into this application.
-		if ($this->hasTooManyLoginAttempts($request)) {
-			$this->fireLockoutEvent($request);
+		$response = $_POST["g-recaptcha-response"];
+		$url = 'https://www.google.com/recaptcha/api/siteverify';
+		$data = array(
+			'secret' => '6LcAbZkUAAAAAK1vFKltbEA90qjNF84AlShnHsLK',
+			'response' => $_POST["g-recaptcha-response"],
+		);
+		$options = array(
+			'http' => array(
+				'method' => 'POST',
+				'content' => http_build_query($data),
+				'header' => 'Content-Type: application/x-www-form-urlencoded',
+			),
+		);
+		$context = stream_context_create($options);
+		$verify = file_get_contents($url, false, $context);
+		$captcha_success = json_decode($verify);
+		if ($captcha_success->success == false) {
+			Session::flash('mensaje_info', 'Su incripción no se ha realizado ,recuerde que debe rellenar todos los campos');
+			return view('auth.login');
+		} else if ($captcha_success->success == true) {
+			$this->validateLogin($request);
 
-			return $this->sendLockoutResponse($request);
-		}
+			// If the class is using the ThrottlesLogins trait, we can automatically throttle
+			// the login attempts for this application. We'll key this by the username and
+			// the IP address of the client making these requests into this application.
+			if ($this->hasTooManyLoginAttempts($request)) {
+				$this->fireLockoutEvent($request);
 
-		if (Auth::attempt(['email' => $request['email'], 'password' => $request['password'], 'status' => 1])) {
-			/*Redireccionando Rol*/
-			if (Auth::user()->hasRole(['Administrador'])) {
-				return redirect($this->redirectToAdmin);
-			} else if (Auth::user()->hasRole(['Paciente'])) {
-				return redirect($this->redirectToUsuario);
-			} else {
-				return redirect($this->redirectToPaciente);
+				return $this->sendLockoutResponse($request);
 			}
-			//	return $this->redirectTo;
-			return redirect($this->redirectTo);
-		} else {
-			$this->incrementLoginAttempts($request);
-			return $this->sendFailedLoginResponse($request);
+
+			if (Auth::attempt(['email' => $request['email'], 'password' => $request['password'], 'status' => 1])) {
+				/*Redireccionando Rol*/
+				if (Auth::user()->hasRole(['Administrador'])) {
+					return redirect($this->redirectToAdmin);
+				} else if (Auth::user()->hasRole(['Paciente'])) {
+					return redirect($this->redirectToUsuario);
+				} else {
+					return redirect($this->redirectToPaciente);
+				}
+				//	return $this->redirectTo;
+				return redirect($this->redirectTo);
+			} else {
+				$this->incrementLoginAttempts($request);
+				return $this->sendFailedLoginResponse($request);
+			}
 		}
+
 	}
 
 	protected function validateLogin(Request $request) {
 		$this->validate($request, [
 			$this->username() => 'required|string',
 			'password' => 'required|string',
-			'captcha' => 'required|captcha',
+
 		]);
 	}
 }

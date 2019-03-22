@@ -8,6 +8,7 @@
         <div class="container">
              <div class="info">
 
+                @include('errors.flash')
                  <div class="form-wrapper">
                     <div class="col-md-8 col-md-offset-2">
                      <div class="wow fadeInRight" data-wow-duration="2s" data-wow-delay="0.2s">
@@ -48,18 +49,15 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="form-group{{ $errors->has('captcha') ? ' has-error' : '' }}">
+                            <div class="form-group{{ $errors->has('g-recaptcha') ? ' has-error' : '' }}">
                                 <label for="captcha" class="col-md-4 control-label">Captcha</label>
 
                                 <div class="col-md-6">
-                                    @captcha
-                                    <input type="text" id="captcha" name="captcha">
+                                    <div class="captcha_wrapper">
+                                       <div class="g-recaptcha" data-sitekey="6LcAbZkUAAAAAIQsk0F1deTS1mJNd1Ui1i5Wf5GK"></div>
+                                      </div>
 
-                                    @if ($errors->has('captcha'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('captcha') }}</strong>
-                                        </span>
-                                    @endif
+
                                 </div>
                             </div>
 
@@ -89,4 +87,8 @@
     </section>
 
 
+@endsection
+
+@section('javascript')
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endsection
