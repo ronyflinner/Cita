@@ -145,13 +145,10 @@
                             </div>
                         </div>
 
-<<<<<<< HEAD
+
                             <div class="form-group{{ $errors->has('g-recaptcha') ? ' has-error' : '' }}">
                                 <label for="captcha" class="col-md-4 control-label">Captcha</label>
-=======
-                             <div class="form-group{{ $errors->has('captcha') ? ' has-error' : '' }}">
-                            <label for="captcha" class="col-md-4 control-label">Captcha</label>
->>>>>>> 94b3a1d6903ba86d55fb8411cbd073e7e516a912
+
 
                                 <div class="col-md-6">
                                     <div class="captcha_wrapper">
@@ -220,6 +217,9 @@
                         $(".checkRegister").prop('disabled', true);
                     }
               });
+
+              $('div.alert').not('.alert-danger').delay(3000).fadeOut(350);
+             $('div.alert').not('.alert-info').delay(3000).fadeOut(350);
         });
 </script>
 @endsection

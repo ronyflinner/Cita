@@ -110,7 +110,7 @@ class RegisterController extends Controller {
 		$verify = file_get_contents($url, false, $context);
 		$captcha_success = json_decode($verify);
 		if ($captcha_success->success == false) {
-			Session::flash('mensaje_info', 'Su incripción no se ha realizado ,recuerde que debe rellenar todos los campos');
+			Session::flash('mensaje_info', 'Recuerda que debe rellenar todos los campos');
 			return view('auth.login');
 		} else if ($captcha_success->success == true) {
 

@@ -35,7 +35,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="{{ url('/') }}" >Inicio</a></li>
+            <li class="active"><a href="{{ url('agenda') }}" >Inicio</a></li>
             <li><a href="{{ route('quienesSomos') }}" target="_blank">Quiénes Somos</a></li>
             <li><a href="{{ route('queHacemos') }}" target="_blank">Qué Hacemos</a></li>
           </ul>
