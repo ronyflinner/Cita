@@ -80,6 +80,7 @@
                     <p><b>Celular:</b> {{ $cita[0]->paciente_link->numero }}</p>
                     <p><b>Email:</b> {{ $cita[0]->paciente_link->email }}</p>
                     <p><b>Centro de Prevención:</b> {{ $cita[0]->disponibilidad_link->lugar_link->nombre .", ". $cita[0]->disponibilidad_link->lugar_link->direccion }}</p>
+                    <p><b>Presentar este comprobante en el área de admisión</b></p>
 
                 </div>
 

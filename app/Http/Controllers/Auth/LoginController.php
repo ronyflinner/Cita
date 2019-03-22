@@ -87,6 +87,7 @@ class LoginController extends Controller {
 					return redirect($this->redirectToUsuario);
 				} else if (Auth::user()->hasRole(['Desarrollador'])) {
 					return redirect($this->redirectToDesarrollador);
+
 				} else if (Auth::user()->hasRole(['Admisionista'])) {
 					return redirect($this->redirectToPaciente);
 
@@ -97,7 +98,6 @@ class LoginController extends Controller {
 			}
 
 		}
-
 	}
 
 	protected function validateLogin(Request $request) {
