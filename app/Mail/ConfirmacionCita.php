@@ -2,11 +2,13 @@
 
 namespace App\Mail;
 
+use App\Http\Controllers\traitsGeneral\principal;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 class ConfirmacionCita extends Mailable {
+	use principal;
 	use Queueable, SerializesModels;
 	public $subject = 'Mensaje de Confirmación';
 	public $valueMensaje;
@@ -28,10 +30,12 @@ class ConfirmacionCita extends Mailable {
 		$valores = $this->valueMensaje;
 
 		$fecha = $valores[0]->disponibilidad_link->fecha_link->f_fecha;
-		$hora2 = explode('-', $valores[0]->disponibilidad_link->hora_link->r_hora);
+		$hora2 = explode(' - ', $valores[0]->disponibilidad_link->hora_link->r_hora);
 		$hora = $hora2[0];
 		$lugar = $valores[0]->disponibilidad_link->lugar_link->nombre . ", " . $valores[0]->disponibilidad_link->lugar_link->direccion;
+		$ho = explode(' ', $hora);
 
-		return $this->view('mensajes.confirmacion', ['fecha' => $fecha, 'hora' => $hora, 'lugar' => $lugar, 'slug' => $valores[0]->slug]);
+		$ampm = $this->conversionAmPM($ho[0]);
+		return $this->view('mensajes.confirmacion', ['fecha' => $fecha, 'hora' => $ho[0], 'lugar' => $lugar, 'slug' => $valores[0]->slug, 'ampm' => $ampm]);
 	}
 }

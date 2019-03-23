@@ -83,7 +83,7 @@
   </tbody>
 </table>
 
-      <h4 class="text-center" style="margin-top: 0; margin-bottom: 0; font-weight: 500; color: inherit; vertical-align: baseline; font-size: 24px; line-height: 28.8px;" align="center">Felicitaciones!</h4><h6>Ha generado su cita con éxito</h6>
+      <h4 class="text-center" style="margin-top: 0; margin-bottom: 0; font-weight: 500; color: inherit; vertical-align: baseline; font-size: 24px; line-height: 28.8px;" align="center">Felicitaciones!</h4><h4 align="center">Ha generado su cita con éxito</h4>
       <h5 class="text-muted text-center" style="margin-top: 0; margin-bottom: 0; font-weight: 500; color: #636c72; vertical-align: baseline; font-size: 20px; line-height: 24px;" align="center">
       {{ Jenssegers\Date\Date::now('America/Lima')->format('l jS \\of F Y h:i:s A') }}
    </h5>
@@ -105,7 +105,7 @@
         Fecha: {{ $fecha }}
       </p>
       <p>
-          Hora: {{ $hora }}
+          Hora:  {{ $ampm }}
       </p>
       <p>
           Ubicación: {{ $lugar }}
