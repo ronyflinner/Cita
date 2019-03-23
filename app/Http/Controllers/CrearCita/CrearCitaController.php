@@ -43,8 +43,8 @@ class CrearCitaController extends Controller {
 
 		//Mail::to($userDta[0]->paciente_link->email)->queue(new RecordarCita($userDta));
 
-		$userDta = Cita::where('referenceCode', '02412321771')->get();
-		return new ConfirmacionCita($userDta);
+		#$userDta = Cita::where('referenceCode', '02412321771')->get();
+		#return new ConfirmacionCita($userDta);
 		return view('cita.crearcita', ['lugar' => array_add(Lugar::all()->pluck('nombre', 'id'), '', 'Selecionar')]);
 	}
 	/*Crear Cita*/
