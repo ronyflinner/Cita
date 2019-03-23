@@ -79,7 +79,8 @@ trait principal {
 			$explo_fecha = explode('-', $value);
 			$feArreglo = Date::create($explo_fecha[0], $explo_fecha[1], $explo_fecha[2], 0, 0, 0, 'America/Lima')->dayOfWeek;
 
-			if ($feArreglo != 0 && $feArreglo != 6) {
+			if ($feArreglo != 0) {
+				// Filtrar Domingo y  Sabado && $feArreglo != 6
 				$fechaR[] = $value;
 			}
 
@@ -107,13 +108,13 @@ trait principal {
 	public function credencialesPAyu($costo, $referenceCODE = null) {
 		/*Formulario de pago*/
 
-		$ApiKey = '4Vj8eK4rloUd272L48hsrarnUA';
-		$merchantId = '508029';
+		$ApiKey = 'jp67xcr545rK3Src41MV3mGJDI';
+		$merchantId = '584171';
 		$referenceCode = '000018';
 		$amount = $costo;
 		$currency = 'PEN';
 		$description = 'Donativo';
-		$accountId = '512323';
+		$accountId = '587135';
 		$tax = 0;
 		$referenceCODE = $referenceCODE;
 

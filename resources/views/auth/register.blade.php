@@ -145,8 +145,9 @@
                             </div>
                         </div>
 
-                            <div class="form-group{{ $errors->has('g-recaptcha') ? ' has-error' : '' }}">
+                      <!--   <div class="form-group{{ $errors->has('g-recaptcha') ? ' has-error' : '' }}">
                                 <label for="captcha" class="col-md-4 control-label">Captcha</label>
+
                                 <div class="col-md-6">
                                     <div class="captcha_wrapper">
                                        <div class="g-recaptcha" data-sitekey="6LcAbZkUAAAAAIQsk0F1deTS1mJNd1Ui1i5Wf5GK"></div>
@@ -154,7 +155,7 @@
 
 
                                 </div>
-                            </div>
+                            </div>-->
                             <br>
 
                         <div class="form-group">
@@ -214,6 +215,9 @@
                         $(".checkRegister").prop('disabled', true);
                     }
               });
+
+              $('div.alert').not('.alert-danger').delay(3000).fadeOut(350);
+             $('div.alert').not('.alert-info').delay(3000).fadeOut(350);
         });
 </script>
 @endsection

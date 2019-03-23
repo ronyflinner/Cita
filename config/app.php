@@ -193,8 +193,6 @@ return [
 
 		Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
 
-		Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
-
 	],
 
 	/*

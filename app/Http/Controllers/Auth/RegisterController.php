@@ -7,7 +7,6 @@ use App\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller {
@@ -93,37 +92,37 @@ class RegisterController extends Controller {
 	}
 
 	public function register(Request $request) {
-		$response = $_POST["g-recaptcha-response"];
-		$url = 'https://www.google.com/recaptcha/api/siteverify';
-		$data = array(
-			'secret' => '6LcAbZkUAAAAAK1vFKltbEA90qjNF84AlShnHsLK',
-			'response' => $_POST["g-recaptcha-response"],
-		);
-		$options = array(
-			'http' => array(
-				'method' => 'POST',
-				'content' => http_build_query($data),
-				'header' => 'Content-Type: application/x-www-form-urlencoded',
-			),
-		);
-		$context = stream_context_create($options);
-		$verify = file_get_contents($url, false, $context);
-		$captcha_success = json_decode($verify);
-		if ($captcha_success->success == false) {
-			Session::flash('mensaje_info', 'Su incripción no se ha realizado ,recuerde que debe rellenar todos los campos');
-			return view('auth.login');
-		} else if ($captcha_success->success == true) {
+		/*	$response = $_POST["g-recaptcha-response"];
+			$url = 'https://www.google.com/recaptcha/api/siteverify';
+			$data = array(
+				'secret' => '6LcAbZkUAAAAAK1vFKltbEA90qjNF84AlShnHsLK',
+				'response' => $_POST["g-recaptcha-response"],
+			);
+			$options = array(
+				'http' => array(
+					'method' => 'POST',
+					'content' => http_build_query($data),
+					'header' => 'Content-Type: application/x-www-form-urlencoded',
+				),
+			);
+			$context = stream_context_create($options);
+			$verify = file_get_contents($url, false, $context);
+			$captcha_success = json_decode($verify);
+			if ($captcha_success->success == false) {
+				Session::flash('mensaje_info', 'Recuerda que debe rellenar todos los campos');
+				return view('auth.login');
+		*/
 
-			$this->validator($request->all())->validate();
+		$this->validator($request->all())->validate();
 
-			event(new Registered($user = $this->create($request->all())));
+		event(new Registered($user = $this->create($request->all())));
 
-			$this->guard()->login($user);
+		$this->guard()->login($user);
 
-			return $this->registered($request, $user)
-			?: redirect($this->redirectPath());
+		return $this->registered($request, $user)
+		?: redirect($this->redirectPath());
 
-		}
+		//}
 
 	}
 }
