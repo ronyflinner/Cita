@@ -196,7 +196,15 @@
                              })
                              .done(( data, textStatus, jqXHR)=> {
 
-                                  	PlantillaRoles.toast_notification("success",'Guardado Correctamente!!!',2);
+                                    console.log(data);
+
+                                    if(data.messages==1){
+                                        PlantillaRoles.toast_notification("success",'Guardado Correctamente!!!',2);
+
+                                    }else{
+                                      PlantillaRoles.toast_notification("warning",'Hemos tenido inconveniente para registrar los datos',2);
+
+                                    }
 
                                     setTimeout(function(){
                                       location = '{{ route('usuario.index') }}'

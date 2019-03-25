@@ -65,27 +65,33 @@ class UsuarioController extends Controller {
 				$status = 0;
 			}
 
-			$user = User::create([
-				'name' => $request->nombre,
-				'email' => $request->email,
-				'password' => bcrypt($request->clave),
-				'apellidoP' => $request->apellido_paterno,
-				'apellidoM' => $request->apellido_materno,
-				'dni' => $request->numero,
-				'tipo_documento' => $request->tipo,
-				'numero' => $request->telefono,
-				'tipo' => $request->tipoUsuario,
-				'slug' => str_random(150),
-				'status' => $status]);
+			try {
+				$user = User::create([
+					'name' => $request->nombre,
+					'email' => $request->email,
+					'password' => bcrypt($request->clave),
+					'apellidoP' => $request->apellido_paterno,
+					'apellidoM' => $request->apellido_materno,
+					'dni' => $request->numero,
+					'tipo_documento' => $request->tipo,
+					'numero' => $request->telefono,
+					'tipo' => $request->tipoUsuario,
+					'slug' => str_random(150),
+					'status' => $status]);
 
-			$role = Role::find($request->role);
-			$user->assignRole($role->name);
+				$role = Role::find($request->role);
+				$user->assignRole($role->name);
+				return response()->json(['messages' => 1]);
+
+			} catch (\Exception $e) {
+				return response()->json(['messages' => 2]);
+
+			}
 
 		}
 
 		//$user->assignRole('writer');
 
-		return response()->json($request->all());
 	}
 
 	/**

@@ -56,20 +56,20 @@
 
 
 
-                                  <!--      <div class="g-recaptcha" data-sitekey="6LcAbZkUAAAAAIQsk0F1deTS1mJNd1Ui1i5Wf5GK"
+                               <div class="g-recaptcha" data-sitekey="6LcAbZkUAAAAAIQsk0F1deTS1mJNd1Ui1i5Wf5GK"
                                       data-callback="recaptchaCallback" data-expired-callback="recaptchaExpired"
                                       > </div>
 
                                          <input id="hidden-grecaptcha" name="hidden-grecaptcha" type="text" style="opacity: 0; position: absolute; top: 0; left: 0; height: 1px; width: 1px;"/>
-                                      </div>--->
+                                      </div>
 
 
                                 </div>
-                            </div>
+
 
                             <div class="form-group">
                                 <div class="col-md-8 col-md-offset-4">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary ">
                                         Ingresar
                                     </button>
 
@@ -110,6 +110,7 @@
       $('div.alert').not('.alert-danger').delay(3000).fadeOut(350);
       $('div.alert').not('.alert-info').delay(3000).fadeOut(350);
 
+ });
 
 
 
@@ -189,10 +190,9 @@
             });
         })(jQuery, this);
 
-  });
 
 
-    });
+
 
 
 
