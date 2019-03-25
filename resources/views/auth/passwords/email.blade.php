@@ -180,4 +180,5 @@
 
 
 
-  </script>@endsection
+  </script>
+  @endsection

@@ -23,6 +23,8 @@ use Jenssegers\Date\Date;
 
 class CrearCitaController extends Controller {
 	use principal;
+	private $maxTotal;
+	private $max;
 
 	/**
 	 * Display a listing of the resource.
@@ -48,6 +50,10 @@ class CrearCitaController extends Controller {
 
 		#$userDta = Cita::where('referenceCode', '02412321771')->get();
 		#return new ConfirmacionCita($userDta);
+		#
+		#
+		#
+
 		return view('cita.crearcita', ['lugar' => array_add(Lugar::all()->pluck('nombre', 'id'), '', 'Selecionar')]);
 	}
 	/*Crear Cita*/
@@ -453,11 +459,27 @@ class CrearCitaController extends Controller {
 			//validar - Vista Crear Cita Asistente y Vista Crear cita paciente
 			if ($request->uservalid == 1) {
 				$userID = $request->userid; //asistente
+
+				$userSearh = User::find($userID);
+				$dni = $userSearh->dni;
 			} else {
 				$userID = Auth::id(); //paciente
+
+				$dni = Auth::user()->dni;
 			}
+
+			/*
+				 NUEVO REFERENCE CODE
+
+			*/
+
+			$this->max = Cita::max('id');
+			$this->maxTotal = $this->max + 1;
+
+			$referenceCODE = $dni . $this->maxTotal;
+
 			//str_random(2)
-			$referenceCODE = "0" . $userID . Date::now()->format('his') . rand(1, 100);
+			//$referenceCODE = "0" . $userID . Date::now()->format('his') . rand(1, 100);
 
 			$valores = self::credencialesPAyu($amount, $referenceCODE);
 			/*000+DNI+ID CITA*/
