@@ -90,10 +90,10 @@ return view('auth.login');
 			} else if (Auth::user()->hasRole(['Admisionista'])) {
 				return redirect($this->redirectToPaciente);
 
-			} else {
-				$this->incrementLoginAttempts($request);
-				return $this->sendFailedLoginResponse($request);
 			}
+		} else {
+			$this->incrementLoginAttempts($request);
+			return $this->sendFailedLoginResponse($request);
 		}
 
 		/*}*/

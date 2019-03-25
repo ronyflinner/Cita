@@ -40,7 +40,7 @@
                                 <label for="password" class="col-md-4 control-label">Contraseña</label>
 
                                 <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control" name="password" >
+                                    <input id="password" name='password' type="password" class="form-control" name="password" >
 
                                     @if ($errors->has('password'))
                                         <span class="help-block">
@@ -69,7 +69,7 @@
 
                             <div class="form-group">
                                 <div class="col-md-8 col-md-offset-4">
-                                    <button type="submit" class="btn btn-primary ">
+                                    <button type="submit" class="btn btn-primary button-register ">
                                         Ingresar
                                     </button>
 
@@ -156,6 +156,12 @@
         //ajax stuff
         console.log("llegaste");
 
+
+
+
+
+
+
       }
       (function ($, root, undefined) {
         $(function () {
@@ -181,11 +187,12 @@
                     }
                   },
                   messages: {
+                    "password":'Ingrese una clave',
                     "email": "Ingrese una dirección válida de correo",
                     "email": "Ingrese un Correo",
                     "hidden-grecaptcha":"Debe selecionar el captcha",
                   },
-                  submitHandler: submitRegister
+                  //submitHandler: submitRegister
                 });
             });
         })(jQuery, this);
