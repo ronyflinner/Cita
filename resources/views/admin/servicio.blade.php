@@ -205,6 +205,7 @@
                                var parametros = {
                                        "nombre" : $('#servicio').val(),
                                        "costo"  : $("#costo").val(),
+                                       "genero"  : $("#genero").val(),
                                        "id" : data.id
                                     };
 
