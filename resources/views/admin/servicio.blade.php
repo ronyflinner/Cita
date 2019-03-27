@@ -24,21 +24,27 @@
             <input type="text" class="form-control" id="servicio">
         </div>
        </div>
-       <div class="col-md-4">
+       <div class="col-md-2">
          <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
             <label for="usr">Costo:</label>
             <input type="text" class="form-control wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s" id="costo">
         </div>
        </div>
+        <div class="col-md-2">
+         <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
+            <label for="usr">Público</label>
+             {!! Form::select('genero',[''=>"Selecionar", '1'=>'Masculino', '2'=>'Femenino','3'=>'Todos'], '', ['class'=>'form-control form-control singl1e', 'data-parsley-required', 'id'=>'genero'
+                  ]) !!}
+
+        </div>
+       </div>
        <div class="col-md-4">
          <div class="form-group">
             <br>
-            <button type="button" class="btn btn-primary wow bounceIn" data-wow-delay="0.4s" id='bu'>Aceptar</button>
+            <button type="button" class="btn btn-success wow bounceIn" data-wow-delay="0.4s" id='bu'>Agregar</button>
+            <button type="button" class="btn btn-primary wow bounceIn" data-wow-delay="0.4s" id='editar2' style="display:none;">Actualizar</button>
          </div>
-         <div class="form-group">
-            <br>
-            <button type="button" class="btn btn-primary wow bounceIn" data-wow-delay="0.4s" id='editar2' style="display:none;">Editar</button>
-         </div>
+
        </div>
      </div>
    </div>
@@ -50,16 +56,13 @@
                      <th>N°</th>
                      <th>Nombre</th>
                      <th>Costo</th>
+                     <th>Público</th>
                      <th>Editar</th>
                   </tr>
                </thead>
             </table>
 
     </div>
-
-
-
-
 
 
 </div>
@@ -86,13 +89,13 @@
                 General:()=>{
 
                       $('#bu').click(function(){
-                         vurl='{{ url('admin/editarServicio') }}';
+                               vurl='{{ url('admin/editarServicio') }}';
                                 //vurl = `${vurl}/${url1}`;
-
                                //(Location).load(vurl, { id: url1 });
                                var parametros = {
                                        "nombre" : $('#servicio').val(),
-                                       "costo"  : $("#costo").val()
+                                       "costo"  : $("#costo").val(),
+                                       "genero":$("genero").val(),
                                     };
 
                                 console.log(vurl);
@@ -120,7 +123,16 @@
                                   },
                                   async: false
                                 });
+
+
+
+
+
+
+
                      })
+
+
                      var vurl='{{ url('admin/mostrarServicio') }}';
                                 //vurl = `${vurl}/${url1}`;
 
@@ -162,8 +174,9 @@
                                         columns: [
                                             {data: 'id', name:'id','orderable': false},
                                             {data: 'nombre', name:'nombre'},
-                                             {data: 'costo', name:'costo'},
-                                             {data: 'editar', name:'editar'},
+                                            {data: 'costo', name:'costo'},
+                                            {data: 'publico', name:'publico'},
+                                            {data: 'editar', name:'editar'},
 
                                         ],
 

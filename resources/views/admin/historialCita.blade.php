@@ -75,9 +75,20 @@
                      <th>Reprogramación</th>
                   </tr>
                </thead>
+               <tr>
+                 <td></td>
+                 <td></td>
+                 <td></td>
+                 <td></td>
+                 <td></td>
+                 <td></td>
+                 <td></td>
+                 <td></td>
+
+               </tr>
             </table>
         </div>
-
+<br><br>
 
 @endsection
 

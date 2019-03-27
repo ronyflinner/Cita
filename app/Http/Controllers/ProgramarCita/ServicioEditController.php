@@ -31,7 +31,8 @@ class ServicioEditController extends Controller {
 		$slug = str_random(180);
 		$costo = (float) $request->costo;
 		$insertid = \DB::table('servicios')->insertGetId(
-			['nombre' => $request->nombre, 'costo' => $costo, 'slug' => $slug]);
+			['nombre' => $request->nombre, 'costo' => $costo, 'slug' => $slug, 'publico_genero' => $request->genero]);
+
 		return response()->json($insertid);
 	}
 
@@ -39,7 +40,7 @@ class ServicioEditController extends Controller {
 
 		$costo = (float) $request->costo;
 
-		$pres = Servicio::where('id', $request->id)->update(['costo' => $costo, 'nombre' => $request->nombre]);
+		$pres = Servicio::where('id', $request->id)->update(['costo' => $costo, 'nombre' => $request->nombre, 'publico_genero' => $request->genero]);
 		return response()->json($pres);
 	}
 
@@ -57,8 +58,16 @@ class ServicioEditController extends Controller {
 			})
 			->addColumn('costo', function ($val) {
 				return $val->costo;
+			})->addColumn('publico', function ($val) {
+			if ($val->publico_genero == 1) {
+				return "Masculino";
+			} else if ($val->publico_genero == 2) {
+				return "Femenino";
+			} else {
+				return "Todos";
+			}
 
-			})->addColumn('editar', function ($val) {
+		})->addColumn('editar', function ($val) {
 			return "<button type='button'  class='editar btn btn-primary'><i class='fa fa-pencil-square-o'></i></button> ";
 
 		})->rawColumns(['editar'])->make(true);
