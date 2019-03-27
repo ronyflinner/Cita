@@ -48,7 +48,7 @@ class HistorialCitaController extends Controller {
 			->join('servicios', 'doctor__servicios.servicio_id', '=', 'servicios.id')
 			->where('disponibilidads.lugar_id', $lugar)
 			->where('disponibilidads.fecha_id', $id)
-			->select('citas.id AS idc', 'users.id', 'servicios.nombre', 'horas.r_hora', 'users.name', 'citas.status_asistio', 'citas.idReprogramada', 'citas.status_pago')->get();
+			->select('citas.id AS idc', 'users.id', 'servicios.nombre', 'horas.r_hora', 'users.name', 'users.apellidoP', 'users.apellidoM', 'citas.status_asistio', 'citas.idReprogramada', 'citas.status_pago')->get();
 
 		$con = 1;
 		return datatables($enviar)
@@ -64,7 +64,7 @@ class HistorialCitaController extends Controller {
 		})->addColumn('hora', function ($val) {
 			return $val->r_hora;
 		})->addColumn('nombre', function ($val) {
-			return $val->name;
+			return $val->name . ' ' . $val->apellidoP . ' ' . $val->apellidoM;
 		})->addColumn('asistencia', function ($val) {
 			if ($val->status_asistio == 2) {
 				return "Asistio";
@@ -229,7 +229,7 @@ class HistorialCitaController extends Controller {
 			->join('horas', 'disponibilidads.hora_id', '=', 'horas.id')
 			->where('disponibilidads.lugar_id', $lugar)
 			->where('disponibilidads.fecha_id', $id)
-			->select('citas.id AS idc', 'users.id', 'horas.r_hora', 'users.name', 'citas.status_asistio')->get();
+			->select('citas.id AS idc', 'users.id', 'users.dni', 'horas.r_hora', 'users.name', 'users.apellidoP', 'users.apellidoM', 'citas.status_asistio')->get();
 
 		$pdf = PDF::loadView('reports.historialcitas', ["enviar" => $enviar, "lugar" => $lugar, "fecha" => $request->fecha]);
 

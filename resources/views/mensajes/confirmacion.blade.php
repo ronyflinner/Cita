@@ -105,12 +105,15 @@
         Fecha: {{ $fecha }}
       </p>
       <p>
+        Código: {{ $codigo }}
+      </p>
+      <p>
           Hora:  {{ $ampm }}
       </p>
       <p>
           Ubicación: {{ $lugar }}
       </p>
-
+      <h4 align="center">Importante llevar su codigo de cita </h4>
 
     </div>
       </td>

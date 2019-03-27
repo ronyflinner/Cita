@@ -46,7 +46,7 @@ class CrearCitaController extends Controller {
 
 		//return new RecordarCita;
 
-		//Mail::to($userDta[0]->paciente_link->email)->queue(new RecordarCita($userDta));
+		#Mail::to($userDta[0]->paciente_link->email)->queue(new RecordarCita($userDta));
 
 		#$userDta = Cita::where('referenceCode', '02412321771')->get();
 		#return new ConfirmacionCita($userDta);

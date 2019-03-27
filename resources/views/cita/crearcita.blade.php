@@ -22,11 +22,13 @@
                       <div class="row">
                              <div class="col-md-6">
                                 <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
+                                   <h6>AVISO : LAS CITAS POR EL MOMENTO SOLO ESTAN DISPONIBLES PARA MUJERES</h6>
                                   <label for="sel1">Seleccionar Centro de Prevención:</label>
                                   {!! Form::select('lugar',$lugar, '', ['class'=>'form-control form-control-lg single select', 'required', 'id'=>'lugar'
                                   ]) !!}
                                 </div>
                                  <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
+
                                   <label for="sel1">Seleccionar Servicio:</label>
                                   {!! Form::select('servicio',[''=>'Selecionar'], '', ['class'=>'form-control form-control-lg single selectServicio', 'required', 'id'=>'servicio'
                                   ]) !!}

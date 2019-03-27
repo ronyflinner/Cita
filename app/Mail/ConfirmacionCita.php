@@ -34,8 +34,7 @@ class ConfirmacionCita extends Mailable {
 		$hora = $hora2[0];
 		$lugar = $valores[0]->disponibilidad_link->lugar_link->nombre . ", " . $valores[0]->disponibilidad_link->lugar_link->direccion;
 		$ho = explode(' ', $hora);
-
 		$ampm = $this->conversionAmPM($ho[0]);
-		return $this->view('mensajes.confirmacion', ['fecha' => $fecha, 'hora' => $ho[0], 'lugar' => $lugar, 'slug' => $valores[0]->slug, 'ampm' => $ampm]);
+		return $this->view('mensajes.confirmacion', ['codigo' => $valores[0]->referenceCode, 'fecha' => $fecha, 'hora' => $ho[0], 'lugar' => $lugar, 'slug' => $valores[0]->slug, 'ampm' => $ampm]);
 	}
 }
