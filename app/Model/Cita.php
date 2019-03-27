@@ -11,7 +11,7 @@ class Cita extends Model {
 	protected $table = 'citas';
 
 	protected $fillable = [
-		'disponibilidad_id', 'paciente_id', 'status_asistio', 'slug', 'status', 'status_pago', 'referenceCode', 'processingDate', 'buyerEmail', 'transactionId', 'reference_pol', 'lapPaymentMethod', 'lapPaymentMethodType', 'message', 'transactionState', 'lapTransactionState', 'polPaymentMethod',
+		'disponibilidad_id', 'paciente_id', 'status_asistio', 'slug', 'status', 'status_pago', 'referenceCode', 'processingDate', 'buyerEmail', 'transactionId', 'reference_pol', 'lapPaymentMethod', 'lapPaymentMethodType', 'message', 'transactionState', 'lapTransactionState', 'polPaymentMethod', 'id',
 
 	];
 

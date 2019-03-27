@@ -24,6 +24,8 @@
       <tr>
         <th>N°</th>
         <th>Hora</th>
+        <th>Codigo de Cita</th>
+        <th>DNI</th>
         <th>Nombre</th>
         <th>Asistencia</th>
       </tr>
@@ -49,8 +51,10 @@
           <tr>
             <td>{{ $cont }}</td>
             <td>{{ $value->r_hora }}</td>
-            <td>{{ $value->name }}</td>
+            <td>{{ $value->idc }}</td>
+            <td>{{ $value->dni }}</td>
 
+            <td>{{ $value->name }} {{ $value->apellidoP }} {{ $value->apellidoM }}</td>
             <td>{{ $asistio }}</td>
           </tr>
        @endforeach

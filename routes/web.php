@@ -119,7 +119,7 @@ Route::prefix('admin')->group(function () {
 	Route::get('buscarCita/{id?}', 'ProgramarCita\HistorialCitaController@buscarCita')->name('buscarCita.index');
 	Route::get('reprogramar/{id?}', 'ProgramarCita\HistorialCitaController@reprogramar')->name('reprogramar.index');
 	Route::get('descargarPDF', 'ProgramarCita\HistorialCitaController@showpdf')->name('descargarPDF.index');
-
+	Route::post('/import-excel', 'ProgramarCita\ProgramarCitaController@importUsers')->name('importUsers.index');
 	Route::resource('programarcita', 'ProgramarCita\ProgramarCitaController');
 	Route::resource('historialCitaP', 'ProgramarCita\HistorialCitaController');
 

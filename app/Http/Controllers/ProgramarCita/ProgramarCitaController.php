@@ -8,9 +8,11 @@ use App\Model\Fecha;
 use App\Model\Hora;
 use App\Model\Locacion\Lugar;
 use App\Model\Servicio;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Excel;
 
 class ProgramarCitaController extends Controller {
 	/**
@@ -311,4 +313,34 @@ class ProgramarCitaController extends Controller {
 	public function destroy($id) {
 		//
 	}
+
+	public function importUsers(Request $request) {
+
+		\Excel::load($request->excel, function ($reader) {
+
+			$excel = $reader->get();
+
+			// iteracción
+			$reader->each(function ($row) {
+
+				$user = new User;
+				$user->name = $row->nombre;
+				$user->apellidoP = $row->nombre;
+				$user->apellidoM = $row->nombre;
+				$user->tipo_documento = 1;
+				$user->dni = 76123243;
+				$user->numero = 920265098;
+				$user->email = $row->email;
+				$user->password = bcrypt('secret');
+				$user->slug = 'jdjdkdj98jum';
+				$user->tipo = 1;
+				$user->status = 1;
+				$user->save();
+			});
+
+		});
+
+		return "Terminado";
+	}
+
 }
