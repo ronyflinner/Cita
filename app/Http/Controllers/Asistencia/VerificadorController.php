@@ -27,7 +27,7 @@ class VerificadorController extends Controller {
 
 		$cita = Cita::where('referenceCode', $request->id)->where('status', 1)->get();
 		$user = User::where('id', $cita[0]->paciente_id)->get();
-		return response()->json(['nombre' => $user[0]->name, 'dni' => $user[0]->dni, 'status_asistio' => $cita[0]->status_asistio, 'status_pago' => $cita[0]->status_pago]);
+		return response()->json(['nombre' => $user[0]->name, 'apellidoP' => $user[0]->apellidoP, 'apellidoM' => $user[0]->apellidoM, 'dni' => $user[0]->dni, 'numero' => $user[0]->numero, 'status_asistio' => $cita[0]->status_asistio, 'status_pago' => $cita[0]->status_pago]);
 	}
 
 	public function asistencia(Request $request) {

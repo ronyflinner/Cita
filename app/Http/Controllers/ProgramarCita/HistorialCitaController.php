@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ProgramarCita;
 
 use App\Http\Controllers\Controller;
+use App\Mail\Reprogramar;
 use App\Model\Cita;
 use App\Model\Disponibilidad;
 use App\Model\Fecha;
@@ -21,7 +22,8 @@ class HistorialCitaController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index() {
-
+		#$userDta = Cita::where('referenceCode', '7278786722')->get();
+		#return new Reprogramar($userDta);
 		return view('admin.historialCita', ['lugar' => array_add(Lugar::all()->pluck('nombre', 'id'), '', 'Selecionar'), 'fecha' => array_add(Fecha::all()->pluck('fecha'), '', 'Selecionar')]);
 
 	}
@@ -65,6 +67,14 @@ class HistorialCitaController extends Controller {
 			return $val->r_hora;
 		})->addColumn('nombre', function ($val) {
 			return $val->name . ' ' . $val->apellidoP . ' ' . $val->apellidoM;
+		})->addColumn('estadopago', function ($val) {
+			if ($val->status_pago == 1) {
+				return 'Pago';
+			} else if ($val->status_pago == 2) {
+				return 'Rechazado';
+			} else if ($val->status_pago == 3) {
+				return 'Pendiente';
+			}
 		})->addColumn('asistencia', function ($val) {
 			if ($val->status_asistio == 2) {
 				return "Asistio";
@@ -76,9 +86,7 @@ class HistorialCitaController extends Controller {
 				return "Reprogramada";
 			}
 		})->addColumn('reprogramar', function ($val) {
-			if ($val->status_pago == 0) {
-				return 'No ha pagado';
-			} else if ($val->status_pago == 1 && ($val->status_asistio == 0 || $val->status_asistio == 1)) {
+			if ($val->status_pago == 1 && ($val->status_asistio == 0 || $val->status_asistio == 1)) {
 				return "<button type='button'  class='editar btn btn-primary'><i class='fa fa-pencil-square-o'></i></button> ";
 			} else if ($val->idReprogramada != 1) {
 				$enviar1 = DB::table('citas')
@@ -87,6 +95,8 @@ class HistorialCitaController extends Controller {
 					->select('disponibilidads.fecha_id')->get();
 				$fecha = Fecha::where('id', $enviar1[0]->fecha_id)->get();
 				return $fecha[0]->f_fecha;
+			} else {
+				return "No ha realizado pago";
 			}
 
 		})->rawColumns(['reprogramar'])->make(true);
@@ -176,6 +186,9 @@ class HistorialCitaController extends Controller {
 					$pres = Disponibilidad::where('id', $disp)->update(['cantPaciente' => $can]);
 
 					$b = false;
+					$user = User::find($idpaciente);
+					$cit = Cita::find($insertid);
+					Mail::to($user > email)->queue(new Reprogramar($cit));
 				}
 				$cont2++;
 			}
@@ -229,7 +242,7 @@ class HistorialCitaController extends Controller {
 			->join('horas', 'disponibilidads.hora_id', '=', 'horas.id')
 			->where('disponibilidads.lugar_id', $lugar)
 			->where('disponibilidads.fecha_id', $id)
-			->select('citas.id AS idc', 'users.id', 'users.dni', 'horas.r_hora', 'users.name', 'users.apellidoP', 'users.apellidoM', 'citas.status_asistio')->get();
+			->select('citas.id AS idc', 'users.id', 'users.dni', 'horas.r_hora', 'users.name', 'users.apellidoP', 'users.apellidoM', 'users.tipo_documento', 'citas.status_asistio', 'citas.referenceCode')->get();
 
 		$pdf = PDF::loadView('reports.historialcitas', ["enviar" => $enviar, "lugar" => $lugar, "fecha" => $request->fecha]);
 

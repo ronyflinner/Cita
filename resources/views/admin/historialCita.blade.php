@@ -66,13 +66,14 @@
                <thead>
                   <tr>
                      <th>N°</th>
-                     <th>Codigo de Cita</th>
-                     <th>Servicio</th>
-                     <th>Id Paciente</th>
                      <th>Hora</th>
                      <th>Nombre de Paciente</th>
                      <th>Asistencia</th>
                      <th>Estado de Pago</th>
+                     <th>Reprogramación</th>
+                     <th>Codigo de Cita</th>
+                     <th>Servicio</th>
+                     <th>Id Paciente</th>
                   </tr>
                </thead>
             </table>
@@ -111,7 +112,7 @@
     $('#datepicker').datepicker({
           autoclose: true,
           language: 'es',
-           format: 'dd/mm/yyyy',
+           format: 'yyyy-mm-dd',
         });
 
 
@@ -135,7 +136,19 @@
 
 
                           itable = $('#Na').DataTable({
-
+                                        responsive: {
+                                            details: {
+                                                display: $.fn.dataTable.Responsive.display.modal( {
+                                                    header: function ( row ) {
+                                                        var data = row.data();
+                                                        return 'Servicio';
+                                                    }
+                                                } ),
+                                                renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                                                    tableClass: 'table'
+                                                } )
+                                            }
+                                        },
                                         processing: true,
                                         serverSide: true,
                                         ajax:{
@@ -162,14 +175,14 @@
                                          },
                                         columns: [
                                             {data: 'id', name:'id','orderable': false},
-                                            {data: 'idcita', name:'idcita'},
-                                             {data: 'servicio', name:'servicio'},
-                                            {data: 'idU', name:'idU'},
                                             {data: 'hora', name:'hora'},
                                             {data: 'nombre', name:'nombre'},
                                             {data: 'asistencia', name:'asistencia'},
+                                            {data: 'estadopago', name:'estadopago'},
                                             {data: 'reprogramar' , name:'reprogramar'},
-
+                                            {data: 'idcita', name:'idcita'},
+                                            {data: 'servicio', name:'servicio'},
+                                            {data: 'idU', name:'idU'},
                                         ],
                                         bAutoWidth: false,
                                         order: [[0, 'asc']],
@@ -200,11 +213,8 @@
 
         var obtener_habilitar = function(tbody,table,bt){
               $(tbody).on("click",bt,function(){
-                alert('hola');
                 var data = table.row($(this).parents("tr")).data();
-                console.log(data.asistencia);
-                console.log($('#datepicker').val());
-                console.log($('#lugar').val());
+
 
                       vurl='{{ url('admin/reprogramar')}}';
                       //vurl = `${vurl}/${url1}`;
@@ -219,7 +229,7 @@
                              "servicio" : data.servicio
                           };
 
-                      console.log(vurl);
+
                       //$(location).attr('href',vurl);
 
                      // var doc = 'statusEdit';
@@ -232,8 +242,6 @@
                                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                 } ,
                       success:  function (data) {
-                             console.log('jlkj');
-                             console.log(data);
 
                              if(data == 1){
                                PlantillaContacto.toast_notification("success",'Reprogramado correctamente',2);
@@ -241,9 +249,7 @@
                                   function()
                                   {
                                     location.reload();
-                                  }, 5000);
-
-
+                                  }, 3000);
                              }else{
                               PlantillaContacto.toast_notification("warning",'Debe habilitar doctores . no hay disponibles para reprogramar',2);
                              }
@@ -266,7 +272,7 @@
               }else{
                 $('#Na_wrapper').remove();
               $('#Na').remove();
-              $('#No').append("<table class='table table-bordered' class='table table-striped table-bordered nowrap' style='width:100%' id='Na'><thead><tr><th>N°</th><th>Codigo de Cita</th><th>Servicio</th><th>Id Paciente</th><th>Hora</th><th>Nombre de Paciente</th><th>Asistencia</th><th>Estado de Pago</th></tr></thead></table>");
+              $('#No').append('<table class="table table-striped table-bordered nowrap" style="width:100%" id="Na"><thead><tr><th>N°</th><th>Hora</th><th>Nombre de Paciente</th><th>Asistencia</th><th>Estado de Pago</th><th>Reprogramación</th><th>Codigo de Cita</th><th>Servicio</th><th>Id Paciente</th></tr></thead></table>');
               var promise = promesa3();
               obtener_habilitar("#Na tbody",itable,"button.editar");
               }
