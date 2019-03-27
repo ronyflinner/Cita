@@ -57,13 +57,29 @@ class CrearCitaController extends Controller {
 		return view('cita.crearcita', ['lugar' => array_add(Lugar::all()->pluck('nombre', 'id'), '', 'Selecionar')]);
 	}
 	/*Crear Cita*/
-	public function ajaxSelecionarBuscar(Request $request) {
+	public function ajaxSelecionarBuscar(Request $request, $user_id = null) {
 		$disponibilidad = Disponibilidad::where('lugar_id', $request->lugar)->where('status', 1)->get();
 
 		$seleccionar = array();
 		foreach ($disponibilidad as $key => $value) {
-			$seleccionar[$value->doctor_servicio_link->servicio_id] = $value->doctor_servicio_link->servicio_link->nombre;
+
+			if ($value->doctor_servicio_link->servicio_link->publico_genero == 3) {
+				$seleccionar[$value->doctor_servicio_link->servicio_id] = $value->doctor_servicio_link->servicio_link->nombre;
+			}
+
+			if ($value->doctor_servicio_link->servicio_link->publico_genero == 1 && Auth::user()->genero_id == 1) {
+				$seleccionar[$value->doctor_servicio_link->servicio_id] = $value->doctor_servicio_link->servicio_link->nombre;
+
+			}
+			if ($value->doctor_servicio_link->servicio_link->publico_genero == 2 && Auth::user()->genero_id == 2) {
+				$seleccionar[$value->doctor_servicio_link->servicio_id] = $value->doctor_servicio_link->servicio_link->nombre;
+
+			}
+
 		}
+
+		//return $request->all();
+
 		if (count($seleccionar) > 0) {
 			$oh = 1;
 		} else {

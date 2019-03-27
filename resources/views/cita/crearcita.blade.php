@@ -45,8 +45,8 @@
                               </div>
 
                             </div>
-                            <div class="class-md-6">
-                              <iframe width="560" height="315" src="https://www.youtube.com/embed/GIvvHmftGuI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class=" wow fadeInDown" data-wow-offset="0" data-wow-delay="0.1s"></iframe>
+                            <div class="class-md-6 ">
+                              <iframe width="560" height="315" src="https://www.youtube.com/embed/GIvvHmftGuI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class=" wow fadeInDown " data-wow-offset="0" data-wow-delay="0.1s"></iframe>
                             </div>
                       </div>
 
@@ -71,7 +71,7 @@
 
             <div class="row">
               <div class="col text-center">
-                <button type="submit" disabled="" id="buttonCargar" class="btn btn-success wow bounceIn" data-wow-delay="0.4s"><span>Pagar Cita</span></button>
+                <button type="submit" disabled="" id="buttonCargar" class="btn btn-success wow bounceIn" data-wow-delay="0.4s"><span>Donación</span></button>
                  {!! Form::close() !!}
 
 
@@ -83,6 +83,10 @@
         <br>
         <br>
         <br>
+
+
+
+@include('partials.modal2')
 
 <!-- Token -->
 <input type="hidden" name="_token" id="_token" value="{{csrf_token()}}">
@@ -118,6 +122,9 @@
 {{ Html::script('medico/js/bootstrap-datepicker.min.js') }}
 
 
+
+
+
 <script >
    var PlantillaCrearCita = {
               //Variables
@@ -144,6 +151,8 @@
                       /*Limpieza*/
                       PlantillaCrearCita.clean_form_input('#hora');
                       PlantillaCrearCita.form_select_default('#hora');
+
+                      $('#myModal').modal('show');
 
 
                       $('#form').on('submit', function(event){
@@ -331,7 +340,7 @@
                                   headers:{'X-CSRF-TOKEN': token},
                              })
                              .done(( data, textStatus, jqXHR)=> {
-                                 // console.log(data);
+                          //        console.log(data);
 
                                   switch(data.switch) {
                                         case 1:

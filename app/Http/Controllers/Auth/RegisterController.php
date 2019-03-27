@@ -69,28 +69,34 @@ class RegisterController extends Controller {
 	 */
 	protected function create(array $data) {
 
-		$user = User::create([
-			'name' => $data['name'],
-			'email' => $data['email'],
-			'password' => bcrypt($data['password']),
-			'apellidoP' => $data['apellido_paterno'],
-			'apellidoM' => $data['apellido_materno'],
-			'dni' => $data['numero'],
-			'tipo_documento' => $data['tipo'],
-			'numero' => $data['telefono'],
-			'slug' => str_random(150),
-			'fecha_nacimiento' => $data['fecha_nacimiento'],
-			'genero_id' => $data['genero'],
-			'status' => 1,
-			'tipo' => 2,
-		]);
-		$user->assignRole('Paciente');
+		try {
+			$user = User::create([
+				'name' => $data['name'],
+				'email' => $data['email'],
+				'password' => bcrypt($data['password']),
+				'apellidoP' => $data['apellido_paterno'],
+				'apellidoM' => $data['apellido_materno'],
+				'dni' => $data['numero'],
+				'tipo_documento' => $data['tipo'],
+				'numero' => $data['telefono'],
+				'slug' => str_random(150),
+				'fecha_nacimiento' => $data['fecha_nacimiento'],
+				'genero_id' => $data['genero'],
+				'status' => 1,
+				'tipo' => 2,
+			]);
+			$user->assignRole('Paciente');
 
-		return $user;
+			return $user;
+
+		} catch (\Exception $e) {
+			return "error";
+		}
+
 	}
 
 	public function showRegistrationForm() {
-		$tipoDocumento = ['' => 'Selecionar', '1' => 'DNI', '2' => 'Pasaporte', '3' => 'Carnet de Extranjeria'];
+		$tipoDocumento = ['' => 'Selecionar', '1' => 'DNI', '2' => 'Pasaporte', '3' => 'Carnet de Extranjería'];
 
 		return view('auth.register', compact('tipoDocumento'));
 	}
@@ -119,7 +125,7 @@ class RegisterController extends Controller {
 
 		$this->validator($request->all())->validate();
 
-		event(new Registered($user = $this->create($request->all())));
+		$result = event(new Registered($user = $this->create($request->all())));
 
 		$this->guard()->login($user);
 
