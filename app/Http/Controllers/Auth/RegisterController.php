@@ -55,6 +55,8 @@ class RegisterController extends Controller {
 			'numero' => 'required|min:8',
 			'tipo' => 'required',
 			'telefono' => 'required',
+			'fecha_nacimiento' => 'required',
+			'genero' => 'required',
 
 		]);
 	}
@@ -77,6 +79,8 @@ class RegisterController extends Controller {
 			'tipo_documento' => $data['tipo'],
 			'numero' => $data['telefono'],
 			'slug' => str_random(150),
+			'fecha_nacimiento' => $data['fecha_nacimiento'],
+			'genero_id' => $data['genero'],
 			'status' => 1,
 			'tipo' => 2,
 		]);

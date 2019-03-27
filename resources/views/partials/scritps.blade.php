@@ -39,13 +39,13 @@
 {{ Html::style('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css') }}
 {{ Html::script('https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js') }}
 
-<!-- datapicker-->
-{{ Html::style('medico/css/bootstrap-datepicker.css') }}
-{{ Html::script('medico/js/bootstrap-datepicker.min.js') }}
+
 
 <!-- Parsley Validator -->
+
 {{ Html::style('medico/css/parsley.css') }}
 {{ Html::script('medico/js/parsley.min.js') }}
+{{ Html::script('medico/js/i18n/es.js') }}
 
 <!-- toastrs -->
 {{ Html::style('medico/css/toastr.min.css') }}

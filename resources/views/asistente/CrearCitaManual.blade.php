@@ -21,7 +21,7 @@
 		      	 <div class="col-xs-4 col-sm-4 col-md-4">
                     <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
                       {{ Form::label('tipoDocumento', 'Tipo de Documento') }}
-            		  {!! Form::select('tipo',$tipoDocumento, '', ['class'=>'form-control form-control-lg single ', 'data-parsley-required', 'id'=>'tipo'
+            		  {!! Form::select('tipo',$tipoDocumento, '', ['class'=>'form-control form-control-lg  ', 'data-parsley-required', 'id'=>'tipo'
                                   ]) !!}
                       <div class="validation"></div>
                     </div>
@@ -48,7 +48,7 @@
 		<br><br>
 
 		<div style="display:none;" id="citaOculta">
-				 <form class="form" id="form" method="POST" name="form" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/" accept-charset="UTF-8" >
+				 <form class="form" id="form" method="POST" name="form" action="https://checkout.payulatam.com/ppp-web-gateway-payu/" accept-charset="UTF-8" >
 
 
               {!! Form::token() !!}
@@ -99,7 +99,7 @@
                 <input name='currency' id="currency"     type='hidden'  value='PEN' >
                 <input name='signature'    id="signature" type='hidden'  value=''  >
                 <input name='buyerEmail' id="userEmail"   type='hidden'  value="" >
-                <input name='test'          type='hidden'  value='1' >
+                <input name='test'          type='hidden'  value='0' >
                 <input name='responseUrl'    type='hidden'  value='{{ route('respuestaAsistente') }}' >
                 <input name='confirmationUrl' type='hidden' value='https://www.ligacancer.org.pe/confirmacionPayu.php'>
 
@@ -138,6 +138,12 @@
 @endsection
 
 @section('javascript')
+
+
+<!-- datapicker-->
+{{ Html::style('medico/css/bootstrap-datepicker.css') }}
+{{ Html::script('medico/js/bootstrap-datepicker.min.js') }}
+
 	<script>
 
 		var PlantillaCrearCitaManual = {
@@ -494,19 +500,18 @@
                                       agua=$("#_array_data_2").val();*/
                                       $('#datepicker').datepicker('remove');
 
-                                      $.fn.datepicker.dates['es'] = {
-                                          days: ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado"],
-                                          daysShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sat"],
-                                          daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-                                          months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Augosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-                                          monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
-                                          today: "Hoy",
-                                          clear: "Clear",
-                                          format: "yyy-mm-dd",
-                                          titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
-
-                                          weekStart: 0
-                                      };
+                                        $.fn.datepicker.dates['es'] = {
+                                        days: ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado"],
+                                        daysShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+                                        daysMin: ["Do","Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+                                        months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                                        monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+                                        today: "Hoy",
+                                        clear: "Limpiar",
+                                        format: "yyy-mm-dd",
+                                        titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
+                                        weekStart: 0
+                                    };
 
                                       $('#datepicker').datepicker({
                                          language: "es",

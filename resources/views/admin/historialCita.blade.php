@@ -23,7 +23,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </div>
-                  <input type="text" name ='fecha' class="form-control pull-right" id="datepicker">
+                  <input type="text" name ='fecha' class="form-control pull-right" id="datepicker" readonly="">
                 </div>
                 <!-- /.input group -->
               </div>
@@ -47,7 +47,7 @@
 
                 <div class="input-group">
 
-                  <button type="submit" form="form1" value="Submit" id='bpdf' class="btn btn-success">Descargar PDF</button>
+                  <button type="submit" form="form1" value="Submit" id='bpdf' class="btn btn-danger">Descargar PDF</button>
 
                 </div>
                 <!-- /.input group -->
@@ -83,6 +83,13 @@
 
 @section('javascript')
 
+<!-- datapicker-->
+{{ Html::script('medico/js/i18n/bootstrap-datepicker.es.js') }}
+{{ Html::style('medico/css/bootstrap-datepicker-clean.css') }}
+{{ Html::script('medico/js/bootstrap-datepicker.min.js') }}
+
+
+
 <script type="text/javascript">
     var PlantillaContacto = {
               //Variables
@@ -102,7 +109,10 @@
 
     //Date picker
     $('#datepicker').datepicker({
-      autoclose: true   });
+          autoclose: true,
+          language: 'es',
+           format: 'dd/mm/yyyy',
+        });
 
 
 

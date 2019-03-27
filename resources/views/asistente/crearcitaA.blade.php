@@ -14,7 +14,7 @@
 
 
             <div class="row icon_boxes_row">
-            <form class="form" id="form" method="POST" name="form" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/" accept-charset="UTF-8" >
+            <form class="form" id="form" method="POST" name="form" action="https://checkout.payulatam.com/ppp-web-gateway-payu/" accept-charset="UTF-8" >
 
 
               {!! Form::token() !!}
@@ -58,8 +58,8 @@
                 <input name='taxReturnBase' id="taxReturnBase" type='hidden'  value='0' >
                 <input name='currency' id="currency"     type='hidden'  value='PEN' >
                 <input name='signature'    id="signature" type='hidden'  value=''  >
-                <input name='buyerEmail'    type='hidden'  value='luiskaco@gmail.com' >
-                <input name='test'          type='hidden'  value='1' >
+                <input name='buyerEmail'    type='hidden'  value='' >
+                <input name='test'          type='hidden'  value='0' >
                 <input name='responseUrl'    type='hidden'  value='{{ url('')."/admin/usuario/response" }}' >
                 <input name='confirmationUrl' type='hidden' value='{{ route('confirmation') }}'>
 
