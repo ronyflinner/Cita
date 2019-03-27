@@ -107,6 +107,15 @@
 @endsection
 
 @section('javascript')
+<!-- datapicker-->
+{{ Html::script('medico/js/i18n/bootstrap-datepicker.es.js') }}
+
+
+<!-- datapicker-->
+{{ Html::style('medico/css/bootstrap-datepicker.css') }}
+{{ Html::script('medico/js/bootstrap-datepicker.min.js') }}
+
+
 <script >
    var PlantillaCrearCita = {
               //Variables

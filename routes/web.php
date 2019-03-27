@@ -69,16 +69,6 @@ Route::prefix('admin')->group(function () {
 	Route::post('cargo', 'Pagos\CulquiController@cargo')->name('cargo.cliente');
 	Route::post('orden', 'Pagos\CulquiController@orden')->name('orden.cliente');
 
-	Route::group(['prefix' => 'asistente'], function () {
-
-		Route::get('crearCita', 'Administrador\UsuarioController@createAsistente')->name('asistenteCrearUsuario');
-
-		Route::get('crearcita', 'CrearCita\CrearCitaController@crearmanual_index')->name('admin.crearManualCita');
-
-		Route::post('storeCrearcita', 'CrearCita\CrearCitaController@storemanual_index')->name('admin.storeManualCita');
-
-	});
-
 	/*DATATABlE - usuario*/
 
 	Route::post('StatusUsuario', 'Administrador\UsuarioController@getStatusPost')->name('admin.ajax.statusUsuario');
@@ -137,6 +127,16 @@ Route::prefix('admin')->group(function () {
 	Route::resource('servicioedit', 'ProgramarCita\ServicioEditController');
 
 	Route::resource('programarcitaP', 'ProgramarCita\ProgramarC');
+
+	Route::group(['prefix' => 'asistente'], function () {
+
+		Route::get('crearCita', 'Administrador\UsuarioController@createAsistente')->name('asistenteCrearUsuario');
+
+		Route::get('crearcita', 'CrearCita\CrearCitaController@crearmanual_index')->name('admin.crearManualCita');
+
+		Route::post('storeCrearcita', 'CrearCita\CrearCitaController@storemanual_index')->name('admin.storeManualCita');
+
+	});
 
 	/*Log */
 	Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

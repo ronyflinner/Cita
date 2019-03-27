@@ -20,7 +20,7 @@
 						{{ Form::token() }}
             <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
               {{ Form::label('tipoDocumento', 'Tipo de Documento') }}
-              {!! Form::select('tipo',$tipoDocumento, '', ['class'=>'form-control form-control-lg single select', 'data-parsley-required', 'id'=>'tipo'
+              {!! Form::select('tipo',$tipoDocumento, '', ['class'=>'form-control form-control-lg  select', 'data-parsley-required', 'id'=>'tipo'
                                   ]) !!}
             </div>
 
@@ -50,6 +50,21 @@
               {{ Form::label('apellidoM', 'Apellido Materno') }}
               {{ Form::text('apellido_materno', null,['class'=>'form-control','data-parsley-required','id'=>'apellidoM']) }}
             </div>
+             <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
+               {{ Form::label('genero', 'Genero',['class'=>'col-md-4 control-label']) }}
+
+                {!! Form::select('genero',[''=>"Selecionar", '1'=>'Masculino', '2'=>'Femenino'], '', ['class'=>'form-control form-control singl1e', 'data-parsley-required', 'id'=>'genero'
+                  ]) !!}
+
+
+            </div>
+             <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
+
+              {{ Form::label('fecha_nacimiento', 'Fecha de Nacimiento',['class'=>'col-md-4 control-label']) }}
+
+              {{ Form::text('fecha_nacimiento', null,['class'=>'form-control','data-parsley-required','id'=>'datepicker', 'readonly']) }}
+
+             </div>
             <div class="form-group wow fadeInUp" data-wow-offset="0" data-wow-delay="0.1s">
               {{ Form::label('telefono', 'Telefóno') }}
               {{ Form::text('telefono', null,['class'=>'form-control','data-parsley-required','id'=>'telefono']) }}
@@ -90,7 +105,13 @@
 
 @endsection
 
-@section('javascript')
+@section('javascript')}
+<!-- datapicker-->
+{{ Html::script('medico/js/i18n/bootstrap-datepicker.es.js') }}
+{{ Html::style('medico/css/bootstrap-datepicker-clean.css') }}
+{{ Html::script('medico/js/bootstrap-datepicker.min.js') }}
+
+
 	<script>
 
 		var PlantillaRoles = {
@@ -126,6 +147,11 @@
                             PlantillaRoles.ajaxSave(dataSerialize,formSerialize,tokenUser);
                           }
                       });
+
+                        $('#datepicker').datepicker({
+                           format: 'yyyy-mm-dd',
+                           language: 'es'
+                        });
 
 
                    });
@@ -195,10 +221,18 @@
                              })
                              .done(( data, textStatus, jqXHR)=> {
 
-                                	PlantillaRoles.toast_notification("success",'Guardado Correctaente!!!',2);
+                                	 //   console.log(data);
+
+                                    if(data.messages==1){
+                                        PlantillaRoles.toast_notification("success",'Guardado Correctamente!!!',2);
+
+                                    }else{
+                                      PlantillaRoles.toast_notification("warning",'Hemos tenido inconveniente para registrar los datos',2);
+
+                                    }
 
                                     setTimeout(function(){
-                                      location = '{{ route('admin.crearManualCita') }}'
+                                      location = '{{ route('usuario.index') }}'
                                     },2000)
 
                              })

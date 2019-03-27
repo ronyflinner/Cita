@@ -77,7 +77,10 @@ class UsuarioController extends Controller {
 					'numero' => $request->telefono,
 					'tipo' => $request->tipoUsuario,
 					'slug' => str_random(150),
-					'status' => $status]);
+					'status' => $status,
+					'fecha_nacimiento' => $request->fecha_nacimiento,
+					'genero_id' => $request->genero,
+				]);
 
 				$role = Role::find($request->role);
 				$user->assignRole($role->name);

@@ -26,7 +26,7 @@
                              {{ Form::label('tipoDocumento', 'Tipo de Documento',['class'=>'col-md-4 control-label']) }}
 
                             <div class="col-md-6">
-                                {!! Form::select('tipo',$tipoDocumento, '', ['class'=>'form-control form-control single', 'required', 'id'=>'tipo'
+                                {!! Form::select('tipo',$tipoDocumento, '', ['class'=>'form-control form-control si1ngle', 'required', 'id'=>'tipo'
                                   ]) !!}
                                 @if ($errors->has('tipo'))
                                     <span class="help-block">
@@ -104,6 +104,33 @@
                                 @if ($errors->has('apellido_materno'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('apellido_materno') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                         <div class="form-group{{ $errors->has('genero') ? ' has-error' : '' }}">
+                             {{ Form::label('genero', 'Genero',['class'=>'col-md-4 control-label']) }}
+
+                            <div class="col-md-6">
+                                {!! Form::select('genero',[''=>"Selecionar", '1'=>'Masculino', '2'=>'Femenino'], '', ['class'=>'form-control form-control singl1e', 'required', 'id'=>'genero'
+                                  ]) !!}
+                                @if ($errors->has('genero'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('genero') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                           <div class="form-group{{ $errors->has('fecha_nacimiento') ? ' has-error' : '' }}">
+
+                             {{ Form::label('fecha_nacimiento', 'Fecha de Nacimiento',['class'=>'col-md-4 control-label']) }}
+
+                            <div class="col-md-6">
+                                {{ Form::text('fecha_nacimiento', null,['class'=>'form-control','required  ','id'=>'datepicker', 'readonly']) }}
+
+                                @if ($errors->has('fecha_nacimiento'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('fecha_nacimiento') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -200,6 +227,12 @@
 @endsection
 @section('javascript')
 
+<!-- datapicker-->
+{{ Html::script('medico/js/i18n/bootstrap-datepicker.es.js') }}
+{{ Html::style('medico/css/bootstrap-datepicker-clean.css') }}
+{{ Html::script('medico/js/bootstrap-datepicker.min.js') }}
+
+
   <!-- recapcha -->
   {{ Html::script('https://www.google.com/recaptcha/api.js') }}
 
@@ -222,9 +255,15 @@
                     }
               });
 
-              $('div.alert').not('.alert-danger').delay(3000).fadeOut(350);
-             $('div.alert').not('.alert-info').delay(3000).fadeOut(350);
-        });
+
+                  $('#datepicker').datepicker({
+                        format: 'yyyy-mm-dd',
+                         language: 'es'
+                  });
+
+                $('div.alert').not('.alert-danger').delay(3000).fadeOut(350);
+               $('div.alert').not('.alert-info').delay(3000).fadeOut(350);
+          });
 
 
 
@@ -294,6 +333,8 @@
                     "apellido_paterno":"required",
                     "apellido_materno":"required",
                     "telefono":"required",
+                    "fecha_nacimiento":"required",
+                    "genero":"required",
                     "password":"required",
                     "password_confirmation":"required",
                     "terminos[]":"required",
@@ -306,17 +347,19 @@
                   },
                   messages: {
                     "tipo":"Debe selecionar un tipo",
-                    "numero":"Ingrese su documento",
-                    "name":"Ingrese su nombre",
-                    "apellido_materno":"Ingrese su apellido materno",
-                    "apellido_paterno":"Ingrese su apellido paterno",
-                    "telefono":"Ingrese su teléfono",
-                    "password_confirmation":"Ingrese clave",
+                    "numero":"Debe ingresar su documento",
+                    "name":"Debe ingresar su nombre",
+                    "apellido_materno":"Debe ingresar su apellido materno",
+                    "apellido_paterno":"Debe ingresar su apellido paterno",
+                    "telefono":"Debe ingresar su teléfono",
+                    "password_confirmation":"Debe ingresar su clave",
                     "terminos":"Debe aceptar los terminos",
+                    "genero":"Debe selecionar su genero",
+                    "fecha_nacimiento":"Debe selecionar su fecha de nacimiento",
 
-                    "password":'Ingrese una clave',
-                    "email": "Ingrese una dirección válida de correo",
-                    "email": "Ingrese un Correo",
+                    "password":'Debe ingresar su una clave',
+                    "email": "Debe ingresar su una dirección válida de correo",
+                    "email": "Debe ingresar su un Correo",
                     "hidden-grecaptcha":"Debe selecionar el captcha",
                   },
                   //submitHandler: submitRegister

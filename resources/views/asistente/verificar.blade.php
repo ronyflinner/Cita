@@ -32,7 +32,7 @@
                           <div class="col-xs-4 col-sm-4 col-md-4">
                             <div class="form-group">
                               <br>
-                             <button type="button" id="buscar" class="btn btn-primary wow bounceIn" data-wow-delay="0.4s">Buscar</button>
+                             <button type="button" id="buscar" class="btn btn-primary wow bounceIn" data-wow-delay="0.4s">Consultar</button>
                             </div>
                           </div>
                         </div>
@@ -40,13 +40,13 @@
                         <div class="row" style="display: none;" id="f_pago">
                           <div class="col-xs-2 col-sm-2 col-md-2">
                             <div class="form-group">
-                              <label>Nombre</label>
+                              <label>Nombre y Apepllido</label>
                               <div id="nombre"></div>
                             </div>
                           </div>
                           <div class="col-xs-2 col-sm-2 col-md-2">
                             <div class="form-group">
-                              <label>DNI</label>
+                              <label>Número del Documento</label>
                               <div id="dni" ></div>
                             </div>
                           </div>
@@ -65,7 +65,7 @@
                           <div class="col-xs-2 col-sm-2 col-md-2">
                             <div class="form-group">
                               <br>
-                              <button type="button" id="asistencia" class="btn btn-primary">Confirmar</button>
+                              <button type="button" id="asistencia" class="btn btn-success">Confirmar</button>
                             </div>
                           </div>
                         </div>
