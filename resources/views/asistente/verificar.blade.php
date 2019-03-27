@@ -9,9 +9,7 @@
 
  <div class="container">
     <div class="form-wrapper">
-                <div class="wow >
-
-
+                <div class="wow">
                     <div class="panel-heading">
                       <div class="section_title  wow lightSpeedIn" data-wow-delay="0.1s"><h3>Verificar Asistencia</h3></div>
                     </div>
@@ -40,6 +38,12 @@
                         <div class="row" style="display: none;" id="f_pago">
                           <div class="col-xs-2 col-sm-2 col-md-2">
                             <div class="form-group">
+                              <label>Día de cita</label>
+                              <div id="dia"></div>
+                            </div>
+                          </div>
+                          <div class="col-xs-2 col-sm-2 col-md-2">
+                            <div class="form-group">
                               <label>Nombre y Apepllido</label>
                               <div id="nombre"></div>
                             </div>
@@ -48,6 +52,12 @@
                             <div class="form-group">
                               <label>Número del Documento</label>
                               <div id="dni" ></div>
+                            </div>
+                          </div>
+                          <div class="col-xs-2 col-sm-2 col-md-2">
+                            <div class="form-group">
+                              <label>Número Telefónico</label>
+                              <div id="numero" ></div>
                             </div>
                           </div>
                           <div class="col-xs-2 col-sm-2 col-md-2">
@@ -62,14 +72,18 @@
                               <div id="asistio"></div>
                             </div>
                           </div>
-                          <div class="col-xs-2 col-sm-2 col-md-2">
-                            <div class="form-group">
-                              <br>
-                              <button type="button" id="asistencia" class="btn btn-success">Confirmar</button>
-                            </div>
+                          <div >
+
                           </div>
                         </div>
 
+
+                      <div class="row">
+                        <div class="col text-center" style="display: none;" id="f_pago2">
+                          <br>
+                          <button type="button" id="asistencia" class="btn btn-success d-flex justify-content-center" align="center">Confirmar Asistencia</button>
+                      </div>
+                    </div>
                       </form>
                     </div>
 
@@ -118,12 +132,17 @@
                                 success:  function (data) {
                                     console.log(data['nombre']);
                                     $("#f_pago").css("display","block")
+                                    $("#f_pago2").css("display","block")
                                     $('#nombre').empty();
                                     $('#dni').empty();
                                     $('#asistio').empty();
                                     $('#pago').empty();
+                                    $('#numero').empty();
+                                    $('#dia').empty();
 
                                     $('#nombre').append(data['nombre']);
+                                    $('#dia').append(data['dia']);
+                                    $('#numero').append(data['numero']);
                                     $('#dni').append(data['dni']);
 
                                     if(data['status_asistio'] == 1){

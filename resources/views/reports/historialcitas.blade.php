@@ -52,7 +52,17 @@
             <td>{{ $cont }}</td>
             <td>{{ $value->r_hora }}</td>
             <td>{{ $value->referenceCode }}</td>
-            <td>{{ $value->tipo_documento }}-{{ $value->dni }}</td>
+            <td>
+              <?php
+if ($value->tipo_documento == 1) {
+	echo 'D-' . $value->dni;
+} elseif ($value->tipo_documento == 2) {
+	echo 'P-' . $value->dni;
+} elseif ($value->tipo_documento == 3) {
+	echo 'C-' . $value->dni;
+}
+?>
+            </td>
             <td>{{ $value->name }} {{ $value->apellidoP }} {{ $value->apellidoM }}</td>
             <td>{{ $asistio }}</td>
           </tr>
